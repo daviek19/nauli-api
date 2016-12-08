@@ -71,3 +71,6 @@ $route['person/user/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'person/user/id/$1/format
 $route['company/company/(:num)'] = 'company/company/id/$1';
 $route['company/company/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'company/company/id/$1/format/$3$4';
 
+$route['company/employees/(:num)'] = 'company/employees/id/$1';
+$route['company/employees/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'company/employees/id/$1/format/$3$4';
+

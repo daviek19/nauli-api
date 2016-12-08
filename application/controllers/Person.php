@@ -42,9 +42,10 @@ class Person extends REST_Controller {
         }
         log_message("debug", "*********** person_get end ***********");
     }
-    
-    function people_get(){}
 
+    function people_get() {        
+    }
+    
     function person_post() {
         log_message("debug", "*********** person_post start ***********");
         $data = array(
@@ -101,5 +102,6 @@ class Person extends REST_Controller {
         }
         log_message("debug", "*********** person_get end ***********");
     }
+  
 
 }
