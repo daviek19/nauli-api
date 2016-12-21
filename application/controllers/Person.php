@@ -22,9 +22,7 @@ class Person extends REST_Controller {
 
         $id = (int) $id;
 
-        if (!empty($id) && $id > 0) {
-//A valid id was supplied
-//Fetch the user from the db
+        if (!empty($id) && $id > 0) {        
             $result = $this->people_model->get_person($id);
 
             if (empty($result) || $result == NULL) {
@@ -35,6 +33,7 @@ class Person extends REST_Controller {
             } else {
                 $this->response($result, REST_Controller::HTTP_OK);
             }
+            
         } else {
 
             $this->response([
@@ -42,20 +41,19 @@ class Person extends REST_Controller {
                 'message' => 'Provide a valid person id'
                     ], REST_Controller::HTTP_BAD_REQUEST);
         }
+        
         log_message("debug", "*********** person_get end ***********");
     }
 
-    function people_get() {
-        
-    }
+    function people_get() {}
 
     function person_post() {
         try {
             $id = (int) $this->get('id');
 
             if (isset($id) && $id > 0) {
-                //edit mode
-                log_message("debug", "Edit Mode... where person id" . $id);
+                ### Edit mode
+                log_message("debug", "person_post() Edit Mode... where person id" . $id);
 
                 $data = array(
                     'id' => $this->post('id'),
