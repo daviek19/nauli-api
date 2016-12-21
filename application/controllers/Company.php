@@ -124,8 +124,7 @@ class Company extends REST_Controller {
 
     function companies_get() {
         
-    }
-    
+    }    
     function employees_get() {
         log_message("debug", "*********** Employee_get start ***********");
 

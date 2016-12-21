@@ -8,9 +8,11 @@ require APPPATH . '/libraries/REST_Controller.php';
 class Person extends REST_Controller {
 
     function __construct() {
-        // Construct the parent class
+// Construct the parent class
         parent::__construct();
         $this->load->model('people_model');
+        $this->load->model('payroll_model');
+        $this->load->model('company_model');
     }
 
     function person_get() {
@@ -21,8 +23,8 @@ class Person extends REST_Controller {
         $id = (int) $id;
 
         if (!empty($id) && $id > 0) {
-            //A valid id was supplied
-            //Fetch the user from the db
+//A valid id was supplied
+//Fetch the user from the db
             $result = $this->people_model->get_person($id);
 
             if (empty($result) || $result == NULL) {
@@ -43,32 +45,77 @@ class Person extends REST_Controller {
         log_message("debug", "*********** person_get end ***********");
     }
 
-    function people_get() {        
+    function people_get() {
+        
     }
-    
+
     function person_post() {
-        log_message("debug", "*********** person_post start ***********");
-        $data = array(
-            'id' => NULL,
-            'company_id' => $this->post('company_id'),
-            'user_id' => $this->post('user_id'),
-            'first_name' => $this->post('first_name'),
-            'middle_name' => $this->post('middle_name'),
-            'last_name' => $this->post('last_name'),
-            'phone' => $this->post('phone'),
-            'email' => $this->post('email')
-        );
+        try {
+            $id = (int) $this->get('id');
 
-        $result = $this->people_model->create_person($data);
+            if (isset($id) && $id > 0) {
+                //edit mode
+                log_message("debug", "Edit Mode... where person id" . $id);
 
-        if ($result != FALSE) {
-            $this->set_response($result, REST_Controller::HTTP_CREATED);
-            log_message("debug", "Person Created...");
-        } else {
-            $this->set_response($data, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
-            log_message("debug", "Person not Created...");
+                $data = array(
+                    'id' => $this->post('id'),
+                    'gender' => $this->post('gender'),
+                    'company_id' => $this->post('company_id'),
+                    'first_name' => $this->post('first_name'),
+                    'middle_name' => $this->post('middle_name'),
+                    'last_name' => $this->post('last_name'),
+                    'phone' => $this->post('phone'),
+                    'email' => $this->post('email'),
+                    'pin_no' => $this->post('pin_no'),
+                    'id_no' => $this->post('id_no'),
+                    'nssf_no' => $this->post('nssf_no'),
+                    'nhif_no' => $this->post('nhif_no'),
+                    'is_active' => $this->post('is_active')
+                );
+
+                $result = $this->people_model->update_person($data, $id);
+
+                if ($result != FALSE) {
+                    $this->set_response($result, REST_Controller::HTTP_OK);
+                    log_message("debug", "person Updated...");
+                } else {
+                    $this->set_response($data, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                    log_message("debug", "person not Updated...");
+                }
+            } else {
+                log_message("debug", "*********** person create start ***********");
+                $data = array(
+                    'id' => NULL,
+                    'company_id' => $this->post('company_id'),
+                    'user_id' => $this->post('user_id'),
+                    'first_name' => $this->post('first_name'),
+                    'middle_name' => $this->post('middle_name'),
+                    'last_name' => $this->post('last_name'),
+                    'phone' => $this->post('phone'),
+                    'email' => $this->post('email'),
+                    'pin_no' => $this->post('pin_no'),
+                    'id_no' => $this->post('id_no'),
+                    'nssf_no' => $this->post('nssf_no'),
+                    'nhif_no' => $this->post('nhif_no'),
+                    'is_employee' => $this->post('is_employee'),
+                    'is_active' => $this->post('is_active')
+                );
+
+                $result = $this->people_model->create_person($data);
+
+                if ($result != FALSE) {
+                    $this->set_response(array_merge($result, array('message' => 'Updated person')), REST_Controller::HTTP_CREATED);
+                    log_message("debug", "Person Created...");
+                } else {
+                    $this->set_response(array_merge($data, array('message' => 'person not created')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                    log_message("debug", "Person not Created...");
+                }
+                log_message("debug", "*********** person_post End ***********");
+            }
+        } catch (Exception $exc) {
+            log_message("error", "oops an error occured " . $exc->getTraceAsString());
+            $this->set_response(array_merge($data, array('message' => 'person not created')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
-        log_message("debug", "*********** person_post End ***********");
     }
 
     function user_get() {
@@ -102,6 +149,125 @@ class Person extends REST_Controller {
         }
         log_message("debug", "*********** person_get end ***********");
     }
-  
+
+    function employee_post() {
+        log_message("debug", "**************** Employee Posting ****************");
+        try {
+            $id = (int) $this->get('id');
+
+            if (isset($id) && $id > 0) {
+                //edit mode               
+                log_message("debug", "*********** Employee Edit start ***********");
+
+                $data = array(
+                    'id' => $this->post('id'),
+                    'gender' => $this->post('gender'),
+                    'company_id' => $this->post('company_id'),
+                    'first_name' => $this->post('first_name'),
+                    'middle_name' => $this->post('middle_name'),
+                    'last_name' => $this->post('last_name'),
+                    'phone' => $this->post('phone'),
+                    'email' => $this->post('email'),
+                    'pin_no' => $this->post('pin_no'),
+                    'id_no' => $this->post('id_no'),
+                    'nssf_no' => $this->post('nssf_no'),
+                    'nhif_no' => $this->post('nhif_no'),
+                    'is_active' => $this->post('is_active'),
+                    'pays_kra' => $this->post('pays_kra'),
+                    'pays_nssf' => $this->post('pays_nssf'),
+                    'pays_nhif' => $this->post('pays_nhif'),
+                    'basic_pay' => $this->post('basic_pay'),
+                    'is_employee' => 1
+                );
+
+                log_message("debug", "Edit Mode... where employee " . $id . " for data " . json_encode($data));
+
+                $result = $this->people_model->update_person($data, $id);
+
+                if ($result != FALSE) {
+                    //Create a new payroll posting for the new employee 
+                    $company = $this->company_model->get_company($result->company_id);
+
+                    $payroll_posting_data = array(
+                        'employee_id' => $result->id,
+                        'payroll_month' => $company->current_payroll_month,
+                        'gross_salary' => $result->basic_pay,
+                        'payee' => '100000',
+                        'nhif' => '100000'
+                    );
+
+                    $payrollResult = $this->payroll_model->update_posting($payroll_posting_data);
+
+                    if ($payrollResult != FALSE) {
+                        $this->set_response($result, REST_Controller::HTTP_CREATED);
+
+                        log_message("debug", "Employee Updated and payroll posted...");
+                    } else {
+                        $this->set_response(array_merge($payroll_posting_data, array('message' => 'payroll not posted')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                        log_message("debug", "Payroll not updated...");
+                    }
+                } else {
+                    $this->set_response($data, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                    log_message("debug", "Employee not Updated...");
+                }
+            } else {
+                log_message("debug", "*********** Employee create start ***********");
+                $data = array(
+                    'id' => NULL,
+                    'company_id' => $this->post('company_id'),
+                    'gender' => $this->post('gender'),
+                    'user_id' => $this->post('user_id'),
+                    'first_name' => $this->post('first_name'),
+                    'middle_name' => $this->post('middle_name'),
+                    'last_name' => $this->post('last_name'),
+                    'phone' => $this->post('phone'),
+                    'email' => $this->post('email'),
+                    'pin_no' => $this->post('pin_no'),
+                    'id_no' => $this->post('id_no'),
+                    'nssf_no' => $this->post('nssf_no'),
+                    'nhif_no' => $this->post('nhif_no'),
+                    'is_employee' => 1,
+                    'is_active' => $this->post('is_active'),
+                    'pays_kra' => $this->post('pays_kra'),
+                    'pays_nssf' => $this->post('pays_nssf'),
+                    'pays_nhif' => $this->post('pays_nhif'),
+                    'basic_pay' => $this->post('basic_pay')
+                );
+
+                $result = $this->people_model->create_person($data);
+
+                if ($result != FALSE) {
+                    //Create a new payroll posting for the new employee 
+                    $company = $this->company_model->get_company($result->company_id);
+
+                    $payroll_posting_data = array(
+                        'employee_id' => $result->id,
+                        'payroll_month' => $company->current_payroll_month,
+                        'gross_salary' => $result->basic_pay,
+                        'payee' => '100000',
+                        'nhif' => '100000'
+                    );
+
+                    $payrollResult = $this->payroll_model->create_posting($payroll_posting_data);
+
+                    if ($payrollResult != FALSE) {
+                        $this->set_response($result, REST_Controller::HTTP_CREATED);
+
+                        log_message("debug", "Employee Created and payroll posted...");
+                    } else {
+                        $this->set_response(array_merge($payroll_posting_data, array('message' => 'payroll not posted')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                        log_message("debug", "Payroll not posted...");
+                    }
+                } else {
+                    $this->set_response(array_merge($data, array('message' => 'Employee not created')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                    log_message("debug", "Employee not Created...");
+                }
+                log_message("debug", "*********** Employee_post End ***********");
+            }
+        } catch (Exception $exc) {
+            log_message("error", "oops an error occured " . $exc->getTraceAsString());
+            $this->set_response(array_merge($data, array('message' => 'person not created')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
