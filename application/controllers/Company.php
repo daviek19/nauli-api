@@ -131,6 +131,7 @@ class Company extends REST_Controller {
         $id = $this->get('id');
 
         $id = (int) $id;
+        
         log_message("debug", "Getting employees for company ".$id);
         if (!empty($id) && $id > 0) {
             //A valid id was supplied

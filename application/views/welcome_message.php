@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <h1>Welcome:</h1>
 
             <div id="body">
-                <p>We are happy to server your request!</p>		
+                <p>We are happy to serve your request!</p>		
             </div>
 
         </div>

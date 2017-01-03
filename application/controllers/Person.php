@@ -183,29 +183,34 @@ class Person extends REST_Controller {
                 $result = $this->people_model->update_person($data, $id);
 
                 if ($result != FALSE) {
-                    //Create a new payroll posting for the new employee 
-                    $company = $this->company_model->get_company($result->company_id);
+                    //Edit  payroll posting for the  employee 
+                     $postings_details =  (object) array(
+                                    'basic_pay'  => $result->basic_pay,
+                                    'pays_kra'   => $result->pays_kra,
+                                    'pays_nssf'  => $result->pays_nssf,
+                                    'pays_nhif'  => $result->pays_nhif,
+                                    'employee_id'=> $result->id,
+                                    'company_id' => $result->company_id
+                                    );       
+       
+                    $posting_result = $this->payroll_model->update_initial_posting($postings_details);
 
-                    $payroll_posting_data = array(
-                        'employee_id' => $result->id,
-                        'payroll_month' => $company->current_payroll_month,
-                        'gross_salary' => $result->basic_pay,
-                        'payee' => '100000',
-                        'nhif' => '100000'
-                    );
+                     if (!empty($posting_result) && $posting_result != FALSE ) {
 
-                    $payrollResult = $this->payroll_model->update_posting($payroll_posting_data);
-
-                    if ($payrollResult != FALSE) {
                         $this->set_response($result, REST_Controller::HTTP_CREATED);
 
                         log_message("debug", "Employee Updated and payroll posted...");
+                        
                     } else {
-                        $this->set_response(array_merge($payroll_posting_data, array('message' => 'payroll not posted')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
-                        log_message("debug", "Payroll not updated...");
+
+                        $this->set_response(array_merge($posting_result, array('message' => 'payroll not posted')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+
+                        log_message("debug", "Payroll not posted...");
                     }
+                    
                 } else {
                     $this->set_response($data, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+
                     log_message("debug", "Employee not Updated...");
                 }
             } else {
@@ -236,26 +241,27 @@ class Person extends REST_Controller {
 
                 if ($result != FALSE) {
                     //Create a new payroll posting for the new employee 
-                    $company = $this->company_model->get_company($result->company_id);
+                    $postings_details =  (object) array(
+                                    'basic_pay'  => $result->basic_pay,
+                                    'pays_kra'   => $result->pays_kra,
+                                    'pays_nssf'  => $result->pays_nssf,
+                                    'pays_nhif'  => $result->pays_nhif,
+                                    'employee_id'=> $result->id,
+                                    'company_id' => $result->company_id
+                                    );       
+       
+                    $posting_result = $this->payroll_model->create_initial_posting($postings_details);
 
-                    $payroll_posting_data = array(
-                        'employee_id' => $result->id,
-                        'payroll_month' => $company->current_payroll_month,
-                        'gross_salary' => $result->basic_pay,
-                        'payee' => '100000',
-                        'nhif' => '100000'
-                    );
-
-                    $payrollResult = $this->payroll_model->create_posting($payroll_posting_data);
-
-                    if ($payrollResult != FALSE) {
+                     if (!empty($posting_result) && $posting_result != FALSE ) {
                         $this->set_response($result, REST_Controller::HTTP_CREATED);
 
                         log_message("debug", "Employee Created and payroll posted...");
                     } else {
-                        $this->set_response(array_merge($payroll_posting_data, array('message' => 'payroll not posted')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->set_response(array_merge($posting_result, array('message' => 'payroll not posted')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+
                         log_message("debug", "Payroll not posted...");
                     }
+                  
                 } else {
                     $this->set_response(array_merge($data, array('message' => 'Employee not created')), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
                     log_message("debug", "Employee not Created...");

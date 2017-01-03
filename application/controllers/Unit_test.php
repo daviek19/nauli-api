@@ -17,8 +17,20 @@ class Unit_test extends CI_Controller {
     public function index() {
            
         print "<pre>";
-        $abc = $this->company_model->get_company(2);
-        var_dump($abc->current_payroll_month);
+
+        $result =  (object) array(
+            'basic_pay' => '50000',
+            'pays_kra' => '1',
+            'pays_nssf' => '0',
+            'pays_nhif' => '0',
+            'employee_id'=>'13',
+            'company_id'=>'1'
+            );       
+       
+        $abc = $this->payroll_model->create_initial_posting($result);
+
+        //$abc = $this->company_model->get_company(2);
+        var_dump($abc);
         
         print "</pre>";
 //        $data = array(

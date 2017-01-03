@@ -77,3 +77,9 @@ $route['company/company/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'company/company/id/$
 $route['company/employees/(:num)'] = 'company/employees/id/$1';
 $route['company/employees/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'company/employees/id/$1/format/$3$4';
 
+$route['payroll/summary/(:num)'] = 'payroll/summary/id/$1';
+$route['payroll/summary/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'payroll/summary/id/$1/format/$3$4';
+
+$route['payroll/employee_postings/(:num)'] = 'payroll/employee_postings/id/$1';
+$route['payroll/employee_postings/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'payroll/employee_postings/id/$1/format/$3$4';
+
