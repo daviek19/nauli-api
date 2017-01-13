@@ -124,15 +124,16 @@ class Company extends REST_Controller {
 
     function companies_get() {
         
-    }    
+    }
+
     function employees_get() {
         log_message("debug", "*********** Employee_get start ***********");
 
         $id = $this->get('id');
 
         $id = (int) $id;
-        
-        log_message("debug", "Getting employees for company ".$id);
+
+        log_message("debug", "Getting employees for company " . $id);
         if (!empty($id) && $id > 0) {
             //A valid id was supplied
             //Fetch the user from the db

@@ -83,3 +83,12 @@ $route['payroll/summary/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'payroll/summary/id/$
 $route['payroll/employee_postings/(:num)'] = 'payroll/employee_postings/id/$1';
 $route['payroll/employee_postings/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'payroll/employee_postings/id/$1/format/$3$4';
 
+$route['payroll/posting_types/(:num)'] = 'payroll/posting_types/id/$1';
+$route['payroll/posting_types/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'payroll/posting_types/id/$1/format/$3$4';
+
+$route['payroll/earning_deduction_codes/(:num)'] = 'payroll/earning_deduction_codes/id/$1';
+$route['payroll/earning_deduction_codes/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'payroll/earning_deduction_codes/id/$1/format/$3$4';
+
+$route['payroll/earning_deduction_code/(:num)'] = 'payroll/earning_deduction_code/id/$1';
+$route['payroll/earning_deduction_code/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'payroll/earning_deduction_code/id/$1/format/$3$4';
+
