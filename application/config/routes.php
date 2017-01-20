@@ -92,3 +92,22 @@ $route['payroll/earning_deduction_codes/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'payr
 $route['payroll/earning_deduction_code/(:num)'] = 'payroll/earning_deduction_code/id/$1';
 $route['payroll/earning_deduction_code/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'payroll/earning_deduction_code/id/$1/format/$3$4';
 
+//The Rest API Resourcses Starts here :-)
+//$route['departments/(:num)'] = 'departments/index/company_id/$1';
+//$route['departments/(:num)/(:num)'] = 'departments/index/company_id/$1/department_id/$2';
+//$route['departments/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'departments/index/company_id/$1/format/$3$4';
+
+$route['departments/find/(:num)'] = 'departments/find/department_id/$1';//GET
+$route['departments/(:num)'] = 'departments/index/company_id/$1';//GET
+//$route['departments/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'departments/index/id/$1/format/$3$4';//post
+
+
+
+
+
+
+
+
+
+
+

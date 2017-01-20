@@ -12,33 +12,25 @@ class Unit_test extends CI_Controller {
         parent::__construct();
         $this->load->model('company_model');
         $this->load->model('payroll_model');
+        $this->load->model('departments_model');
     }
 
     public function index() {
-           
+        parse_str(file_get_contents("php://input"), $put_vars);
+        var_dump($put_vars);
+        
         print "<pre>";
 
-        $result =  (object) array(
-            'basic_pay' => '50000',
-            'pays_kra' => '1',
-            'pays_nssf' => '0',
-            'pays_nhif' => '0',
-            'employee_id'=>'13',
-            'company_id'=>'1'
-            );       
-       
-        $abc = $this->payroll_model->create_initial_posting($result);
+        $abc = $this->departments_model->get_single_department(1, 1);
+        $cde = $this->departments_model->get_all_departments(2);
 
         //$abc = $this->company_model->get_company(2);
         var_dump($abc);
-        
+
+        print "</hr>";
+        var_dump($cde);
+
         print "</pre>";
-//        $data = array(
-//            'employee_id' => '2',
-//            'payroll_month' => $this->company_model->get_company(2)->current_payroll_month
-//        );
-//
-//        $this->payroll_model->create_posting($data);
     }
 
 }

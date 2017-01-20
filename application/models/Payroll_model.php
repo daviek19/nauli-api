@@ -301,7 +301,7 @@ class Payroll_model extends CI_Model {
                         payroll_posting_types.posting_type_name                       
                         FROM payroll_earning_deduction_codes
                         LEFT JOIN payroll_posting_types ON payroll_earning_deduction_codes.posting_type_id = payroll_posting_types.posting_type_id
-                        WHERE payroll_earning_deduction_codes.company_id IN (?,?);";
+                        WHERE payroll_earning_deduction_codes.company_id IN (?,?) ORDER BY `date_created` DESC;";
 
         if ($query = $this->db->query($summary_query, array($company_id, '0'))) {
 

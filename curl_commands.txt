@@ -1,0 +1,1 @@
+curl -X PUT -d company_id=2 -d department_name=testing123 localhost/rest-api/index.php/departments/ -H "X-API-KEY: 1234"
