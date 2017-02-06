@@ -171,4 +171,73 @@ class Paygrades extends REST_Controller {
                         ], REST_Controller::HTTP_OK);
     }
 
+    /**
+     * Documentation
+     * GET paygrades/earning_deductions/company_id/paygrade_id
+     * This call will allow you to get 
+     * a paygrades earning and deduction codes.
+     * In addtion to that it will supply a list
+     * of missing earning and deduction codes
+     * that can be added to the articular paygrade         
+     *  paygrade
+     * @author		david@venture-labs.co.ke
+     */
+    public function earning_deductions_get() {
+
+        $paygrade_id = (int) $this->get('pay_grade_id');
+
+        log_message("debug", "*********** find_get start paygrade_id {$paygrade_id} ***********");
+
+        if (empty($paygrade_id)) {
+
+            return $this->response([
+                        'status' => FALSE,
+                        'message' => 'No paygrade_id was suplied',
+                        'description' => 'Usage GET paygrades/earning_deductions/paygrade_id'
+                            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+
+        $earning_deductions = $this->paygrades_model->pay_grade_earnings_deductions($paygrade_id);
+        $earning_deductions_dropdown = $this->paygrades_model->pay_grade_earning_deduction_dropdown($paygrade_id);
+
+        if (empty($earning_deductions)) {
+            return $this->response([
+                        'status' => TRUE,
+                        'response' => "",
+                        'available_earning_deductions' => $earning_deductions_dropdown,
+                        'message' => 'Not Found',
+                        'description' => 'Usage GET paygrades/earning_deductions/paygrade_id'
+                            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+
+        $this->response([
+            'response' => $earning_deductions,
+            'available_earning_deductions' => $earning_deductions_dropdown,
+            'status' => TRUE,
+            'description' => 'Usage GET paygrades/earning_deductions/paygrade_id',
+                ], REST_Controller::HTTP_OK);
+    }
+
+    public function earning_deductions_delete() {
+        $id = $this->delete('id');
+
+        // Does this earning_deduction exist?
+        if (!$this->_earning_deduction_exists($id)) {
+            // It doesn't appear the key exists
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Earning Deduction Id key'
+                    ], REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+        }
+
+        // Destroy it
+        $this->_delete_earning_deduction($id);
+
+        // Respond that the key was destroyed
+        $this->response([
+            'status' => TRUE,
+            'message' => 'Earning Deduction was deleted'
+                ], REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
+    }
+
 }

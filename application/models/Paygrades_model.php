@@ -186,4 +186,81 @@ class Paygrades_model extends CI_Model {
     }
 
     // --------------------------------------------------------------------
+
+    /**
+     *
+     * @param string $pay_grade_id
+     * @return	array
+     * 
+     * This will get all the earning and deductions
+     * associated with they pay grade
+     */
+    public function pay_grade_earnings_deductions($pay_grade_id) {
+
+        log_message("debug", "*********** fetching get_all_paygrades ***********");
+
+        if (empty($pay_grade_id)) {
+            return null;
+        }
+
+        $select_query = "SELECT 
+                `pay_grade_earning_deductions`.id,
+                `pay_grade_earning_deductions`.earning_deduction_id,
+                `pay_grade_earning_deductions`.amount,
+                `pay_grade_earning_deductions`.date_created,
+                `payroll_earning_deduction_codes`.earning_deduction_name,
+                `pay_grades`.pay_grade_id
+                FROM `pay_grade_earning_deductions` 
+                JOIN `pay_grades` on `pay_grade_earning_deductions`.`pay_grade_id` = `pay_grades`.`pay_grade_id`
+                JOIN `payroll_earning_deduction_codes` ON `pay_grade_earning_deductions`.`earning_deduction_id` = `payroll_earning_deduction_codes`.`earning_deduction_id`
+                WHERE `pay_grades`.pay_grade_id = (?) ORDER BY `pay_grade_earning_deductions`.date_created DESC;";
+
+        if ($query = $this->db->query($select_query, array($pay_grade_id))) {
+
+            log_message("debug", $this->db->last_query());
+
+            log_message("debug", "found pay_grade_earnings_deductions..." . json_encode($query->result()));
+
+            return $query->result();
+        } else {
+
+            log_message("error", 'Error getting pay_grade_earnings_deductions.');
+
+            return null;
+        }
+    }
+
+    /*
+     * Get earning deductions missing in a pay_grade
+     */
+
+    public function pay_grade_earning_deduction_dropdown($pay_grade_id) {
+
+        log_message("debug", "*********** fetching pay_grade_earning_deduction_dropdown ***********");
+
+        if (empty($pay_grade_id)) {
+            return null;
+        }
+
+        $select_query = "SELECT `earning_deduction_id`,`company_id`,`earning_deduction_name` FROM `payroll_earning_deduction_codes` 
+                        WHERE earning_deduction_id NOT IN(
+                            SELECT earning_deduction_id
+                            FROM `pay_grade_earning_deductions` WHERE pay_grade_id = (?)
+                        )";
+
+        if ($query = $this->db->query($select_query, array($pay_grade_id))) {
+
+            log_message("debug", $this->db->last_query());
+
+            log_message("debug", "found pay_grade_earning_deduction_dropdown..." . json_encode($query->result()));
+
+            return $query->result();
+        } else {
+
+            log_message("error", 'Error getting pay_grade_earning_deduction_dropdown.');
+
+            return null;
+        }
+    }
+
 }

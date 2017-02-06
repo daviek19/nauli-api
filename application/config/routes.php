@@ -103,6 +103,7 @@ $route['departments/(:num)'] = 'departments/index/company_id/$1'; //GET
 
 $route['paygrades/(:num)'] = 'paygrades/index/company_id/$1'; //GET
 $route['paygrades/find/(:num)'] = 'paygrades/find/pay_grade_id/$1'; //GET
+$route['paygrades/earning_deductions/(:num)'] = 'paygrades/earning_deductions/pay_grade_id/$1'; //GET
 
 
 
