@@ -218,26 +218,101 @@ class Paygrades extends REST_Controller {
                 ], REST_Controller::HTTP_OK);
     }
 
-    public function earning_deductions_delete() {
-        $id = $this->delete('id');
+    public function delete_earning_deductions_post() {
+        $id = $this->post('id');
+
+        log_message("debug", "*********** earning_deductions_post {$id} ***********");
 
         // Does this earning_deduction exist?
-        if (!$this->_earning_deduction_exists($id)) {
-            // It doesn't appear the key exists
+        if (empty($id)) {
+
+            return $this->response([
+                        'status' => FALSE,
+                        'message' => 'No id was suplied',
+                        'description' => 'Usage Delete paygrades/earning_deductions ::id'
+                            ], REST_Controller::HTTP_NO_CONTENT);
+        }
+        // Destroy it
+        if ($this->paygrades_model->earning_deductions_delete($id)) {
+            $this->response([
+                'status' => TRUE,
+                'message' => 'Earning Deduction was deleted'
+                    ], REST_Controller::HTTP_OK); // NO_CONTENT (204) being the HTTP response code  
+        } else {
             $this->response([
                 'status' => FALSE,
-                'message' => 'Earning Deduction Id key'
-                    ], REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+                'message' => 'Earning Deduction could not be deleted'
+                    ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR); // NO_CONTENT (204) being the HTTP response code 
+        }
+    }
+
+    public function create_earning_deductions_put() {
+
+        log_message("debug", "*********** create_earning_deductions_put start ***********");
+
+        $data = array(
+            'pay_grade_id' => $this->put('pay_grade_id'),
+            'earning_deduction_id' => $this->put('earning_deduction_id'),
+            'amount' => $this->put('amount'),
+        );
+
+        log_message("debug", "Getting ready to insert... " . json_encode($data));
+
+
+        if (empty($data['pay_grade_id'])) {
+
+            log_message("debug", "Create_earning_deductions_put Trying to insert empty pay_grade_id... ");
+
+            return $this->response([
+                        'status' => FALSE,
+                        'message' => 'Paygrade Id was not supplied',
+                        'description' => 'create_earning_deductions put/ {pay_grade_id,earning_deduction_id,amount} cannot be null'
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        // Destroy it
-        $this->_delete_earning_deduction($id);
+        if (empty($data['earning_deduction_id'])) {
 
-        // Respond that the key was destroyed
-        $this->response([
-            'status' => TRUE,
-            'message' => 'Earning Deduction was deleted'
-                ], REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
+            log_message("debug", "Create_earning_deductions_put Trying to insert empty earning_deduction_id... ");
+
+            return $this->response([
+                        'status' => FALSE,
+                        'message' => 'earning_deduction_id was not supplied',
+                        'description' => 'create_earning_deductions put/ {pay_grade_id,earning_deduction_id,amount} cannot be null'
+                            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($data['amount'])) {
+
+            log_message("debug", "Create_earning_deductions_put Trying to insert empty amount... ");
+
+            return $this->response([
+                        'status' => FALSE,
+                        'message' => 'amount was not supplied',
+                        'description' => 'create_earning_deductions put/ {pay_grade_id,earning_deduction_id,amount} cannot be null'
+                            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        $response = $this->paygrades_model->earning_deductions_create($data);
+
+        if ($response == FALSE) {
+
+            log_message("debug", "Create_earning_deductions_put Database refused. Try again!... ");
+
+            return $this->response([
+                        'response' => $data,
+                        'status' => FALSE,
+                        'message' => 'Database refused. Try again!',
+                        'description' => 'create_earning_deductions_put put/ {pay_grade_id,earning_deduction_id,amount} cannot be null'
+                            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        log_message("debug", "index_put Record created!... ");
+
+        return $this->response([
+                    'response' => $response,
+                    'status' => TRUE,
+                    'message' => 'Paygrade Earning Deduction was created!',
+                    'description' => 'create_earning_deductions_put put/ {pay_grade_id,earning_deduction_id,amount} cannot be null'
+                        ], REST_Controller::HTTP_CREATED);
     }
 
 }

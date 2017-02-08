@@ -263,4 +263,41 @@ class Paygrades_model extends CI_Model {
         }
     }
 
+    public function earning_deductions_delete($id) {
+
+        $delete_query = "DELETE FROM `pay_grade_earning_deductions` WHERE `id` = (?)";
+
+        if ($query = $this->db->query($delete_query, array($id))) {
+
+            log_message("debug", $this->db->last_query());
+
+            return TRUE;
+        } else {
+
+            log_message("error", 'Error deleting earning_deductions_delete.');
+
+            return FALSE;
+        }
+    }
+
+    public function earning_deductions_create($data) {
+
+        log_message("debug", "pay_grade_earning_deductions...data " . json_encode($data));
+
+        if ($this->db->insert('pay_grade_earning_deductions', $data)) {
+
+            log_message("debug", "pay_grade_earning_deductions create query " . $this->db->last_query());
+
+            $id = $this->db->insert_id();
+
+            $new_record = $this->db->get_where('pay_grade_earning_deductions', array('id' => $id));
+
+            log_message("debug", " pay_grade_earning_deduction created " . json_encode($new_record->row()));
+
+            return $new_record->row();
+        } else {
+            return FALSE;
+        }
+    }
+
 }
