@@ -1,14 +1,17 @@
 <?php
 
-class Payroll_model extends CI_Model {
+class Payroll_model extends CI_Model
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->database();
         $this->load->model('company_model');
     }
 
-    public function create_posting($employee_id, $posting_type, $posting_description, $posting_amount, $company_settings) {
+    public function create_posting($employee_id, $posting_type, $posting_description, $posting_amount, $company_settings)
+    {
 
         log_message("debug", "create_posting...data " . json_encode($employee_id . " " . $posting_type . " " . $posting_description . " " . $posting_amount));
 
@@ -31,7 +34,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function postings_summary($company_id, $payroll_month) {
+    public function postings_summary($company_id, $payroll_month)
+    {
         /**
          * This will get the posting summary for the company employees
          * Param (int) company id
@@ -62,7 +66,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function employee_postings_summary($employee_id, $payrollmonth) {
+    public function employee_postings_summary($employee_id, $payrollmonth)
+    {
         /**
          * This will get the posting summary for a companyies single employee
          * Param (int) company id
@@ -94,7 +99,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function employee_missing_earnings_deductions($employee_id, $payrollmonth) {
+    public function employee_missing_earnings_deductions($employee_id, $payrollmonth)
+    {
 
         $select_query = "SELECT * FROM  `earning_deduction_codes` WHERE `code_name` NOT IN 
                           (SELECT `posting_description` FROM `payroll_postings` 
@@ -115,7 +121,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function employee_payroll_postings($employee_id, $payrollmonth) {
+    public function employee_payroll_postings($employee_id, $payrollmonth)
+    {
 
         $select_query = "SELECT * FROM `payroll_postings` WHERE `employee_id` = ? AND `payroll_month`= ? ;";
 
@@ -134,7 +141,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function create_initial_posting($result) {
+    public function create_initial_posting($result)
+    {
         /*         * *
           When an employee is first created we want to directly insert
           the postings based on the employees basic salary
@@ -170,7 +178,8 @@ class Payroll_model extends CI_Model {
         return $return_result;
     }
 
-    public function update_initial_posting($result) {
+    public function update_initial_posting($result)
+    {
         /*         * *
           Update posting when an employee details are updated.
           This will involve Updating the basic salary.
@@ -236,7 +245,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function posting_types($company_id) {
+    public function posting_types($company_id)
+    {
         /*
          * 0 in this case is the default
          */
@@ -258,7 +268,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function create_posting_type($data) {
+    public function create_posting_type($data)
+    {
 
         log_message("debug", "Getting ready to insert... " . json_encode($data));
 
@@ -286,7 +297,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function earning_deduction_codes($company_id) {
+    public function earning_deduction_codes($company_id)
+    {
         /*
          * 0 in this case is the default
          */
@@ -297,6 +309,7 @@ class Payroll_model extends CI_Model {
                         payroll_earning_deduction_codes.posting_type_id,
                         payroll_earning_deduction_codes.earning_deduction_name,
                         payroll_earning_deduction_codes.recurrent,
+                        payroll_earning_deduction_codes.taxable,
                         payroll_earning_deduction_codes.date_created,
                         payroll_posting_types.posting_type_name                       
                         FROM payroll_earning_deduction_codes
@@ -318,13 +331,15 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function get_earning_deduction_code($code_id) {
+    public function get_earning_deduction_code($code_id)
+    {
         $summary_query = "SELECT 
                         payroll_earning_deduction_codes.earning_deduction_id,
                         payroll_earning_deduction_codes.company_id,
                         payroll_earning_deduction_codes.posting_type_id,
                         payroll_earning_deduction_codes.earning_deduction_name,
                         payroll_earning_deduction_codes.recurrent,
+                        payroll_earning_deduction_codes.taxable,
                         payroll_earning_deduction_codes.date_created,
                         payroll_posting_types.posting_type_name                       
                         FROM payroll_earning_deduction_codes
@@ -346,7 +361,10 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function update_earning_deduction_codes($data) {
+    public function update_earning_deduction_codes($data)
+    {
+        $data['recurrent'] =  $data['recurrent'] == null ? "0" : "1";
+        $data['taxable'] = $data['taxable'] == null ? "0" : "1";
 
         log_message("debug", "Getting ready to edit update_earning_deduction_codes... " . json_encode($data));
 
@@ -375,7 +393,10 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function create_earning_deduction_codes($data) {
+    public function create_earning_deduction_codes($data)
+    {
+        $data['recurrent'] =  $data['recurrent'] == null ? "0" : "1";
+        $data['taxable'] = $data['taxable'] == null ? "0" : "1";
 
         log_message("debug", "create_earning_deduction_codes...data " . json_encode($data));
 
@@ -395,7 +416,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    private function _calculate_statutory_amount($basic_pay, $statutory_type) {
+    private function _calculate_statutory_amount($basic_pay, $statutory_type)
+    {
 
         $amount = '0.00';
 
@@ -414,7 +436,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function update_posting_legacy($data) {
+    public function update_posting_legacy($data)
+    {
         log_message("debug", "Getting ready to edit... " . json_encode($data));
 
         if (!empty($data['employee_id'])) {
@@ -436,7 +459,8 @@ class Payroll_model extends CI_Model {
         }
     }
 
-    public function company_postings_legacy($company_id) {
+    public function company_postings_legacy($company_id)
+    {
         $query = $this->db->query("SELECT * FROM `payroll_postings` JOIN `people` ON payroll_postings.employee_id = people.id
                  WHERE people.company_id = '{$company_id}';");
         log_message("debug", $this->db->last_query());
@@ -444,7 +468,8 @@ class Payroll_model extends CI_Model {
         return $query->result();
     }
 
-    public function create_posting_legacy($user) {
+    public function create_posting_legacy($user)
+    {
         log_message("debug", "create_posting...data " . json_encode($data));
 
         if (!empty($data['employee_id'])) {
