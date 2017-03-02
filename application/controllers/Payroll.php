@@ -257,7 +257,7 @@ class Payroll extends REST_Controller
                     'company_id' => $this->post('company_id'),
                     'posting_type_id' => $this->post('posting_type_id'),
                     'earning_deduction_name' => $this->post('earning_deduction_name'),
-                    'recurrent' => $this->post('type_recurrent'),
+                    'recurrent' => $this->post('recurrent'),
                     'taxable' => $this->post('taxable')
                 );
 
