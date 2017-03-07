@@ -16,21 +16,7 @@ class Unit_test extends CI_Controller {
     }
 
     public function index() {
-        parse_str(file_get_contents("php://input"), $put_vars);
-        var_dump($put_vars);
-        
-        print "<pre>";
-
-        $abc = $this->departments_model->get_single_department(1, 1);
-        $cde = $this->departments_model->get_all_departments(2);
-
-        //$abc = $this->company_model->get_company(2);
-        var_dump($abc);
-
-        print "</hr>";
-        var_dump($cde);
-
-        print "</pre>";
+        print $this->payroll_model->generate_payroll_number();
     }
 
 }

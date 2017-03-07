@@ -363,7 +363,7 @@ class Payroll_model extends CI_Model
 
     public function update_earning_deduction_codes($data)
     {
-        $data['recurrent'] =  $data['recurrent'] == null ? "0" : "1";
+        $data['recurrent'] = $data['recurrent'] == null ? "0" : "1";
         $data['taxable'] = $data['taxable'] == null ? "0" : "1";
 
         log_message("debug", "Getting ready to edit update_earning_deduction_codes... " . json_encode($data));
@@ -395,7 +395,7 @@ class Payroll_model extends CI_Model
 
     public function create_earning_deduction_codes($data)
     {
-        $data['recurrent'] =  $data['recurrent'] == null ? "0" : "1";
+        $data['recurrent'] = $data['recurrent'] == null ? "0" : "1";
         $data['taxable'] = $data['taxable'] == null ? "0" : "1";
 
         log_message("debug", "create_earning_deduction_codes...data " . json_encode($data));
@@ -485,6 +485,27 @@ class Payroll_model extends CI_Model
         } else {
             log_message("debug", " employee_id was empty when creating posting.Exit");
             return FALSE;
+        }
+    }
+
+    public function generate_payroll_number($company_id = 0)
+    {
+        //do an insert and get the new id
+        if ($company_id == 0) {
+            $prefix = "X";
+        } else {
+            $prefix = $company_id;
+        }
+
+        if ($this->db->insert('payroll_number_tracker', array('company_id' => $company_id))) {
+            $new_row_id = $this->db->insert_id();
+            $padded = str_pad($new_row_id, 4, '0', STR_PAD_LEFT);
+            $result = array('payroll_number' => $prefix . $padded);
+            return $result;
+        } else {
+            //If something goes wrong with db
+            $result = array('payroll_number' => "F" . rand(0, 1000));
+            return $result;
         }
     }
 

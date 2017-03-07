@@ -2,4 +2,4 @@ curl -X PUT -d company_id=2 -d department_name=testing123 localhost/rest-api/ind
 $ curl -X GET -d company_id=0 localhost/rest-api/index.php/paygrades/3 -H "X-API-KEY: 1234" |json_pp
 curl -X GET localhost/rest-api/index.php/statutory/nhif -H "X-API-KEY: 1234" |json_pp
 curl -X GET localhost/rest-api/index.php/employees/types -H "X-API-KEY: 1234" |json_pp
-curl -X GET localhost/rest-api/index.php//payroll/earning_deduction_codes/2 -H "X-API-KEY: 1234" |json_pp
+curl -X GET localhost/rest-api/index.php/payroll/generate_payroll_number/2 -H "X-API-KEY: 1234" |json_pp

@@ -366,4 +366,16 @@ class Payroll extends REST_Controller
         log_message("debug", "*********** employee_postings_get end ***********");
     }
 
+    function generate_payroll_number_get()
+    {
+        $company_id = (int)$this->get('company_id');
+
+        $payroll_number = $this->payroll_model->generate_payroll_number($company_id);
+
+        $this->response([
+            'response' => $payroll_number,
+            'status' => TRUE,
+            'description' => 'To get payroll number [/payroll/company_id/]'
+        ], REST_Controller::HTTP_OK);
+    }
 }
