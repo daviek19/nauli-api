@@ -109,6 +109,9 @@ $route['statutory/nhif'] = 'statutory/nhif/';
 $route['statutory/paye'] = 'statutory/paye/';
 $route['employees/types'] = 'employees/types/';
 
+$route['payroll/generate_payroll_number/(:num)'] = 'payroll/generate_payroll_number/company_id/$1'; //GET
+
+
 
 
 

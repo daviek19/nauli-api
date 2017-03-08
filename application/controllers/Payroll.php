@@ -5,11 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // This can be removed if you use __autoload() in config.php OR use Modular Extensions
 require APPPATH . '/libraries/REST_Controller.php';
 
-class Payroll extends REST_Controller
-{
+class Payroll extends REST_Controller {
 
-    function __construct()
-    {
+    function __construct() {
         // Construct the parent class
         parent::__construct();
         $this->load->model('payroll_model');
@@ -21,14 +19,13 @@ class Payroll extends REST_Controller
       @param int id (company id)
      * * */
 
-    function summary_get($id)
-    {
+    function summary_get($id) {
 
         log_message("debug", "*********** summary_get start ***********");
 
         $id = $this->get('id');
 
-        $company_id = (int)$id;
+        $company_id = (int) $id;
 
         log_message("debug", "Getting summary for company " . $company_id);
 
@@ -42,7 +39,7 @@ class Payroll extends REST_Controller
                 $this->set_response([
                     'status' => FALSE,
                     'message' => 'postings summary could not be found'
-                ], REST_Controller::HTTP_NOT_FOUND);
+                        ], REST_Controller::HTTP_NOT_FOUND);
             } else {
                 $this->response($result, REST_Controller::HTTP_OK);
             }
@@ -51,19 +48,18 @@ class Payroll extends REST_Controller
             $this->response([
                 'status' => FALSE,
                 'message' => 'Provide a valid business id'
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                    ], REST_Controller::HTTP_BAD_REQUEST);
         }
         log_message("debug", "*********** summary_get end ***********");
     }
 
-    function posting_types_get($id)
-    {
+    function posting_types_get($id) {
 
         log_message("debug", "*********** posting_types_get start ***********");
 
         $id = $this->get('id');
 
-        $company_id = (int)$id;
+        $company_id = (int) $id;
 
         log_message("debug", "Getting posting_types_get for company " . $company_id);
 
@@ -77,7 +73,7 @@ class Payroll extends REST_Controller
                 $this->set_response([
                     'status' => FALSE,
                     'message' => 'posting_types_get could not be found'
-                ], REST_Controller::HTTP_NOT_FOUND);
+                        ], REST_Controller::HTTP_NOT_FOUND);
             } else {
                 $this->response($result, REST_Controller::HTTP_OK);
             }
@@ -86,18 +82,17 @@ class Payroll extends REST_Controller
             $this->response([
                 'status' => FALSE,
                 'message' => 'Provide a valid business id'
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                    ], REST_Controller::HTTP_BAD_REQUEST);
         }
         log_message("debug", "*********** posting_types_get end ***********");
     }
 
-    function posting_types_post($id)
-    {
+    function posting_types_post($id) {
         try {
 
             log_message("debug", "*********** posting_types_post start ***********");
 
-            $id = (int)$this->get('id');
+            $id = (int) $this->get('id');
 
 
             if (isset($id) && $id > 0) {
@@ -165,14 +160,13 @@ class Payroll extends REST_Controller
      *
      * @Param $id. This is the company id
      */
-    function earning_deduction_codes_get($id)
-    {
+    function earning_deduction_codes_get($id) {
 
         log_message("debug", "*********** earning_deduction_codes_get start ***********");
 
         $id = $this->get('id');
 
-        $company_id = (int)$id;
+        $company_id = (int) $id;
 
         log_message("debug", "Getting earning_deduction_codes_get for company " . $company_id);
 
@@ -186,7 +180,7 @@ class Payroll extends REST_Controller
                 $this->set_response([
                     'status' => FALSE,
                     'message' => 'earning_deduction_codes_get could not be found'
-                ], REST_Controller::HTTP_NOT_FOUND);
+                        ], REST_Controller::HTTP_NOT_FOUND);
             } else {
                 $this->response($result, REST_Controller::HTTP_OK);
             }
@@ -195,7 +189,7 @@ class Payroll extends REST_Controller
             $this->response([
                 'status' => FALSE,
                 'message' => 'Provide a valid business id'
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                    ], REST_Controller::HTTP_BAD_REQUEST);
         }
         log_message("debug", "*********** earning_deduction_codes_get end ***********");
     }
@@ -205,13 +199,12 @@ class Payroll extends REST_Controller
      *
      * @Param $id. This is the earning_deduction_code_id [Key]
      */
-    function earning_deduction_code_get($id)
-    {
+    function earning_deduction_code_get($id) {
         log_message("debug", "*********** earning_deduction_code_get start ***********");
 
         $id = $this->get('id');
 
-        $earning_deduction_code = (int)$id;
+        $earning_deduction_code = (int) $id;
 
         log_message("debug", "Getting an earning_deduction_code " . $id);
 
@@ -223,7 +216,7 @@ class Payroll extends REST_Controller
                 $this->set_response([
                     'status' => FALSE,
                     'message' => 'earning_deduction_code could not be found'
-                ], REST_Controller::HTTP_NOT_FOUND);
+                        ], REST_Controller::HTTP_NOT_FOUND);
             } else {
                 $this->response($result, REST_Controller::HTTP_OK);
             }
@@ -232,7 +225,7 @@ class Payroll extends REST_Controller
             $this->response([
                 'status' => FALSE,
                 'message' => 'Provide a valid earning decution code id'
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                    ], REST_Controller::HTTP_BAD_REQUEST);
         }
         log_message("debug", "*********** earning_deduction_code_get end ***********");
     }
@@ -240,13 +233,12 @@ class Payroll extends REST_Controller
     /**
      * Create and edit a deduction code
      */
-    function earning_deduction_code_post()
-    {
+    function earning_deduction_code_post() {
         try {
 
             log_message("debug", "*********** earning_deduction_codes_post start ***********");
 
-            $id = (int)$this->get('id');
+            $id = (int) $this->get('id');
 
             if (isset($id) && $id > 0) {
                 //edit mode
@@ -311,14 +303,13 @@ class Payroll extends REST_Controller
     /**
      * Get an employee Postings.
      */
-    function employee_postings_get($id)
-    {
+    function employee_postings_get($id) {
 
         log_message("debug", "***********employee_postings_get start ***********");
 
         $id = $this->get('id');
 
-        $employee_id = (int)$id;
+        $employee_id = (int) $id;
 
         log_message("debug", "Getting payroll postings for employee " . $employee_id);
 
@@ -345,7 +336,7 @@ class Payroll extends REST_Controller
                     $this->set_response([
                         'status' => FALSE,
                         'message' => 'Error, Employee postings could not be found'
-                    ], REST_Controller::HTTP_NOT_FOUND);
+                            ], REST_Controller::HTTP_NOT_FOUND);
                 } else {
                     $this->response($employee_payroll_postings_details, REST_Controller::HTTP_OK);
                 }
@@ -353,22 +344,24 @@ class Payroll extends REST_Controller
                 $this->set_response([
                     'status' => FALSE,
                     'message' => 'Error, Employee  could not be found'
-                ], REST_Controller::HTTP_NOT_FOUND);
+                        ], REST_Controller::HTTP_NOT_FOUND);
             }
         } else {
 
             $this->response([
                 'status' => FALSE,
                 'message' => 'Provide a employee id'
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                    ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         log_message("debug", "*********** employee_postings_get end ***********");
     }
 
-    function generate_payroll_number_get()
-    {
-        $company_id = (int)$this->get('company_id');
+    function generate_payroll_number_get() {
+        
+        $company_id = (int) $this->get('company_id');
+
+        log_message("debug", "genrating payroll number for compmany " . $company_id);
 
         $payroll_number = $this->payroll_model->generate_payroll_number($company_id);
 
@@ -376,6 +369,7 @@ class Payroll extends REST_Controller
             'response' => $payroll_number,
             'status' => TRUE,
             'description' => 'To get payroll number [/payroll/company_id/]'
-        ], REST_Controller::HTTP_OK);
+                ], REST_Controller::HTTP_OK);
     }
+
 }
