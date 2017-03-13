@@ -40,4 +40,11 @@ ON `payroll_earning_deduction_codes`.`earning_deduction_id` = `pay_grade_earning
 WHERE `pay_grade_earning_deductions`.`id` IS NULL;
 //---------------------------------------- END ----------------------------------------
 
+CREATE TRIGGER `group_master_date_time` BEFORE INSERT ON `group_master`
+ FOR EACH ROW SET NEW.date_created = NOW()
+ 
+ CREATE TRIGGER `sub_groups_date_time` BEFORE INSERT ON `sub_groups`
+ FOR EACH ROW SET NEW.date_created = NOW()
+  
+
 

@@ -13,10 +13,11 @@ class Unit_test extends CI_Controller {
         $this->load->model('company_model');
         $this->load->model('payroll_model');
         $this->load->model('departments_model');
+		$this->load->model('workshop/groups_model');
     }
 
     public function index() {
-        print $this->payroll_model->generate_payroll_number();
+        print var_dump($this->groups_model->get_all_groups('2'));
     }
 
 }
