@@ -1,13 +1,16 @@
 <?php
 
-class Departments_model extends CI_Model {
+class Departments_model extends CI_Model
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->database();
     }
 
-    public function create_department($data) {
+    public function create_department($data)
+    {
 
         log_message("debug", "create_department...data " . json_encode($data));
 
@@ -32,11 +35,12 @@ class Departments_model extends CI_Model {
     /**
      * Get a single department
      *
-     * @param	string	$department_id
-     * @param	string	$company_id default company id which is 0
-     * @return	bool
+     * @param    string $department_id
+     * @param    string $company_id default company id which is 0
+     * @return    bool
      */
-    public function get_single_department($company_id = '0', $department_id) {
+    public function get_single_department($company_id = '0', $department_id)
+    {
 
         log_message("debug", "*********** fetching get_single_department ***********");
 
@@ -69,11 +73,12 @@ class Departments_model extends CI_Model {
     /**
      * Get a single department
      *
-     * @param	string	$department_id
-     * @param	string	$company_id default company id which is 0
-     * @return	bool
+     * @param    string $department_id
+     * @param    string $company_id default company id which is 0
+     * @return    bool
      */
-    public function get_all_departments($company_id = '0') {
+    public function get_all_departments($company_id = '0')
+    {
 
         log_message("debug", "*********** fetching get_all_departments ***********");
 
@@ -100,10 +105,11 @@ class Departments_model extends CI_Model {
     /**
      * Check if a Valid id
      *
-     * @param	string	$department_name
-     * @return	bool
+     * @param    string $department_name
+     * @return    bool
      */
-    public function update_department($data) {
+    public function update_department($data)
+    {
 
         log_message("debug", "Getting ready to update_department... " . json_encode($data));
 
@@ -136,10 +142,11 @@ class Departments_model extends CI_Model {
     /**
      * Check if a departemnt exists in the db
      *
-     * @param	string	$department_name
-     * @return	bool
+     * @param    string $department_name
+     * @return    bool
      */
-    public function department_exists($department_name, $company_id) {
+    public function department_exists($department_name, $company_id)
+    {
 
         $this->db->where('department_name', $department_name);
 
@@ -161,10 +168,11 @@ class Departments_model extends CI_Model {
     /**
      * Check if a departemnt_id exists in the db
      *
-     * @param	string	$department_id
-     * @return	bool
+     * @param    string $department_id
+     * @return    bool
      */
-    public function department_id_exists($department_id) {
+    public function department_id_exists($department_id)
+    {
         $this->db->where('department_id', $department_id);
 
         $query = $this->db->get('departments');
