@@ -119,7 +119,7 @@ class Groups_model extends CI_Model
 
             return FALSE;
         }
-
+        log_message("debug", "update_group ".$this->workshop_db->last_query());
         //All went well
         $new_record = $this->workshop_db->get_where('group_master', array('group_id' => $data['group_id']));
 

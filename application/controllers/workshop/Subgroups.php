@@ -12,10 +12,10 @@ class Subgroups extends REST_Controller
 
         parent::__construct();
         $this->load->model('workshop/groups_model');
-		$this->load->model('workshop/subgroups_model');
+        $this->load->model('workshop/subgroups_model');
     }
-	
-	    public function index_get()
+
+    public function index_get()
     {
         //Get params
         $company_id = (int)$this->get('company_id');
@@ -31,8 +31,8 @@ class Subgroups extends REST_Controller
         ], REST_Controller::HTTP_OK);
 
     }
-	
-	    public function find_get()
+
+    public function find_get()
     {
         $group_id = (int)$this->get('group_id');
 
@@ -46,15 +46,15 @@ class Subgroups extends REST_Controller
             'description' => 'To get all [/workshop/subgroups/group_id/] or to get single [/workshop/subgroups/find/group_id]'
         ], REST_Controller::HTTP_OK);
     }
-	
-	public function index_put()
+
+    public function index_put()
     {
 
         log_message("debug", "*********** index_put start ***********");
 
         $data = array(
             'company_id' => $this->put('company_id'),
-			'group_id' => $this->put('group_id'),			
+            'group_id' => $this->put('group_id'),
             'subgroup_name' => $this->put('subgroup_name'),
         );
 
@@ -70,8 +70,8 @@ class Subgroups extends REST_Controller
                 'description' => 'create group put/ {company_id,group_id,subgroup_name} name cannot be null'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-		
-		if (empty($data['group_id'])) {
+
+        if (empty($data['group_id'])) {
 
             log_message("debug", "index_put Trying to insert empty group_id... ");
 
@@ -82,7 +82,7 @@ class Subgroups extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        if ($this->subgroups_model->subgroup_exists($data['subgroup_name'], $data['company_id'],$data['group_id']) == TRUE) {
+        if ($this->subgroups_model->subgroup_exists($data['subgroup_name'], $data['company_id'], $data['group_id']) == TRUE) {
 
             log_message("debug", "index_put Trying to duplicate a subgroup name... ");
 
@@ -117,16 +117,16 @@ class Subgroups extends REST_Controller
             'description' => 'To get all [workshop/groups/company_id/] or to get single [workshop/groups/find/group_id]'
         ], REST_Controller::HTTP_CREATED);
     }
-	
-	  public function index_post()
+
+    public function index_post()
     {
         $data = [
-			' 	subgroup_id' => $this->post('subgroup_id'),
-            'group_id' => $this->post('group_id'), 
-            'group_name' => $this->post('group_name'),
-        ];	
+            'subgroup_id' => $this->post('subgroup_id'),
+            'group_id' => $this->post('group_id'),
+            'subgroup_name' => $this->post('subgroup_name'),
+        ];
 
-        if (empty($data['subgroup_id']) || empty($data['group_id']) || empty($data['group_name'])) {
+        if (empty($data['subgroup_id']) || empty($data['group_id']) || empty($data['subgroup_name'])) {
 
             log_message("debug", "index_post Empty subgroup_id/group_id/group_name supplied... ");
 
@@ -138,7 +138,7 @@ class Subgroups extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        if ($this->groups_model->subgroup_id_exists($data['subgroup_id']) != TRUE) {
+        if ($this->subgroups_model->subgroup_id_exists($data['subgroup_id']) != TRUE) {
 
             log_message("debug", "index_POST Record does not exist... ");
 
@@ -150,7 +150,7 @@ class Subgroups extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        $response = $this->groups_model->update_subgroup($data);
+        $response = $this->subgroups_model->update_subgroup($data);
 
         if ($response == FALSE) {
 

@@ -6,7 +6,7 @@ curl -X GET localhost/rest-api/index.php/payroll/generate_payroll_number/2 -H "X
 curl -X GET localhost/rest-api/index.php/workshop/groups/2 -H "X-API-KEY: 1234"
 curl -X GET localhost/rest-api/index.php/workshop/groups/find/2 -H "X-API-KEY: 1234"
 curl -X PUT -d company_id=2 -d group_name=testing123 localhost/rest-api/index.php/workshop/groups -H "X-API-KEY: 1234"
-curl -X POST -d group_name=testing123 -d group_id=5 localhost/rest-api/index.php/workshop/groups -H "X-API-KEY: 1234"
+curl -X POST -d subgroup_name=edited -d group_id=5 -d subgroup_id=2 localhost/rest-api/index.php/workshop/subgroups -H "X-API-KEY: 1234"
 
 
 

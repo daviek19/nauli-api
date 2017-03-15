@@ -2,7 +2,7 @@
 
 class Subgroups_model extends CI_Model
 {
-	private $workshop_db;
+    private $workshop_db;
 
     public function __construct()
     {
@@ -10,8 +10,8 @@ class Subgroups_model extends CI_Model
         $this->load->database();
         $this->workshop_db = $this->load->database('workshop', true);
     }
-	
-	 public function get_all_subgroups($company_id = '0')
+
+    public function get_all_subgroups($company_id = '0')
     {
 
         log_message("debug", "*********** fetching get_all_subgroups ***********");
@@ -35,14 +35,14 @@ class Subgroups_model extends CI_Model
         }
     }
 
-	  public function get_single_subgroup($company_id = '0', $subgroup_id)
+    public function get_single_subgroup($company_id = '0', $subgroup_id)
     {
         log_message("debug", "*********** fetching get_single_subgroup ***********");
 
         if (!empty($subgroup_id)) {
 
-            $select_query = 
-						"SELECT * FROM `sub_groups` JOIN `group_master` on sub_groups.group_id = group_master.group_id 
+            $select_query =
+                "SELECT * FROM `sub_groups` JOIN `group_master` on sub_groups.group_id = group_master.group_id
 						 WHERE sub_groups.subgroup_id = {$subgroup_id};";
 
             if ($query = $this->workshop_db->query($select_query)) {
@@ -63,35 +63,35 @@ class Subgroups_model extends CI_Model
             return FALSE;
         }
     }
-	
-	
-		public function create_subgroup($data)
-		{
-			log_message("debug", "create_subgroup...data " . json_encode($data));
 
-			if ($this->workshop_db->insert('sub_groups', $data)) {
+    public function create_subgroup($data)
+    {
+        log_message("debug", "create_subgroup...data " . json_encode($data));
 
-				log_message("debug", "sub_group create query " . $this->workshop_db->last_query());
+        if ($this->workshop_db->insert('sub_groups', $data)) {
 
-				$id = $this->workshop_db->insert_id();
+            log_message("debug", "sub_group create query " . $this->workshop_db->last_query());
 
-				$new_record = $this->workshop_db->get_where('sub_groups', array('subgroup_id' => $id));
+            $id = $this->workshop_db->insert_id();
 
-				log_message("debug", " group created " . json_encode($new_record->row()));
+            $new_record = $this->workshop_db->get_where('sub_groups', array('subgroup_id' => $id));
 
-				return $new_record->row();
-			} else {
-				return FALSE;
-			}
-		}
-		
-		public function subgroup_exists($subgroup_name, $company_id,$group_id){
-			
-	    $this->workshop_db->where('subgroup_name', $subgroup_name);
+            log_message("debug", " group created " . json_encode($new_record->row()));
+
+            return $new_record->row();
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function subgroup_exists($subgroup_name, $company_id, $group_id)
+    {
+
+        $this->workshop_db->where('subgroup_name', $subgroup_name);
 
         $this->workshop_db->where('company_id', $company_id);
-		
-		$this->workshop_db->where('group_id', $group_id);
+
+        $this->workshop_db->where('group_id', $group_id);
 
         $query = $this->workshop_db->get('sub_groups');
 
@@ -102,11 +102,10 @@ class Subgroups_model extends CI_Model
 
             return false;
         }
-		}
-		
- public function update_subgroup($data)
-    {
+    }
 
+    public function update_subgroup($data)
+    {
         log_message("debug", "Getting ready to update_subgroup... " . json_encode($data));
 
         if (empty($data['subgroup_id'])) {
@@ -118,7 +117,12 @@ class Subgroups_model extends CI_Model
 
         $this->workshop_db->where('subgroup_id', $data['subgroup_id']);
 
-        if ($this->workshop_db->update('sub_groups', $data) == FALSE) {
+        $update_data = array(
+            'group_id' => $data['group_id'],
+            'subgroup_name' => $data['subgroup_name']
+        );
+
+        if ($this->workshop_db->update('sub_groups', $update_data) == FALSE) {
 
             return FALSE;
         }
@@ -132,7 +136,8 @@ class Subgroups_model extends CI_Model
 
         return $new_record->row();
     }
-   public function subgroup_id_exists($subgroup_id)
+
+    public function subgroup_id_exists($subgroup_id)
     {
         $this->workshop_db->where('subgroup_id', $subgroup_id);
 
@@ -145,6 +150,6 @@ class Subgroups_model extends CI_Model
 
             return false;
         }
-     }
+    }
 
 }
