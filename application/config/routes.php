@@ -104,6 +104,9 @@ $route['departments/(:num)'] = 'departments/index/company_id/$1'; //GET
 $route['workshop/groups/find/(:num)'] = 'workshop/groups/find/group_id/$1'; //GET
 $route['workshop/groups/(:num)'] = 'workshop/groups/index/company_id/$1'; //GET
 
+$route['workshop/subgroups/find/(:num)'] = 'workshop/subgroups/find/group_id/$1'; //GET
+$route['workshop/subgroups/(:num)'] = 'workshop/subgroups/index/company_id/$1'; //GET
+
 $route['paygrades/(:num)'] = 'paygrades/index/company_id/$1'; //GET
 $route['paygrades/find/(:num)'] = 'paygrades/find/pay_grade_id/$1'; //GET
 $route['paygrades/earning_deductions/(:num)'] = 'paygrades/earning_deductions/pay_grade_id/$1'; //GET
