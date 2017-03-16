@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2017 at 03:33 PM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 5.5.37
+-- Generation Time: Mar 16, 2017 at 06:16 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -93,8 +93,20 @@ CREATE TABLE `parameter_item` (
 --
 
 INSERT INTO `parameter_item` (`company_id`, `item_id`, `item_name`, `date_created`) VALUES
-(1, 1, 'Unit', '2017-03-16 00:00:00'),
-(1, 2, 'Vehicle Make', '2017-03-16 00:00:00');
+(2, 1, 'UNITS', '2017-03-16 00:00:00'),
+(2, 2, 'Vehicle MakeS', '2017-03-16 00:00:00'),
+(2, 3, 'CHASIS', '2017-03-16 09:12:08'),
+(2, 4, 'PARAM1', '2017-03-16 20:01:10'),
+(2, 5, 'GROUP', '2017-03-16 20:03:40'),
+(2, 6, 'PARAM2', '2017-03-16 20:13:20');
+
+--
+-- Triggers `parameter_item`
+--
+DELIMITER $$
+CREATE TRIGGER `parameter_item_date_time` BEFORE INSERT ON `parameter_item` FOR EACH ROW SET NEW.date_created = NOW()
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -210,7 +222,7 @@ ALTER TABLE `parameter_description`
 -- AUTO_INCREMENT for table `parameter_item`
 --
 ALTER TABLE `parameter_item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `sub_groups`
 --
