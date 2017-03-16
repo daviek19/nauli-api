@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Mar 13, 2017 at 09:21 AM
--- Server version: 5.5.54-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.21
+-- Host: 127.0.0.1
+-- Generation Time: Mar 16, 2017 at 03:34 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.5.37
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `rest_api`
@@ -26,8 +26,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `company`
 --
 
-CREATE TABLE IF NOT EXISTS `company` (
-  `company_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `company` (
+  `company_id` int(11) NOT NULL,
   `company_name` varchar(30) NOT NULL,
   `company_type_id` int(11) DEFAULT NULL,
   `company_size_id` int(11) DEFAULT NULL,
@@ -41,9 +41,8 @@ CREATE TABLE IF NOT EXISTS `company` (
   `company_currency_right` tinyint(1) DEFAULT NULL,
   `company_created_by` int(11) DEFAULT NULL,
   `current_payroll_month` datetime NOT NULL,
-  `date_created` datetime NOT NULL,
-  PRIMARY KEY (`company_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `company`
@@ -56,11 +55,9 @@ INSERT INTO `company` (`company_id`, `company_name`, `company_type_id`, `company
 --
 -- Triggers `company`
 --
-DROP TRIGGER IF EXISTS `date_time`;
-DELIMITER //
-CREATE TRIGGER `date_time` BEFORE INSERT ON `company`
- FOR EACH ROW SET NEW.date_created = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `date_time` BEFORE INSERT ON `company` FOR EACH ROW SET NEW.date_created = NOW()
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -69,13 +66,12 @@ DELIMITER ;
 -- Table structure for table `departments`
 --
 
-CREATE TABLE IF NOT EXISTS `departments` (
-  `department_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `departments` (
+  `department_id` int(11) NOT NULL,
   `department_name` varchar(256) NOT NULL,
   `company_id` int(11) NOT NULL DEFAULT '0',
-  `date_created` datetime NOT NULL,
-  PRIMARY KEY (`department_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `departments`
@@ -87,16 +83,15 @@ INSERT INTO `departments` (`department_id`, `department_name`, `company_id`, `da
 (19, 'casual', 2, '2017-01-18 16:23:24'),
 (20, 'sales', 2, '2017-01-28 15:22:32'),
 (21, 'testing123', 2, '2017-01-28 16:23:51'),
-(22, 'testing 2', 2, '2017-03-06 17:30:23');
+(22, 'testing 2', 2, '2017-03-06 17:30:23'),
+(23, 'testing 23 new', 2, '2017-03-16 13:16:46');
 
 --
 -- Triggers `departments`
 --
-DROP TRIGGER IF EXISTS `department_date_time`;
-DELIMITER //
-CREATE TRIGGER `department_date_time` BEFORE INSERT ON `departments`
- FOR EACH ROW SET NEW.date_created = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `department_date_time` BEFORE INSERT ON `departments` FOR EACH ROW SET NEW.date_created = NOW()
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -105,13 +100,12 @@ DELIMITER ;
 -- Table structure for table `earning_deduction_codes`
 --
 
-CREATE TABLE IF NOT EXISTS `earning_deduction_codes` (
-  `code_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `earning_deduction_codes` (
+  `code_id` int(11) NOT NULL,
   `code_name` varchar(30) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT '1',
-  `date_created` datetime DEFAULT NULL,
-  PRIMARY KEY (`code_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  `date_created` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `earning_deduction_codes`
@@ -127,11 +121,9 @@ INSERT INTO `earning_deduction_codes` (`code_id`, `code_name`, `is_active`, `dat
 --
 -- Triggers `earning_deduction_codes`
 --
-DROP TRIGGER IF EXISTS `earning_deduction_created`;
-DELIMITER //
-CREATE TRIGGER `earning_deduction_created` BEFORE INSERT ON `earning_deduction_codes`
- FOR EACH ROW SET NEW.date_created = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `earning_deduction_created` BEFORE INSERT ON `earning_deduction_codes` FOR EACH ROW SET NEW.date_created = NOW()
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -140,17 +132,16 @@ DELIMITER ;
 -- Table structure for table `keys`
 --
 
-CREATE TABLE IF NOT EXISTS `keys` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `keys` (
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `key` varchar(40) NOT NULL,
   `level` int(2) NOT NULL,
   `ignore_limits` tinyint(1) NOT NULL DEFAULT '0',
   `is_private_key` tinyint(1) NOT NULL DEFAULT '0',
   `ip_addresses` text,
-  `date_created` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `date_created` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `keys`
@@ -165,8 +156,8 @@ INSERT INTO `keys` (`id`, `user_id`, `key`, `level`, `ignore_limits`, `is_privat
 -- Table structure for table `logs`
 --
 
-CREATE TABLE IF NOT EXISTS `logs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `logs` (
+  `id` int(11) NOT NULL,
   `uri` varchar(255) NOT NULL,
   `method` varchar(6) NOT NULL,
   `params` text,
@@ -175,9 +166,8 @@ CREATE TABLE IF NOT EXISTS `logs` (
   `time` int(11) NOT NULL,
   `rtime` float DEFAULT NULL,
   `authorized` varchar(1) NOT NULL,
-  `response_code` smallint(3) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3880 ;
+  `response_code` smallint(3) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `logs`
@@ -4080,7 +4070,160 @@ INSERT INTO `logs` (`id`, `uri`, `method`, `params`, `api_key`, `ip_address`, `t
 (3876, 'payroll/earning_deduction_codes/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489340367, 0.016417, '1', 0),
 (3877, 'payroll/posting_types/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489340367, 0.00472403, '1', 200),
 (3878, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489340371, 0.00499988, '1', 200),
-(3879, 'paygrades/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489340371, 0.00455499, '1', 200);
+(3879, 'paygrades/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489340371, 0.00455499, '1', 200),
+(3880, 'workshop/subgroups/1', 'get', 'a:5:{s:10:"company_id";s:1:"1";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489575562, 0.425438, '1', 200),
+(3881, 'workshop/subgroups/1', 'get', 'a:5:{s:10:"company_id";s:1:"1";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489575570, 0.268243, '1', 200),
+(3882, 'workshop/subgroups/1', 'get', 'a:5:{s:10:"company_id";s:1:"1";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489575575, 0.2334, '1', 200),
+(3883, 'workshop/subgroups/1', 'get', 'a:5:{s:10:"company_id";s:1:"1";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489575601, 0.40183, '1', 200),
+(3884, 'workshop/subgroups/1', 'get', 'a:5:{s:10:"company_id";s:1:"1";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489575622, 0.308851, '1', 200),
+(3885, 'workshop/subgroups/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489575633, 0.257877, '1', 200),
+(3886, 'workshop/subgroups/1', 'get', 'a:5:{s:10:"company_id";s:1:"1";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489583968, 7.45385, '1', 200),
+(3887, 'workshop/subgroups/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489584059, 0.356981, '1', 200),
+(3888, 'workshop/subgroups/find/2', 'get', 'a:5:{s:8:"group_id";s:1:"2";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489584271, NULL, '1', 0),
+(3889, 'workshop/subgroups/find/2', 'get', 'a:5:{s:8:"group_id";s:1:"2";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489584304, NULL, '1', 0),
+(3890, 'workshop/subgroups/find/2', 'get', 'a:5:{s:8:"group_id";s:1:"2";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489584357, NULL, '1', 0),
+(3891, 'workshop/subgroups/find/1', 'get', 'a:5:{s:8:"group_id";s:1:"1";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489584374, NULL, '1', 0),
+(3892, 'workshop/subgroups/find/1', 'get', 'a:5:{s:8:"group_id";s:1:"1";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489584403, 0.276352, '1', 200),
+(3893, 'workshop/subgroups/find/1', 'get', 'a:5:{s:8:"group_id";s:1:"1";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489584424, 0.337434, '1', 200),
+(3894, 'workshop/subgroups/find/1', 'get', 'a:5:{s:8:"group_id";s:1:"1";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489584426, 0.296117, '1', 200),
+(3895, 'workshop/subgroups', 'put', 'a:8:{s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";s:14:"Content-Length";s:2:"39";s:12:"Content-Type";s:33:"application/x-www-form-urlencoded";s:10:"company_id";s:1:"2";s:13:"subgroup_name";s:12:"CONSUMABLES3";}', '1234', '::1', 1489585805, 0.905109, '1', 400),
+(3896, 'workshop/subgroups', 'put', 'a:9:{s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";s:14:"Content-Length";s:2:"50";s:12:"Content-Type";s:33:"application/x-www-form-urlencoded";s:10:"company_id";s:1:"2";s:13:"subgroup_name";s:12:"CONSUMABLES3";s:8:"group_id";s:1:"2";}', '1234', '::1', 1489585849, NULL, '1', 0),
+(3897, 'workshop/subgroups', 'put', 'a:9:{s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";s:14:"Content-Length";s:2:"50";s:12:"Content-Type";s:33:"application/x-www-form-urlencoded";s:10:"company_id";s:1:"2";s:13:"subgroup_name";s:12:"CONSUMABLES3";s:8:"group_id";s:1:"2";}', '1234', '::1', 1489585876, 0.591722, '1', 500),
+(3898, 'workshop/subgroups', 'put', 'a:9:{s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:14:"1234curl, 1234";s:14:"Content-Length";s:3:"101";s:12:"Content-Type";s:33:"application/x-www-form-urlencoded";s:10:"company_id";s:1:"2";s:13:"subgroup_name";s:12:"CONSUMABLES3";s:8:"group_id";s:1:"2";}', '', '::1', 1489585957, 0.423513, '0', 403),
+(3899, 'workshop/subgroups', 'put', 'a:9:{s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:14:"1234curl, 1234";s:14:"Content-Length";s:3:"101";s:12:"Content-Type";s:33:"application/x-www-form-urlencoded";s:10:"company_id";s:1:"2";s:13:"subgroup_name";s:12:"CONSUMABLES3";s:8:"group_id";s:1:"2";}', '', '::1', 1489585958, 0.569854, '0', 403),
+(3900, 'workshop/subgroups', 'put', 'a:9:{s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";s:14:"Content-Length";s:2:"50";s:12:"Content-Type";s:33:"application/x-www-form-urlencoded";s:10:"company_id";s:1:"2";s:13:"subgroup_name";s:12:"CONSUMABLES3";s:8:"group_id";s:1:"2";}', '1234', '::1', 1489585973, 0.433621, '1', 400),
+(3901, 'workshop/subgroups', 'put', 'a:9:{s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";s:14:"Content-Length";s:2:"50";s:12:"Content-Type";s:33:"application/x-www-form-urlencoded";s:10:"company_id";s:1:"2";s:13:"subgroup_name";s:12:"CONSUMABLES4";s:8:"group_id";s:1:"2";}', '1234', '::1', 1489585992, 0.678431, '1', 500),
+(3902, 'workshop/subgroups', 'put', 'a:9:{s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";s:14:"Content-Length";s:2:"50";s:12:"Content-Type";s:33:"application/x-www-form-urlencoded";s:10:"company_id";s:1:"2";s:13:"subgroup_name";s:12:"CONSUMABLES5";s:8:"group_id";s:1:"2";}', '1234', '::1', 1489586170, 0.411453, '1', 201),
+(3903, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489651441, 1.15309, '1', 200),
+(3904, 'person/person/12.xml', 'get', 'a:5:{s:2:"id";s:2:"12";s:6:"format";s:3:"xml";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489651442, 0.260863, '1', 200),
+(3905, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489652169, 1.18107, '1', 200),
+(3906, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489652170, 0.472634, '1', 200),
+(3907, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489654632, 0.949831, '1', 200),
+(3908, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489654633, 0.419465, '1', 200),
+(3909, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656193, 1.75436, '1', 200),
+(3910, 'person/person/12.xml', 'get', 'a:5:{s:2:"id";s:2:"12";s:6:"format";s:3:"xml";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656194, 0.613864, '1', 200),
+(3911, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656205, 0.392244, '1', 200),
+(3912, 'workshop/subgroups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656206, 0.735179, '1', 200),
+(3913, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656207, 0.480832, '1', 200),
+(3914, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656266, 0.361842, '1', 200),
+(3915, 'paygrades/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656267, 0.684415, '1', 200),
+(3916, 'company/employees/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656267, 0.42859, '1', 200),
+(3917, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656828, 0.307287, '1', 200),
+(3918, 'paygrades/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656829, 0.303733, '1', 200),
+(3919, 'company/employees/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656829, 0.274423, '1', 200),
+(3920, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656839, 0.280071, '1', 200),
+(3921, 'payroll/generate_payroll_number/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656840, 0.364734, '1', 0),
+(3922, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656860, 0.409921, '1', 200),
+(3923, 'payroll/generate_payroll_number/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489656861, 0.407539, '1', 0),
+(3924, 'payroll/generate_payroll_number/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657038, 0.263897, '1', 0),
+(3925, 'payroll/generate_payroll_number/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657058, 0.236325, '1', 0),
+(3926, 'payroll/generate_payroll_number/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657062, 0.226468, '1', 0),
+(3927, 'payroll/generate_payroll_number/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:10:"User-Agent";s:11:"curl/7.49.1";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657074, 0.209638, '1', 0),
+(3928, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657402, 0.425415, '1', 200),
+(3929, 'payroll/generate_payroll_number/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657403, 0.233225, '1', 0),
+(3930, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657755, 0.323301, '1', 200),
+(3931, 'paygrades/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657756, 0.323681, '1', 200),
+(3932, 'company/employees/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657757, 0.395152, '1', 200),
+(3933, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657775, 0.364409, '1', 200),
+(3934, 'payroll/generate_payroll_number/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489657776, 0.405258, '1', 200),
+(3935, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659209, 0.359821, '1', 200),
+(3936, 'person/person/12.xml', 'get', 'a:5:{s:2:"id";s:2:"12";s:6:"format";s:3:"xml";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659210, 0.315683, '1', 200),
+(3937, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659217, 0.338929, '1', 200),
+(3938, 'workshop/subgroups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659218, 0.552908, '1', 200),
+(3939, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659219, 0.477458, '1', 200),
+(3940, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659227, 0.359911, '1', 200),
+(3941, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659228, 0.260055, '1', 200),
+(3942, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659235, 0.335097, '1', 200),
+(3943, 'workshop/subgroups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659236, 0.29779, '1', 200),
+(3944, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659237, 0.338531, '1', 200),
+(3945, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659243, 0.294271, '1', 200),
+(3946, 'workshop/subgroups/find/3', 'get', 'a:4:{s:8:"group_id";s:1:"3";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659244, 0.2784, '1', 200),
+(3947, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659247, 0.235151, '1', 200),
+(3948, 'workshop/subgroups', 'post', 'a:8:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:2:"63";s:8:"group_id";s:1:"3";s:13:"subgroup_name";s:10:"YANA 17 IN";s:11:"subgroup_id";s:1:"3";}', '1234', '::1', 1489659248, 0.409691, '1', 200),
+(3949, 'workshop/subgroups/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";}', '1234', '::1', 1489659248, 0.285812, '1', 200);
+INSERT INTO `logs` (`id`, `uri`, `method`, `params`, `api_key`, `ip_address`, `time`, `rtime`, `authorized`, `response_code`) VALUES
+(3950, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659260, 0.303501, '1', 200),
+(3951, 'workshop/subgroups/find/3', 'get', 'a:4:{s:8:"group_id";s:1:"3";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659260, 0.308618, '1', 200),
+(3952, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659268, 0.276174, '1', 200),
+(3953, 'workshop/subgroups', 'post', 'a:8:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:2:"63";s:8:"group_id";s:1:"4";s:13:"subgroup_name";s:10:"YANA 17 IN";s:11:"subgroup_id";s:1:"3";}', '1234', '::1', 1489659269, 0.424913, '1', 200),
+(3954, 'workshop/subgroups/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";}', '1234', '::1', 1489659269, 0.33529, '1', 200),
+(3955, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659272, 0.402824, '1', 200),
+(3956, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659273, 0.27443, '1', 200),
+(3957, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659279, 0.356002, '1', 200),
+(3958, 'workshop/groups/find/4', 'get', 'a:4:{s:8:"group_id";s:1:"4";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659279, 0.267515, '1', 200),
+(3959, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659284, 0.296126, '1', 200),
+(3960, 'workshop/groups', 'post', 'a:7:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:2:"42";s:8:"group_id";s:1:"4";s:10:"group_name";s:10:"ALUMINIUMS";}', '1234', '::1', 1489659284, 0.52682, '1', 200),
+(3961, 'workshop/groups/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";}', '1234', '::1', 1489659285, 0.391294, '1', 200),
+(3962, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659288, 0.308135, '1', 200),
+(3963, 'workshop/subgroups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659288, 0.297686, '1', 200),
+(3964, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659289, 0.244321, '1', 200),
+(3965, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659299, 0.260734, '1', 200),
+(3966, 'paygrades/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659299, 0.277247, '1', 200),
+(3967, 'company/employees/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659300, 0.273311, '1', 200),
+(3968, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659307, 0.262234, '1', 200),
+(3969, 'payroll/generate_payroll_number/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659308, 0.320522, '1', 200),
+(3970, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659319, 0.302878, '1', 200),
+(3971, 'paygrades/earning_deductions/9', 'get', 'a:4:{s:12:"pay_grade_id";s:1:"9";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659319, 0.355789, '1', 200),
+(3972, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659336, 0.364648, '1', 200),
+(3973, 'paygrades/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659336, 0.342459, '1', 200),
+(3974, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659345, 0.313683, '1', 200),
+(3975, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659353, 0.298841, '1', 200),
+(3976, 'paygrades/earning_deductions/4', 'get', 'a:4:{s:12:"pay_grade_id";s:1:"4";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659354, 0.34465, '1', 200),
+(3977, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659363, 0.355368, '1', 200),
+(3978, 'paygrades/create_earning_deductions', 'put', 'a:8:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:2:"64";s:20:"earning_deduction_id";s:1:"3";s:12:"pay_grade_id";s:1:"4";s:6:"amount";s:5:"19000";}', '1234', '::1', 1489659364, 0.438763, '1', 201),
+(3979, 'paygrades/earning_deductions/4', 'get', 'a:5:{s:12:"pay_grade_id";s:1:"4";s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";}', '1234', '::1', 1489659364, 0.264012, '1', 200),
+(3980, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659371, 0.331703, '1', 200),
+(3981, 'paygrades/earning_deductions/4', 'get', 'a:4:{s:12:"pay_grade_id";s:1:"4";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659372, 0.355299, '1', 200),
+(3982, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659378, 0.27511, '1', 200),
+(3983, 'departments/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659379, 0.44047, '1', 200),
+(3984, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659392, 0.284477, '1', 200),
+(3985, 'departments', 'put', 'a:7:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:2:"48";s:15:"department_name";s:9:"Testing 2";s:10:"company_id";s:1:"2";}', '1234', '::1', 1489659393, 0.310333, '1', 400),
+(3986, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659400, 0.357729, '1', 200),
+(3987, 'departments', 'put', 'a:7:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:2:"48";s:15:"department_name";s:9:"testing 2";s:10:"company_id";s:1:"2";}', '1234', '::1', 1489659401, 0.266813, '1', 400),
+(3988, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659405, 0.28825, '1', 200),
+(3989, 'departments', 'put', 'a:7:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:2:"49";s:15:"department_name";s:10:"testing 23";s:10:"company_id";s:1:"2";}', '1234', '::1', 1489659405, 0.416439, '1', 201),
+(3990, 'departments/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";}', '1234', '::1', 1489659406, 0.342738, '1', 200),
+(3991, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659410, 0.312797, '1', 200),
+(3992, 'departments/find/23', 'get', 'a:4:{s:13:"department_id";s:2:"23";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659411, 0.277777, '1', 200),
+(3993, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659415, 0.318153, '1', 200),
+(3994, 'departments', 'post', 'a:7:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:2:"57";s:13:"department_id";s:2:"23";s:15:"department_name";s:14:"testing 23 new";}', '1234', '::1', 1489659415, 0.432282, '1', 200),
+(3995, 'departments/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";}', '1234', '::1', 1489659416, 0.282869, '1', 200),
+(3996, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659419, 0.317869, '1', 200),
+(3997, 'payroll/earning_deduction_codes/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659419, 0.207776, '1', 0),
+(3998, 'payroll/posting_types/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659420, 0.326619, '1', 200),
+(3999, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659436, 0.270495, '1', 200),
+(4000, 'payroll/earning_deduction_codes/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659437, 0.198569, '1', 0),
+(4001, 'payroll/posting_types/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659437, 0.307993, '1', 200),
+(4002, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659446, 0.318092, '1', 200),
+(4003, 'paygrades/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659446, 0.311832, '1', 200),
+(4004, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659452, 0.295588, '1', 200),
+(4005, 'paygrades/earning_deductions/9', 'get', 'a:4:{s:12:"pay_grade_id";s:1:"9";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659453, 0.414735, '1', 200),
+(4006, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659463, 0.250923, '1', 200),
+(4007, 'payroll/earning_deduction_codes/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659463, 0.185148, '1', 0),
+(4008, 'payroll/posting_types/2', 'get', 'a:4:{s:2:"id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659463, 0.300362, '1', 200),
+(4009, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659470, 0.319341, '1', 200),
+(4010, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659500, 0.33873, '1', 200),
+(4011, 'payroll/earning_deduction_code', 'post', 'a:10:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:3:"111";s:22:"earning_deduction_name";s:12:"Evening Fare";s:9:"recurrent";s:1:"1";s:15:"posting_type_id";s:1:"2";s:10:"company_id";s:1:"2";s:7:"taxable";N;}', '1234', '::1', 1489659501, 0.230026, '1', 0),
+(4012, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659513, 0.335425, '1', 200),
+(4013, 'paygrades/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659513, 0.287106, '1', 200),
+(4014, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659519, 0.478377, '1', 200),
+(4015, 'paygrades/earning_deductions/9', 'get', 'a:4:{s:12:"pay_grade_id";s:1:"9";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659520, 0.378538, '1', 200),
+(4016, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659535, 0.290559, '1', 200),
+(4017, 'company/company/2.json', 'get', 'a:5:{s:2:"id";s:1:"2";s:6:"format";s:4:"json";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489659536, 0.253825, '1', 200),
+(4018, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674419, 1.5019, '1', 200),
+(4019, 'person/person/12.xml', 'get', 'a:5:{s:2:"id";s:2:"12";s:6:"format";s:3:"xml";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674421, 0.787631, '1', 200),
+(4020, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674433, 0.475241, '1', 200),
+(4021, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674434, 0.648241, '1', 200),
+(4022, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674477, 0.48368, '1', 200),
+(4023, 'workshop/subgroups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674478, 0.586466, '1', 200),
+(4024, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674478, 0.360201, '1', 200),
+(4025, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674499, 0.282526, '1', 200),
+(4026, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674500, 0.376148, '1', 200),
+(4027, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674587, 0.438817, '1', 200),
+(4028, 'workshop/subgroups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674587, 0.389563, '1', 200),
+(4029, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674588, 0.387587, '1', 200),
+(4030, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674617, 0.376028, '1', 200),
+(4031, 'workshop/groups/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1489674617, 0.328851, '1', 200);
 
 -- --------------------------------------------------------
 
@@ -4088,15 +4231,14 @@ INSERT INTO `logs` (`id`, `uri`, `method`, `params`, `api_key`, `ip_address`, `t
 -- Table structure for table `payroll_earning_deduction_codes`
 --
 
-CREATE TABLE IF NOT EXISTS `payroll_earning_deduction_codes` (
-  `earning_deduction_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payroll_earning_deduction_codes` (
+  `earning_deduction_id` int(11) NOT NULL,
   `company_id` int(11) NOT NULL,
   `posting_type_id` int(11) NOT NULL,
   `earning_deduction_name` varchar(256) NOT NULL,
   `recurrent` tinyint(1) NOT NULL DEFAULT '0',
-  `date_created` datetime NOT NULL,
-  PRIMARY KEY (`earning_deduction_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payroll_earning_deduction_codes`
@@ -4112,11 +4254,9 @@ INSERT INTO `payroll_earning_deduction_codes` (`earning_deduction_id`, `company_
 --
 -- Triggers `payroll_earning_deduction_codes`
 --
-DROP TRIGGER IF EXISTS `earning_duductions_date_time`;
-DELIMITER //
-CREATE TRIGGER `earning_duductions_date_time` BEFORE INSERT ON `payroll_earning_deduction_codes`
- FOR EACH ROW SET NEW.date_created = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `earning_duductions_date_time` BEFORE INSERT ON `payroll_earning_deduction_codes` FOR EACH ROW SET NEW.date_created = NOW()
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -4125,12 +4265,11 @@ DELIMITER ;
 -- Table structure for table `payroll_employee_types`
 --
 
-CREATE TABLE IF NOT EXISTS `payroll_employee_types` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payroll_employee_types` (
+  `id` int(11) NOT NULL,
   `type_name` varchar(50) NOT NULL,
-  `date_created` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payroll_employee_types`
@@ -4143,11 +4282,9 @@ INSERT INTO `payroll_employee_types` (`id`, `type_name`, `date_created`) VALUES
 --
 -- Triggers `payroll_employee_types`
 --
-DROP TRIGGER IF EXISTS `employee_types_date_time`;
-DELIMITER //
-CREATE TRIGGER `employee_types_date_time` BEFORE INSERT ON `payroll_employee_types`
- FOR EACH ROW SET NEW.date_created = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `employee_types_date_time` BEFORE INSERT ON `payroll_employee_types` FOR EACH ROW SET NEW.date_created = NOW()
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -4156,36 +4293,55 @@ DELIMITER ;
 -- Table structure for table `payroll_nhif`
 --
 
-CREATE TABLE IF NOT EXISTS `payroll_nhif` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payroll_nhif` (
+  `id` int(11) NOT NULL,
   `from_amount` decimal(10,2) NOT NULL,
   `to_amount` decimal(10,2) NOT NULL,
-  `total_amount` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+  `total_amount` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payroll_nhif`
 --
 
 INSERT INTO `payroll_nhif` (`id`, `from_amount`, `to_amount`, `total_amount`) VALUES
-(1, 0.00, 5999.99, 150.00),
-(2, 6000.00, 7999.99, 300.00),
-(3, 8000.00, 11999.99, 400.00),
-(4, 12000.00, 14999.99, 500.00),
-(5, 15000.00, 19999.99, 600.00),
-(6, 20000.00, 24999.99, 750.00),
-(7, 25000.00, 29999.99, 850.00),
-(8, 30000.00, 34999.99, 900.00),
-(9, 35000.00, 39999.99, 950.00),
-(10, 40000.00, 44999.99, 1000.00),
-(11, 45000.00, 49999.99, 1100.00),
-(12, 50000.00, 59999.99, 1200.00),
-(13, 60000.00, 69999.99, 1300.00),
-(14, 70000.00, 79999.99, 1400.00),
-(15, 80000.00, 89999.99, 1500.00),
-(16, 90000.00, 99999.99, 1600.00),
-(17, 100000.00, 99999999.99, 1700.00);
+(1, '0.00', '5999.99', '150.00'),
+(2, '6000.00', '7999.99', '300.00'),
+(3, '8000.00', '11999.99', '400.00'),
+(4, '12000.00', '14999.99', '500.00'),
+(5, '15000.00', '19999.99', '600.00'),
+(6, '20000.00', '24999.99', '750.00'),
+(7, '25000.00', '29999.99', '850.00'),
+(8, '30000.00', '34999.99', '900.00'),
+(9, '35000.00', '39999.99', '950.00'),
+(10, '40000.00', '44999.99', '1000.00'),
+(11, '45000.00', '49999.99', '1100.00'),
+(12, '50000.00', '59999.99', '1200.00'),
+(13, '60000.00', '69999.99', '1300.00'),
+(14, '70000.00', '79999.99', '1400.00'),
+(15, '80000.00', '89999.99', '1500.00'),
+(16, '90000.00', '99999.99', '1600.00'),
+(17, '100000.00', '99999999.99', '1700.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payroll_number_tracker`
+--
+
+CREATE TABLE `payroll_number_tracker` (
+  `id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payroll_number_tracker`
+--
+
+INSERT INTO `payroll_number_tracker` (`id`, `company_id`, `date_created`) VALUES
+(1, 2, '0000-00-00 00:00:00'),
+(2, 2, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -4193,26 +4349,25 @@ INSERT INTO `payroll_nhif` (`id`, `from_amount`, `to_amount`, `total_amount`) VA
 -- Table structure for table `payroll_paye`
 --
 
-CREATE TABLE IF NOT EXISTS `payroll_paye` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payroll_paye` (
+  `id` int(11) NOT NULL,
   `range1` decimal(10,2) NOT NULL,
   `range2` decimal(10,2) NOT NULL,
   `factor` decimal(10,2) NOT NULL,
   `rate` decimal(10,2) NOT NULL,
-  `relief` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  `relief` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payroll_paye`
 --
 
 INSERT INTO `payroll_paye` (`id`, `range1`, `range2`, `factor`, `rate`, `relief`) VALUES
-(1, 0.00, 11180.00, 1118.00, 10.00, 1280.00),
-(2, 11181.00, 21714.00, 1580.00, 15.00, 1280.00),
-(3, 42781.99, 99999999.99, 0.00, 30.00, 1280.00),
-(4, 21715.00, 32248.00, 2106.60, 20.00, 1280.00),
-(5, 32249.00, 42781.00, 2633.00, 25.00, 1280.00);
+(1, '0.00', '11180.00', '1118.00', '10.00', '1280.00'),
+(2, '11181.00', '21714.00', '1580.00', '15.00', '1280.00'),
+(3, '42781.99', '99999999.99', '0.00', '30.00', '1280.00'),
+(4, '21715.00', '32248.00', '2106.60', '20.00', '1280.00'),
+(5, '32249.00', '42781.00', '2633.00', '25.00', '1280.00');
 
 -- --------------------------------------------------------
 
@@ -4220,51 +4375,48 @@ INSERT INTO `payroll_paye` (`id`, `range1`, `range2`, `factor`, `rate`, `relief`
 -- Table structure for table `payroll_postings`
 --
 
-CREATE TABLE IF NOT EXISTS `payroll_postings` (
-  `posting_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payroll_postings` (
+  `posting_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `posting_type` int(2) NOT NULL,
   `posting_description` varchar(50) NOT NULL,
   `posting_amount` decimal(10,2) DEFAULT NULL,
   `payroll_month` datetime NOT NULL,
-  `posting_date` datetime NOT NULL,
-  PRIMARY KEY (`posting_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=122 ;
+  `posting_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payroll_postings`
 --
 
 INSERT INTO `payroll_postings` (`posting_id`, `employee_id`, `posting_type`, `posting_description`, `posting_amount`, `payroll_month`, `posting_date`) VALUES
-(77, 13, 2, 'PAYEE', 1000.00, '2016-12-01 00:00:00', '2016-12-29 13:17:07'),
-(78, 13, 2, 'NSSF', 2000.00, '2016-12-01 00:00:00', '2016-12-29 13:17:07'),
-(79, 13, 2, 'NHIF', 3000.00, '2016-12-01 00:00:00', '2016-12-29 13:17:07'),
-(80, 14, 2, 'PAYEE', 1000.00, '2016-12-01 00:00:00', '2016-12-29 13:17:44'),
-(81, 14, 2, 'NSSF', 2000.00, '2016-12-01 00:00:00', '2016-12-29 13:17:44'),
-(82, 18, 1, 'Basic Salary', 50000.00, '2016-12-01 00:00:00', '2016-12-30 19:36:54'),
-(96, 18, 2, 'PAYEE', 1000.00, '2016-12-01 00:00:00', '2017-01-03 20:17:38'),
-(97, 18, 2, 'NHIF', 3000.00, '2016-12-01 00:00:00', '2017-01-03 20:17:39'),
-(98, 19, 1, 'Basic Salary', 50000.00, '2016-12-01 00:00:00', '2017-01-03 20:29:27'),
-(111, 19, 2, 'PAYEE', 1000.00, '2016-12-01 00:00:00', '2017-01-03 20:31:11'),
-(112, 19, 2, 'NSSF', 2000.00, '2016-12-01 00:00:00', '2017-01-03 20:31:11'),
-(113, 19, 2, 'NHIF', 3000.00, '2016-12-01 00:00:00', '2017-01-03 20:31:11'),
-(114, 13, 1, 'Basic Salary', 50000.00, '2016-12-01 00:00:00', '2017-01-15 12:14:00'),
-(115, 13, 2, 'PAYEE', 1000.00, '2016-12-01 00:00:00', '2017-01-15 12:14:01'),
-(116, 17, 2, 'PAYEE', 1000.00, '2016-12-01 00:00:00', '2017-02-08 09:48:40'),
-(117, 17, 2, 'NSSF', 2000.00, '2016-12-01 00:00:00', '2017-02-08 09:48:40'),
-(118, 17, 2, 'NHIF', 3000.00, '2016-12-01 00:00:00', '2017-02-08 09:48:40'),
-(119, 12, 2, 'PAYEE', 1000.00, '2016-12-01 00:00:00', '2017-02-10 19:26:37'),
-(120, 12, 2, 'NSSF', 2000.00, '2016-12-01 00:00:00', '2017-02-10 19:26:37'),
-(121, 12, 2, 'NHIF', 3000.00, '2016-12-01 00:00:00', '2017-02-10 19:26:37');
+(77, 13, 2, 'PAYEE', '1000.00', '2016-12-01 00:00:00', '2016-12-29 13:17:07'),
+(78, 13, 2, 'NSSF', '2000.00', '2016-12-01 00:00:00', '2016-12-29 13:17:07'),
+(79, 13, 2, 'NHIF', '3000.00', '2016-12-01 00:00:00', '2016-12-29 13:17:07'),
+(80, 14, 2, 'PAYEE', '1000.00', '2016-12-01 00:00:00', '2016-12-29 13:17:44'),
+(81, 14, 2, 'NSSF', '2000.00', '2016-12-01 00:00:00', '2016-12-29 13:17:44'),
+(82, 18, 1, 'Basic Salary', '50000.00', '2016-12-01 00:00:00', '2016-12-30 19:36:54'),
+(96, 18, 2, 'PAYEE', '1000.00', '2016-12-01 00:00:00', '2017-01-03 20:17:38'),
+(97, 18, 2, 'NHIF', '3000.00', '2016-12-01 00:00:00', '2017-01-03 20:17:39'),
+(98, 19, 1, 'Basic Salary', '50000.00', '2016-12-01 00:00:00', '2017-01-03 20:29:27'),
+(111, 19, 2, 'PAYEE', '1000.00', '2016-12-01 00:00:00', '2017-01-03 20:31:11'),
+(112, 19, 2, 'NSSF', '2000.00', '2016-12-01 00:00:00', '2017-01-03 20:31:11'),
+(113, 19, 2, 'NHIF', '3000.00', '2016-12-01 00:00:00', '2017-01-03 20:31:11'),
+(114, 13, 1, 'Basic Salary', '50000.00', '2016-12-01 00:00:00', '2017-01-15 12:14:00'),
+(115, 13, 2, 'PAYEE', '1000.00', '2016-12-01 00:00:00', '2017-01-15 12:14:01'),
+(116, 17, 2, 'PAYEE', '1000.00', '2016-12-01 00:00:00', '2017-02-08 09:48:40'),
+(117, 17, 2, 'NSSF', '2000.00', '2016-12-01 00:00:00', '2017-02-08 09:48:40'),
+(118, 17, 2, 'NHIF', '3000.00', '2016-12-01 00:00:00', '2017-02-08 09:48:40'),
+(119, 12, 2, 'PAYEE', '1000.00', '2016-12-01 00:00:00', '2017-02-10 19:26:37'),
+(120, 12, 2, 'NSSF', '2000.00', '2016-12-01 00:00:00', '2017-02-10 19:26:37'),
+(121, 12, 2, 'NHIF', '3000.00', '2016-12-01 00:00:00', '2017-02-10 19:26:37');
 
 --
 -- Triggers `payroll_postings`
 --
-DROP TRIGGER IF EXISTS `posting_date_time`;
-DELIMITER //
-CREATE TRIGGER `posting_date_time` BEFORE INSERT ON `payroll_postings`
- FOR EACH ROW SET NEW.posting_date = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `posting_date_time` BEFORE INSERT ON `payroll_postings` FOR EACH ROW SET NEW.posting_date = NOW()
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -4273,33 +4425,30 @@ DELIMITER ;
 -- Table structure for table `payroll_postings_legacy`
 --
 
-CREATE TABLE IF NOT EXISTS `payroll_postings_legacy` (
-  `posting_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payroll_postings_legacy` (
+  `posting_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `gross_salary` decimal(10,2) DEFAULT NULL,
   `payee` decimal(10,2) DEFAULT NULL,
   `nhif` decimal(10,2) DEFAULT NULL,
   `payroll_month` datetime NOT NULL,
-  `posting_date` datetime NOT NULL,
-  PRIMARY KEY (`posting_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  `posting_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payroll_postings_legacy`
 --
 
 INSERT INTO `payroll_postings_legacy` (`posting_id`, `employee_id`, `gross_salary`, `payee`, `nhif`, `payroll_month`, `posting_date`) VALUES
-(3, 12, 500.00, 100000.00, 100000.00, '2016-12-01 00:00:00', '2016-12-15 22:12:31'),
-(4, 13, 50.00, 100000.00, 100000.00, '2016-12-01 00:00:00', '2016-12-23 19:40:51');
+(3, 12, '500.00', '100000.00', '100000.00', '2016-12-01 00:00:00', '2016-12-15 22:12:31'),
+(4, 13, '50.00', '100000.00', '100000.00', '2016-12-01 00:00:00', '2016-12-23 19:40:51');
 
 --
 -- Triggers `payroll_postings_legacy`
 --
-DROP TRIGGER IF EXISTS `payroll_posting_date_time`;
-DELIMITER //
-CREATE TRIGGER `payroll_posting_date_time` BEFORE INSERT ON `payroll_postings_legacy`
- FOR EACH ROW SET NEW.posting_date = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `payroll_posting_date_time` BEFORE INSERT ON `payroll_postings_legacy` FOR EACH ROW SET NEW.posting_date = NOW()
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -4308,13 +4457,12 @@ DELIMITER ;
 -- Table structure for table `payroll_posting_types`
 --
 
-CREATE TABLE IF NOT EXISTS `payroll_posting_types` (
-  `posting_type_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payroll_posting_types` (
+  `posting_type_id` int(11) NOT NULL,
   `posting_type_name` varchar(256) NOT NULL,
   `company_id` int(11) NOT NULL DEFAULT '0',
-  `date_created` datetime NOT NULL,
-  PRIMARY KEY (`posting_type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payroll_posting_types`
@@ -4329,11 +4477,9 @@ INSERT INTO `payroll_posting_types` (`posting_type_id`, `posting_type_name`, `co
 --
 -- Triggers `payroll_posting_types`
 --
-DROP TRIGGER IF EXISTS `payroll_posting_type_date_time`;
-DELIMITER //
-CREATE TRIGGER `payroll_posting_type_date_time` BEFORE INSERT ON `payroll_posting_types`
- FOR EACH ROW SET NEW.date_created = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `payroll_posting_type_date_time` BEFORE INSERT ON `payroll_posting_types` FOR EACH ROW SET NEW.date_created = NOW()
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -4342,13 +4488,12 @@ DELIMITER ;
 -- Table structure for table `pay_grades`
 --
 
-CREATE TABLE IF NOT EXISTS `pay_grades` (
-  `pay_grade_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pay_grades` (
+  `pay_grade_id` int(11) NOT NULL,
   `company_id` int(11) NOT NULL DEFAULT '0',
   `pay_grade_name` varchar(50) DEFAULT NULL,
-  `date_created` datetime DEFAULT NULL,
-  PRIMARY KEY (`pay_grade_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+  `date_created` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pay_grades`
@@ -4368,11 +4513,9 @@ INSERT INTO `pay_grades` (`pay_grade_id`, `company_id`, `pay_grade_name`, `date_
 --
 -- Triggers `pay_grades`
 --
-DROP TRIGGER IF EXISTS `pay_grades_date_time`;
-DELIMITER //
-CREATE TRIGGER `pay_grades_date_time` BEFORE INSERT ON `pay_grades`
- FOR EACH ROW SET NEW.date_created = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `pay_grades_date_time` BEFORE INSERT ON `pay_grades` FOR EACH ROW SET NEW.date_created = NOW()
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -4381,39 +4524,37 @@ DELIMITER ;
 -- Table structure for table `pay_grade_earning_deductions`
 --
 
-CREATE TABLE IF NOT EXISTS `pay_grade_earning_deductions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pay_grade_earning_deductions` (
+  `id` int(11) NOT NULL,
   `pay_grade_id` int(11) DEFAULT NULL,
   `earning_deduction_id` int(11) DEFAULT NULL,
   `amount` decimal(10,2) DEFAULT NULL,
-  `date_created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
+  `date_created` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pay_grade_earning_deductions`
 --
 
 INSERT INTO `pay_grade_earning_deductions` (`id`, `pay_grade_id`, `earning_deduction_id`, `amount`, `date_created`) VALUES
-(2, 1, 2, 500.00, '2017-02-08 09:39:51'),
-(3, 1, 3, 500.00, '2017-02-08 09:43:06'),
-(4, 1, 4, 5007.00, '2017-02-08 09:43:07'),
-(5, 1, 5, 5004.00, '2017-02-08 09:43:08'),
-(20, 4, 5, 5004.00, '2017-02-08 09:43:21'),
-(27, 4, 1, 2000.00, '2017-02-09 17:48:55'),
-(28, 8, 1, 50000.00, '2017-02-09 17:50:46'),
-(30, 8, 4, 200.00, '2017-02-09 17:58:54'),
-(31, 3, 1, 90000.00, '2017-02-09 18:00:04'),
-(32, 9, 1, 50000.00, '2017-02-10 19:21:01');
+(2, 1, 2, '500.00', '2017-02-08 09:39:51'),
+(3, 1, 3, '500.00', '2017-02-08 09:43:06'),
+(4, 1, 4, '5007.00', '2017-02-08 09:43:07'),
+(5, 1, 5, '5004.00', '2017-02-08 09:43:08'),
+(20, 4, 5, '5004.00', '2017-02-08 09:43:21'),
+(27, 4, 1, '2000.00', '2017-02-09 17:48:55'),
+(28, 8, 1, '50000.00', '2017-02-09 17:50:46'),
+(30, 8, 4, '200.00', '2017-02-09 17:58:54'),
+(31, 3, 1, '90000.00', '2017-02-09 18:00:04'),
+(32, 9, 1, '50000.00', '2017-02-10 19:21:01'),
+(33, 4, 3, '19000.00', '2017-03-16 13:16:04');
 
 --
 -- Triggers `pay_grade_earning_deductions`
 --
-DROP TRIGGER IF EXISTS `pay_grade_ed_date_time`;
-DELIMITER //
-CREATE TRIGGER `pay_grade_ed_date_time` BEFORE INSERT ON `pay_grade_earning_deductions`
- FOR EACH ROW SET NEW.date_created = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `pay_grade_ed_date_time` BEFORE INSERT ON `pay_grade_earning_deductions` FOR EACH ROW SET NEW.date_created = NOW()
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -4422,8 +4563,8 @@ DELIMITER ;
 -- Table structure for table `people`
 --
 
-CREATE TABLE IF NOT EXISTS `people` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `people` (
+  `id` int(11) NOT NULL,
   `company_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `gender` tinyint(4) DEFAULT NULL,
@@ -4442,32 +4583,213 @@ CREATE TABLE IF NOT EXISTS `people` (
   `basic_pay` decimal(10,2) NOT NULL,
   `is_employee` tinyint(1) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
-  `date_created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+  `date_created` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `people`
 --
 
 INSERT INTO `people` (`id`, `company_id`, `user_id`, `gender`, `first_name`, `middle_name`, `last_name`, `phone`, `pin_no`, `id_no`, `nssf_no`, `nhif_no`, `email`, `pays_kra`, `pays_nssf`, `pays_nhif`, `basic_pay`, `is_employee`, `is_active`, `date_created`) VALUES
-(1, 2, 8, NULL, 'David', NULL, 'Mwangi', '+254729003109', NULL, NULL, NULL, NULL, 'daviek19@gmail.com', 0, 0, 0, 0.00, NULL, NULL, '2016-12-12 14:05:44'),
-(12, 2, NULL, 1, 'Stephen ', 'Omondi', 'Lamba', '0729003109', 'A9890', '28452155', '12345', 'xcvfr', 'daviek19@gmail.com', 1, 1, 1, 50000.00, 1, NULL, '2016-12-15 22:12:31'),
-(13, 2, NULL, 1, 'Caro ', 'Nungari', 'Muchiri', '254729003110', 'A908976', '28452190', '', '', 'caro@gmail.com', 1, 1, 1, 50.00, 1, NULL, '2016-12-23 19:40:51'),
-(14, 2, NULL, 1, 'john ', 'doe ', 'doest', '072900487', '', '', '', '', 'john@yahoo.com', 1, 1, 0, 5000.00, 1, NULL, '2016-12-28 14:58:04'),
-(17, 2, NULL, 1, 'New', 'Test', 'Admin', '0729003109', '', '28452166', '', '', 'Daviek19@sokonline.co.ke', 1, 1, 1, 20000.00, 1, NULL, '2016-12-29 12:48:39'),
-(18, 2, NULL, 1, 'new', 'test', 'guy', '729003109', '1234567', '284590', '', '', 'Daviek19@sokonline.co.ke', 1, 0, 1, 50000.00, 1, NULL, '2016-12-30 19:36:54');
+(1, 2, 8, NULL, 'David', NULL, 'Mwangi', '+254729003109', NULL, NULL, NULL, NULL, 'daviek19@gmail.com', 0, 0, 0, '0.00', NULL, NULL, '2016-12-12 14:05:44'),
+(12, 2, NULL, 1, 'Stephen ', 'Omondi', 'Lamba', '0729003109', 'A9890', '28452155', '12345', 'xcvfr', 'daviek19@gmail.com', 1, 1, 1, '50000.00', 1, NULL, '2016-12-15 22:12:31'),
+(13, 2, NULL, 1, 'Caro ', 'Nungari', 'Muchiri', '254729003110', 'A908976', '28452190', '', '', 'caro@gmail.com', 1, 1, 1, '50.00', 1, NULL, '2016-12-23 19:40:51'),
+(14, 2, NULL, 1, 'john ', 'doe ', 'doest', '072900487', '', '', '', '', 'john@yahoo.com', 1, 1, 0, '5000.00', 1, NULL, '2016-12-28 14:58:04'),
+(17, 2, NULL, 1, 'New', 'Test', 'Admin', '0729003109', '', '28452166', '', '', 'Daviek19@sokonline.co.ke', 1, 1, 1, '20000.00', 1, NULL, '2016-12-29 12:48:39'),
+(18, 2, NULL, 1, 'new', 'test', 'guy', '729003109', '1234567', '284590', '', '', 'Daviek19@sokonline.co.ke', 1, 0, 1, '50000.00', 1, NULL, '2016-12-30 19:36:54');
 
 --
 -- Triggers `people`
 --
-DROP TRIGGER IF EXISTS `peoples_date_time`;
-DELIMITER //
-CREATE TRIGGER `peoples_date_time` BEFORE INSERT ON `people`
- FOR EACH ROW SET NEW.date_created = NOW()
-//
+DELIMITER $$
+CREATE TRIGGER `peoples_date_time` BEFORE INSERT ON `people` FOR EACH ROW SET NEW.date_created = NOW()
+$$
 DELIMITER ;
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `company`
+--
+ALTER TABLE `company`
+  ADD PRIMARY KEY (`company_id`);
+
+--
+-- Indexes for table `departments`
+--
+ALTER TABLE `departments`
+  ADD PRIMARY KEY (`department_id`);
+
+--
+-- Indexes for table `earning_deduction_codes`
+--
+ALTER TABLE `earning_deduction_codes`
+  ADD PRIMARY KEY (`code_id`);
+
+--
+-- Indexes for table `keys`
+--
+ALTER TABLE `keys`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `logs`
+--
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payroll_earning_deduction_codes`
+--
+ALTER TABLE `payroll_earning_deduction_codes`
+  ADD PRIMARY KEY (`earning_deduction_id`);
+
+--
+-- Indexes for table `payroll_employee_types`
+--
+ALTER TABLE `payroll_employee_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payroll_nhif`
+--
+ALTER TABLE `payroll_nhif`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payroll_number_tracker`
+--
+ALTER TABLE `payroll_number_tracker`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payroll_paye`
+--
+ALTER TABLE `payroll_paye`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payroll_postings`
+--
+ALTER TABLE `payroll_postings`
+  ADD PRIMARY KEY (`posting_id`);
+
+--
+-- Indexes for table `payroll_postings_legacy`
+--
+ALTER TABLE `payroll_postings_legacy`
+  ADD PRIMARY KEY (`posting_id`);
+
+--
+-- Indexes for table `payroll_posting_types`
+--
+ALTER TABLE `payroll_posting_types`
+  ADD PRIMARY KEY (`posting_type_id`);
+
+--
+-- Indexes for table `pay_grades`
+--
+ALTER TABLE `pay_grades`
+  ADD PRIMARY KEY (`pay_grade_id`);
+
+--
+-- Indexes for table `pay_grade_earning_deductions`
+--
+ALTER TABLE `pay_grade_earning_deductions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `people`
+--
+ALTER TABLE `people`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `company`
+--
+ALTER TABLE `company`
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `departments`
+--
+ALTER TABLE `departments`
+  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+--
+-- AUTO_INCREMENT for table `earning_deduction_codes`
+--
+ALTER TABLE `earning_deduction_codes`
+  MODIFY `code_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `keys`
+--
+ALTER TABLE `keys`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `logs`
+--
+ALTER TABLE `logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4032;
+--
+-- AUTO_INCREMENT for table `payroll_earning_deduction_codes`
+--
+ALTER TABLE `payroll_earning_deduction_codes`
+  MODIFY `earning_deduction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `payroll_employee_types`
+--
+ALTER TABLE `payroll_employee_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `payroll_nhif`
+--
+ALTER TABLE `payroll_nhif`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `payroll_number_tracker`
+--
+ALTER TABLE `payroll_number_tracker`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `payroll_paye`
+--
+ALTER TABLE `payroll_paye`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `payroll_postings`
+--
+ALTER TABLE `payroll_postings`
+  MODIFY `posting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+--
+-- AUTO_INCREMENT for table `payroll_postings_legacy`
+--
+ALTER TABLE `payroll_postings_legacy`
+  MODIFY `posting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `payroll_posting_types`
+--
+ALTER TABLE `payroll_posting_types`
+  MODIFY `posting_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `pay_grades`
+--
+ALTER TABLE `pay_grades`
+  MODIFY `pay_grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `pay_grade_earning_deductions`
+--
+ALTER TABLE `pay_grade_earning_deductions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+--
+-- AUTO_INCREMENT for table `people`
+--
+ALTER TABLE `people`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
