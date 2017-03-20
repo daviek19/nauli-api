@@ -43,7 +43,7 @@ WHERE `pay_grade_earning_deductions`.`id` IS NULL;
 CREATE TRIGGER `group_master_date_time` BEFORE INSERT ON `group_master`
  FOR EACH ROW SET NEW.date_created = NOW()
  
- CREATE TRIGGER `sub_groups_date_time` BEFORE INSERT ON `sub_groups`
+ CREATE TRIGGER `parameter_description_date_time` BEFORE INSERT ON `parameter_description`
  FOR EACH ROW SET NEW.date_created = NOW()
   
 

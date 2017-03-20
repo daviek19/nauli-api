@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2017 at 06:16 PM
+-- Generation Time: Mar 20, 2017 at 05:16 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `group_master` (
   `group_id` int(11) NOT NULL,
+  `sub_classification_id` int(11) NOT NULL,
   `company_id` int(11) NOT NULL,
   `group_name` varchar(256) NOT NULL,
   `date_created` datetime NOT NULL
@@ -37,11 +38,11 @@ CREATE TABLE `group_master` (
 -- Dumping data for table `group_master`
 --
 
-INSERT INTO `group_master` (`group_id`, `company_id`, `group_name`, `date_created`) VALUES
-(1, 2, 'STEEL', '2017-03-12 00:00:00'),
-(2, 2, 'CONSUMABLES', '2017-03-12 00:00:00'),
-(3, 2, 'PAINT', '2017-03-15 21:37:42'),
-(4, 2, 'ALUMINIUMS', '2017-03-15 21:43:42');
+INSERT INTO `group_master` (`group_id`, `sub_classification_id`, `company_id`, `group_name`, `date_created`) VALUES
+(1, 6, 2, 'STEEL', '2017-03-12 00:00:00'),
+(2, 6, 2, 'CONSUMABLES', '2017-03-12 00:00:00'),
+(3, 6, 2, 'PAINT', '2017-03-15 21:37:42'),
+(4, 6, 2, 'ALUMINIUMS', '2017-03-15 21:43:42');
 
 --
 -- Triggers `group_master`
@@ -58,8 +59,8 @@ DELIMITER ;
 --
 
 CREATE TABLE `parameter_description` (
-  `company_id` int(11) NOT NULL,
   `description_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
   `description_name` varchar(256) NOT NULL,
   `date_created` datetime NOT NULL
@@ -69,11 +70,24 @@ CREATE TABLE `parameter_description` (
 -- Dumping data for table `parameter_description`
 --
 
-INSERT INTO `parameter_description` (`company_id`, `description_id`, `item_id`, `description_name`, `date_created`) VALUES
-(1, 1, 1, 'Kgs', '2017-03-16 00:00:00'),
-(1, 2, 1, 'Pcs', '2017-03-16 00:00:00'),
-(1, 3, 1, 'Rolls', '2017-03-16 00:00:00'),
-(1, 4, 2, 'Isuzu', '2017-03-16 00:00:00');
+INSERT INTO `parameter_description` (`description_id`, `company_id`, `item_id`, `description_name`, `date_created`) VALUES
+(1, 2, 1, 'Kgs', '2017-03-16 00:00:00'),
+(2, 2, 1, 'Pcs', '2017-03-16 00:00:00'),
+(3, 2, 1, 'Rolls', '2017-03-16 00:00:00'),
+(4, 2, 2, 'Isuzu', '2017-03-16 00:00:00'),
+(5, 2, 1, 'testing123EDITED', '2017-03-18 00:00:00'),
+(6, 2, 7, 'CLASSIF1', '2017-03-19 13:44:23'),
+(7, 2, 7, 'CLASSIF1.2', '2017-03-19 13:46:06'),
+(8, 2, 7, 'CLASSIF1.1', '2017-03-19 13:52:44'),
+(9, 2, 2, 'OPEL', '2017-03-19 13:58:58');
+
+--
+-- Triggers `parameter_description`
+--
+DELIMITER $$
+CREATE TRIGGER `parameter_description_date_time` BEFORE INSERT ON `parameter_description` FOR EACH ROW SET NEW.date_created = NOW()
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -94,11 +108,13 @@ CREATE TABLE `parameter_item` (
 
 INSERT INTO `parameter_item` (`company_id`, `item_id`, `item_name`, `date_created`) VALUES
 (2, 1, 'UNITS', '2017-03-16 00:00:00'),
-(2, 2, 'Vehicle MakeS', '2017-03-16 00:00:00'),
+(2, 2, 'VEHICLE MAKES', '2017-03-16 00:00:00'),
 (2, 3, 'CHASIS', '2017-03-16 09:12:08'),
 (2, 4, 'PARAM1', '2017-03-16 20:01:10'),
 (2, 5, 'GROUP', '2017-03-16 20:03:40'),
-(2, 6, 'PARAM2', '2017-03-16 20:13:20');
+(2, 6, 'PARAM1.1', '2017-03-16 20:13:20'),
+(2, 7, 'CLASSIFICATIONS', '2017-03-16 20:28:05'),
+(2, 8, 'PARAM1.2', '2017-03-18 20:24:31');
 
 --
 -- Triggers `parameter_item`
@@ -217,12 +233,12 @@ ALTER TABLE `group_master`
 -- AUTO_INCREMENT for table `parameter_description`
 --
 ALTER TABLE `parameter_description`
-  MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `parameter_item`
 --
 ALTER TABLE `parameter_item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `sub_groups`
 --
