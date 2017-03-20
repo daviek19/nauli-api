@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2017 at 05:16 AM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
+-- Generation Time: Mar 20, 2017 at 03:13 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.5.37
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `group_master` (
   `group_id` int(11) NOT NULL,
-  `sub_classification_id` int(11) NOT NULL,
+  `description_id` int(11) NOT NULL,
   `company_id` int(11) NOT NULL,
   `group_name` varchar(256) NOT NULL,
   `date_created` datetime NOT NULL
@@ -38,11 +38,12 @@ CREATE TABLE `group_master` (
 -- Dumping data for table `group_master`
 --
 
-INSERT INTO `group_master` (`group_id`, `sub_classification_id`, `company_id`, `group_name`, `date_created`) VALUES
+INSERT INTO `group_master` (`group_id`, `description_id`, `company_id`, `group_name`, `date_created`) VALUES
 (1, 6, 2, 'STEEL', '2017-03-12 00:00:00'),
-(2, 6, 2, 'CONSUMABLES', '2017-03-12 00:00:00'),
+(2, 7, 2, 'CONSUMABLES', '2017-03-12 00:00:00'),
 (3, 6, 2, 'PAINT', '2017-03-15 21:37:42'),
-(4, 6, 2, 'ALUMINIUMS', '2017-03-15 21:43:42');
+(4, 7, 2, 'ALUMINIUMS', '2017-03-15 21:43:42'),
+(5, 7, 2, 'test classif', '2017-03-20 17:06:30');
 
 --
 -- Triggers `group_master`
@@ -228,7 +229,7 @@ ALTER TABLE `warehouse`
 -- AUTO_INCREMENT for table `group_master`
 --
 ALTER TABLE `group_master`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `parameter_description`
 --

@@ -171,4 +171,18 @@ class Subparameters extends REST_Controller
         ], REST_Controller::HTTP_OK);
 
     }
+	
+	public function find_by_item_id_get(){
+		 $item_id = (int)$this->get('item_id');
+
+        log_message("debug", "*********** find_get start group_id {$item_id} ***********");
+
+        $result = $this->subparameters_model->get_subparameters_by_item_id($item_id);
+
+        $this->response([
+            'response' => $result,
+            'status' => TRUE,
+            'description' => 'To get all [/workshop/subgroups/group_id/] or to get single [/workshop/subgroups/find/group_id]'
+        ], REST_Controller::HTTP_OK);
+	}
 }

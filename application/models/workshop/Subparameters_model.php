@@ -151,4 +151,33 @@ class Subparameters_model extends CI_Model
 
         return $new_record->row();
     }
+	
+	public function get_subparameters_by_item_id($item_id){
+		
+		 log_message("debug", "*********** fetching get_subparameters_by_item_id ***********");
+
+        if (!empty($item_id)) {
+
+            $select_query =
+                "SELECT * FROM `parameter_description` JOIN `parameter_item` on parameter_description.item_id = parameter_item.item_id
+						 WHERE parameter_description.item_id = {$item_id};";
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->db->last_query());
+
+                log_message("debug", "found subparameters_by_parameter_id..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting subparameters_by_parameter_id.');
+
+                return FALSE;
+            }
+        } else {
+            //The department_id was empty
+            return FALSE;
+        }
+	}
 }

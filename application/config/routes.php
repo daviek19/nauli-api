@@ -112,6 +112,8 @@ $route['workshop/parameters/(:num)'] = 'workshop/parameters/index/company_id/$1'
 
 $route['workshop/subparameters/find/(:num)'] = 'workshop/subparameters/find/description_id/$1'; //GET
 $route['workshop/subparameters/(:num)'] = 'workshop/subparameters/index/company_id/$1'; //GET
+$route['workshop/subparameters/find_by_item_id/(:num)'] = 'workshop/subparameters/find_by_item_id/item_id/$1'; //GET
+
 
 $route['paygrades/(:num)'] = 'paygrades/index/company_id/$1'; //GET
 $route['paygrades/find/(:num)'] = 'paygrades/find/pay_grade_id/$1'; //GET

@@ -17,8 +17,11 @@ class Groups_model extends CI_Model
 
         log_message("debug", "*********** fetching get_all_groups ***********");
 
-        $select_query = "SELECT * FROM `group_master`
-					WHERE `company_id` IN (?,?) ORDER BY `date_created` DESC;";
+        $select_query = 					
+					"SELECT * FROM `group_master` JOIN `parameter_description` 
+					ON group_master.description_id = parameter_description.description_id 
+					WHERE group_master.company_id IN (?,?)
+					ORDER BY group_master.date_created DESC;";
 
         if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
 
@@ -41,8 +44,10 @@ class Groups_model extends CI_Model
 
         if (!empty($group_id)) {
 
-            $select_query = "SELECT * FROM `group_master`
-                        WHERE `group_id` = {$group_id};";
+            $select_query = 	
+				   "SELECT * FROM `group_master` JOIN `parameter_description` 
+					ON group_master.description_id = parameter_description.description_id 
+					WHERE group_master.group_id = {$group_id};";
 
             if ($query = $this->workshop_db->query($select_query)) {
 

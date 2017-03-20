@@ -14,6 +14,12 @@ curl -X GET localhost/rest-api/index.php/workshop/subparameters/2 -H "X-API-KEY:
 curl -X GET localhost/rest-api/index.php/workshop/subparameters/find/4 -H "X-API-KEY: 1234"
 curl -X PUT -d company_id=2 -d description_name=testing123 -d item_id=1 localhost/rest-api/index.php/workshop/subparameters -H "X-API-KEY: 1234"
 curl -X POST -d description_name=testing123EDITED -d description_id=5 -d item_id=1 localhost/rest-api/index.php/workshop/subparameters -H "X-API-KEY: 1234"
+curl -X GET localhost/rest-api/index.php/workshop/subparameters/find_by_item_id/7 -H "X-API-KEY: 1234" |json_pp
+curl -X GET localhost/rest-api/index.php/workshop/groups/2 -H "X-API-KEY: 1234" |json_pp
+curl -X GET localhost/rest-api/index.php/workshop/groups/find/2 -H "X-API-KEY: 1234" |json_pp
+
+
+
 
 
 
