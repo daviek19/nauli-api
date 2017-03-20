@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2017 at 03:13 PM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 5.5.37
+-- Generation Time: Mar 20, 2017 at 07:43 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -80,7 +80,9 @@ INSERT INTO `parameter_description` (`description_id`, `company_id`, `item_id`, 
 (6, 2, 7, 'CLASSIF1', '2017-03-19 13:44:23'),
 (7, 2, 7, 'CLASSIF1.2', '2017-03-19 13:46:06'),
 (8, 2, 7, 'CLASSIF1.1', '2017-03-19 13:52:44'),
-(9, 2, 2, 'OPEL', '2017-03-19 13:58:58');
+(9, 2, 2, 'OPEL', '2017-03-19 13:58:58'),
+(10, 2, 9, 'HEAD OFFICE', '2017-03-20 19:01:26'),
+(11, 2, 9, 'MSA OFFICE', '2017-03-20 19:01:44');
 
 --
 -- Triggers `parameter_description`
@@ -115,7 +117,8 @@ INSERT INTO `parameter_item` (`company_id`, `item_id`, `item_name`, `date_create
 (2, 5, 'GROUP', '2017-03-16 20:03:40'),
 (2, 6, 'PARAM1.1', '2017-03-16 20:13:20'),
 (2, 7, 'CLASSIFICATIONS', '2017-03-16 20:28:05'),
-(2, 8, 'PARAM1.2', '2017-03-18 20:24:31');
+(2, 8, 'PARAM1.2', '2017-03-18 20:24:31'),
+(2, 9, 'LOCATIONS', '2017-03-20 19:01:07');
 
 --
 -- Triggers `parameter_item`
@@ -168,8 +171,8 @@ CREATE TABLE `warehouse` (
   `wh_id` int(11) NOT NULL,
   `company_id` int(11) NOT NULL,
   `wh_name` varchar(256) NOT NULL,
-  `wh_loc` varchar(256) NOT NULL,
-  `active` char(1) NOT NULL,
+  `wh_loc` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL,
   `date_created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -178,7 +181,10 @@ CREATE TABLE `warehouse` (
 --
 
 INSERT INTO `warehouse` (`wh_id`, `company_id`, `wh_name`, `wh_loc`, `active`, `date_created`) VALUES
-(1, 1, 'MAIN WAREHOUSE', 'HO', 'Y', '2017-03-16 00:00:00');
+(1, 2, 'MAIN WAREHOUSE', 10, 1, '2017-03-16 00:00:00'),
+(2, 2, 'MBSA WAREHOUSE', 11, 0, '0000-00-00 00:00:00'),
+(3, 2, 'MAIN OLD WAREHOUSE', 10, 0, '0000-00-00 00:00:00'),
+(4, 2, 'MSA OLD WAREHOUSE', 11, 0, '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -234,12 +240,12 @@ ALTER TABLE `group_master`
 -- AUTO_INCREMENT for table `parameter_description`
 --
 ALTER TABLE `parameter_description`
-  MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `parameter_item`
 --
 ALTER TABLE `parameter_item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `sub_groups`
 --
@@ -249,7 +255,7 @@ ALTER TABLE `sub_groups`
 -- AUTO_INCREMENT for table `warehouse`
 --
 ALTER TABLE `warehouse`
-  MODIFY `wh_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `wh_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --

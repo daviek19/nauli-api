@@ -110,6 +110,9 @@ $route['workshop/subgroups/(:num)'] = 'workshop/subgroups/index/company_id/$1'; 
 $route['workshop/parameters/find/(:num)'] = 'workshop/parameters/find/item_id/$1'; //GET
 $route['workshop/parameters/(:num)'] = 'workshop/parameters/index/company_id/$1'; //GET
 
+$route['workshop/warehouses/find/(:num)'] = 'workshop/warehouses/find/wh_id/$1'; //GET
+$route['workshop/warehouses/(:num)'] = 'workshop/warehouses/index/company_id/$1'; //GET
+
 $route['workshop/subparameters/find/(:num)'] = 'workshop/subparameters/find/description_id/$1'; //GET
 $route['workshop/subparameters/(:num)'] = 'workshop/subparameters/index/company_id/$1'; //GET
 $route['workshop/subparameters/find_by_item_id/(:num)'] = 'workshop/subparameters/find_by_item_id/item_id/$1'; //GET
