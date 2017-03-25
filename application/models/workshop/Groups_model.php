@@ -17,8 +17,8 @@ class Groups_model extends CI_Model
 
         log_message("debug", "*********** fetching get_all_groups ***********");
 
-        $select_query = 					
-					"SELECT * FROM `group_master` JOIN `parameter_description` 
+        $select_query =
+            "SELECT * FROM `group_master` JOIN `parameter_description`
 					ON group_master.description_id = parameter_description.description_id 
 					WHERE group_master.company_id IN (?,?)
 					ORDER BY group_master.date_created DESC;";
@@ -44,14 +44,14 @@ class Groups_model extends CI_Model
 
         if (!empty($group_id)) {
 
-            $select_query = 	
-				   "SELECT * FROM `group_master` JOIN `parameter_description` 
+            $select_query =
+                "SELECT * FROM `group_master` JOIN `parameter_description`
 					ON group_master.description_id = parameter_description.description_id 
 					WHERE group_master.group_id = {$group_id};";
 
             if ($query = $this->workshop_db->query($select_query)) {
 
-                log_message("debug", $this->db->last_query());
+                log_message("debug", $this->workshop_db->last_query());
 
                 log_message("debug", "found group..." . json_encode($query->result()));
 
@@ -124,7 +124,7 @@ class Groups_model extends CI_Model
 
             return FALSE;
         }
-        log_message("debug", "update_group ".$this->workshop_db->last_query());
+        log_message("debug", "update_group " . $this->workshop_db->last_query());
         //All went well
         $new_record = $this->workshop_db->get_where('group_master', array('group_id' => $data['group_id']));
 
@@ -150,4 +150,33 @@ class Groups_model extends CI_Model
         }
     }
 
+    public function get_groups_by_classification($company_id = 0, $classification_id)
+    {
+        log_message("debug", "*********** fetching get_groups_by_classification ***********");
+
+        if (!empty($classification_id)) {
+
+            $select_query =
+                "SELECT * FROM `group_master` JOIN `parameter_description`
+					ON group_master.description_id = parameter_description.description_id
+					WHERE group_master.description_id = {$classification_id};";
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->workshop_db->last_query());
+
+                log_message("debug", "found group..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting group.');
+
+                return false;
+            }
+        } else {
+            //The department_id was empty
+            return FALSE;
+        }
+    }
 }

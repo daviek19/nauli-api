@@ -152,4 +152,31 @@ class Subgroups_model extends CI_Model
         }
     }
 
+    public function get_subgroup_by_group_id($company_id = '0', $group_id){
+        log_message("debug", "*********** fetching get_single_subgroup ***********");
+
+        if (!empty($group_id)) {
+
+            $select_query =
+                "SELECT * FROM `sub_groups` JOIN `group_master` on sub_groups.group_id = group_master.group_id
+						 WHERE sub_groups.group_id = {$group_id};";
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->db->last_query());
+
+                log_message("debug", "found subgroup..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting subgroup.');
+
+                return FALSE;
+            }
+        } else {
+            //The department_id was empty
+            return FALSE;
+        }
+    }
 }

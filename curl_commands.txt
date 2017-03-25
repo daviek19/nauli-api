@@ -1,5 +1,5 @@
 curl -X PUT -d company_id=2 -d department_name=testing123 localhost/rest-api/index.php/departments/ -H "X-API-KEY: 1234"
-$ curl -X GET -d company_id=0 localhost/rest-api/index.php/paygrades/3 -H "X-API-KEY: 1234" |json_pp
+curl -X GET -d company_id=0 localhost/rest-api/index.php/paygrades/3 -H "X-API-KEY: 1234" |json_pp
 curl -X GET localhost/rest-api/index.php/statutory/nhif -H "X-API-KEY: 1234" |json_pp
 curl -X GET localhost/rest-api/index.php/employees/types -H "X-API-KEY: 1234" |json_pp
 curl -X GET localhost/rest-api/index.php/payroll/generate_payroll_number/2 -H "X-API-KEY: 1234" |json_pp
@@ -9,7 +9,6 @@ curl -X PUT -d company_id=2 -d group_name=testing123 localhost/rest-api/index.ph
 curl -X POST -d subgroup_name=edited -d group_id=5 -d subgroup_id=2 localhost/rest-api/index.php/workshop/subgroups -H "X-API-KEY: 1234"
 curl -X GET localhost/rest-api/index.php/payroll/generate_payroll_number/2 -H "X-API-KEY: 1234"
 curl -X POST -d item_name=edited -d item_id=3 localhost/rest-api/index.php/workshop/parameters -H "X-API-KEY: 1234"
-
 curl -X GET localhost/rest-api/index.php/workshop/subparameters/2 -H "X-API-KEY: 1234"
 curl -X GET localhost/rest-api/index.php/workshop/subparameters/find/4 -H "X-API-KEY: 1234"
 curl -X PUT -d company_id=2 -d description_name=testing123 -d item_id=1 localhost/rest-api/index.php/workshop/subparameters -H "X-API-KEY: 1234"
@@ -17,11 +16,30 @@ curl -X POST -d description_name=testing123EDITED -d description_id=5 -d item_id
 curl -X GET localhost/rest-api/index.php/workshop/subparameters/find_by_item_id/7 -H "X-API-KEY: 1234" |json_pp
 curl -X GET localhost/rest-api/index.php/workshop/groups/2 -H "X-API-KEY: 1234" |json_pp
 curl -X GET localhost/rest-api/index.php/workshop/groups/find/2 -H "X-API-KEY: 1234" |json_pp
-
 curl -X GET localhost/rest-api/index.php/workshop/warehouses/2 -H "X-API-KEY: 1234"
 curl -X GET localhost/rest-api/index.php/workshop/warehouses/find/1 -H "X-API-KEY: 1234"
 curl -X PUT -d company_id=2 -d wh_name=testing123 -d wh_loc=10 localhost/rest-api/index.php/workshop/warehouses -H "X-API-KEY: 1234"
 curl -X POST -d wh_name=editedWarehouse -d wh_loc=10 -d wh_id=2 localhost/rest-api/index.php/workshop/warehouses -H "X-API-KEY: 1234"
+
+
+curl -X GET localhost/rest-api/index.php/workshop/items/2 -H "X-API-KEY: 1234"
+curl -X GET localhost/rest-api/index.php/workshop/items/find/1 -H "X-API-KEY: 1234"
+
+curl -X PUT -d company_id=2
+-d item_no=SHS00002
+-d item_name=SHS 50*50*3MM
+-d wh_id=1
+-d description_id=13
+-d group_id=1
+-d subgroup_id=NULL
+-d item_unit_id=2
+-d cost=2000
+-d reorder_qty=10
+-d min_qty=1
+-d active=1
+localhost/rest-api/index.php/workshop/items -H "X-API-KEY: 1234"
+
+
 
 
 

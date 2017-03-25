@@ -34,11 +34,26 @@ class Subgroups extends REST_Controller
 
     public function find_get()
     {
+        $subgroup_id = (int)$this->get('group_id');
+
+        log_message("debug", "*********** find_get start group_id {$subgroup_id} ***********");
+
+        $result = $this->subgroups_model->get_single_subgroup("", $subgroup_id);
+
+        $this->response([
+            'response' => $result,
+            'status' => TRUE,
+            'description' => 'To get all [/workshop/subgroups/group_id/] or to get single [/workshop/subgroups/find/group_id]'
+        ], REST_Controller::HTTP_OK);
+    }
+
+    public function find_subgroup_by_group_id_get()
+    {
         $group_id = (int)$this->get('group_id');
 
         log_message("debug", "*********** find_get start group_id {$group_id} ***********");
 
-        $result = $this->subgroups_model->get_single_subgroup("", $group_id);
+        $result = $this->subgroups_model->get_subgroup_by_group_id("", $group_id);
 
         $this->response([
             'response' => $result,

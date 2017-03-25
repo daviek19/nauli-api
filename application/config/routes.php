@@ -102,9 +102,11 @@ $route['departments/(:num)'] = 'departments/index/company_id/$1'; //GET
 //$route['departments/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'departments/index/id/$1/format/$3$4';//post
 
 $route['workshop/groups/find/(:num)'] = 'workshop/groups/find/group_id/$1'; //GET
+$route['workshop/groups/find_by_classification/(:num)'] = 'workshop/groups/find_by_classification/classification_id/$1'; //GET
 $route['workshop/groups/(:num)'] = 'workshop/groups/index/company_id/$1'; //GET
 
 $route['workshop/subgroups/find/(:num)'] = 'workshop/subgroups/find/group_id/$1'; //GET
+$route['workshop/subgroups/find_subgroup_by_group_id/(:num)'] = 'workshop/subgroups/find_subgroup_by_group_id/group_id/$1'; //GET
 $route['workshop/subgroups/(:num)'] = 'workshop/subgroups/index/company_id/$1'; //GET
 
 $route['workshop/parameters/find/(:num)'] = 'workshop/parameters/find/item_id/$1'; //GET
@@ -112,6 +114,9 @@ $route['workshop/parameters/(:num)'] = 'workshop/parameters/index/company_id/$1'
 
 $route['workshop/warehouses/find/(:num)'] = 'workshop/warehouses/find/wh_id/$1'; //GET
 $route['workshop/warehouses/(:num)'] = 'workshop/warehouses/index/company_id/$1'; //GET
+
+$route['workshop/items/find/(:num)'] = 'workshop/items/find/item_id/$1'; //GET
+$route['workshop/items/(:num)'] = 'workshop/items/index/company_id/$1'; //GET
 
 $route['workshop/subparameters/find/(:num)'] = 'workshop/subparameters/find/description_id/$1'; //GET
 $route['workshop/subparameters/(:num)'] = 'workshop/subparameters/index/company_id/$1'; //GET
