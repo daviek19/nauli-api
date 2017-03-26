@@ -25,8 +25,9 @@ curl -X POST -d wh_name=editedWarehouse -d wh_loc=10 -d wh_id=2 localhost/rest-a
 curl -X GET localhost/rest-api/index.php/workshop/items/2 -H "X-API-KEY: 1234"
 curl -X GET localhost/rest-api/index.php/workshop/items/find/1 -H "X-API-KEY: 1234"
 
-curl -X PUT -d company_id=2
--d item_no=SHS00002
+curl -X POST -d company_id=2
+-d item_id=SHS00xxx
+-d item_no=SHS00xxx
 -d item_name=SHS 50*50*3MM
 -d wh_id=1
 -d description_id=13
@@ -38,7 +39,6 @@ curl -X PUT -d company_id=2
 -d min_qty=1
 -d active=1
 localhost/rest-api/index.php/workshop/items -H "X-API-KEY: 1234"
-
 
 
 

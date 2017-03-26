@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2017 at 07:43 PM
+-- Generation Time: Mar 26, 2017 at 08:59 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -43,13 +43,54 @@ INSERT INTO `group_master` (`group_id`, `description_id`, `company_id`, `group_n
 (2, 7, 2, 'CONSUMABLES', '2017-03-12 00:00:00'),
 (3, 6, 2, 'PAINT', '2017-03-15 21:37:42'),
 (4, 7, 2, 'ALUMINIUMS', '2017-03-15 21:43:42'),
-(5, 7, 2, 'test classif', '2017-03-20 17:06:30');
+(5, 7, 2, 'test classif', '2017-03-20 17:06:30'),
+(6, 13, 2, 'WRENCH', '2017-03-25 17:55:09');
 
 --
 -- Triggers `group_master`
 --
 DELIMITER $$
 CREATE TRIGGER `group_master_date_time` BEFORE INSERT ON `group_master` FOR EACH ROW SET NEW.date_created = NOW()
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `items`
+--
+
+CREATE TABLE `items` (
+  `company_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `item_no` varchar(256) NOT NULL,
+  `item_name` varchar(256) NOT NULL,
+  `wh_id` int(11) NOT NULL,
+  `description_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `subgroup_id` int(11) DEFAULT NULL,
+  `item_unit_id` int(11) NOT NULL,
+  `cost` varchar(256) NOT NULL,
+  `reorder_qty` int(11) NOT NULL,
+  `min_qty` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`company_id`, `item_id`, `item_no`, `item_name`, `wh_id`, `description_id`, `group_id`, `subgroup_id`, `item_unit_id`, `cost`, `reorder_qty`, `min_qty`, `active`, `date_created`) VALUES
+(2, 1, 'SHS00001', 'SHS 40*40*3MM', 1, 13, 1, NULL, 2, '1500', 10, 1, 1, '2017-03-21 00:00:00'),
+(2, 2, 'SHS00002', 'SHS', 1, 13, 1, 0, 2, '2000', 10, 1, 1, '2017-03-28 00:00:00'),
+(2, 4, 'SHS00003', 'SH 10*10', 2, 7, 4, 3, 12, '2000', 10, 5, 1, '2017-03-25 00:00:00');
+
+--
+-- Triggers `items`
+--
+DELIMITER $$
+CREATE TRIGGER `items_date_time` BEFORE INSERT ON `items` FOR EACH ROW SET NEW.date_created = NOW()
 $$
 DELIMITER ;
 
@@ -72,17 +113,19 @@ CREATE TABLE `parameter_description` (
 --
 
 INSERT INTO `parameter_description` (`description_id`, `company_id`, `item_id`, `description_name`, `date_created`) VALUES
-(1, 2, 1, 'Kgs', '2017-03-16 00:00:00'),
-(2, 2, 1, 'Pcs', '2017-03-16 00:00:00'),
-(3, 2, 1, 'Rolls', '2017-03-16 00:00:00'),
-(4, 2, 2, 'Isuzu', '2017-03-16 00:00:00'),
-(5, 2, 1, 'testing123EDITED', '2017-03-18 00:00:00'),
-(6, 2, 7, 'CLASSIF1', '2017-03-19 13:44:23'),
-(7, 2, 7, 'CLASSIF1.2', '2017-03-19 13:46:06'),
-(8, 2, 7, 'CLASSIF1.1', '2017-03-19 13:52:44'),
-(9, 2, 2, 'OPEL', '2017-03-19 13:58:58'),
-(10, 2, 9, 'HEAD OFFICE', '2017-03-20 19:01:26'),
-(11, 2, 9, 'MSA OFFICE', '2017-03-20 19:01:44');
+(1, 2, 1, 'Kgs', '2017-03-23 20:47:19'),
+(2, 2, 1, 'Pcs', '2017-03-23 20:47:19'),
+(3, 2, 1, 'Rolls', '2017-03-23 20:47:19'),
+(4, 2, 2, 'Isuzu', '2017-03-23 20:47:19'),
+(5, 2, 1, '123EDITED', '2017-03-23 20:47:19'),
+(6, 2, 7, 'STATIONERY', '2017-03-23 20:47:19'),
+(7, 2, 7, 'TOOLS', '2017-03-23 20:47:19'),
+(8, 2, 7, 'FIXED ASSET', '2017-03-23 20:47:19'),
+(9, 2, 2, 'OPEL', '2017-03-23 20:47:19'),
+(10, 2, 9, 'HEAD OFFICE', '2017-03-23 20:47:19'),
+(11, 2, 9, 'MSA OFFICE', '2017-03-23 20:47:19'),
+(12, 2, 1, 'TEST UNIT', '2017-03-23 20:47:19'),
+(13, 2, 7, 'PARTS', '2017-03-23 20:47:19');
 
 --
 -- Triggers `parameter_description`
@@ -182,9 +225,9 @@ CREATE TABLE `warehouse` (
 
 INSERT INTO `warehouse` (`wh_id`, `company_id`, `wh_name`, `wh_loc`, `active`, `date_created`) VALUES
 (1, 2, 'MAIN WAREHOUSE', 10, 1, '2017-03-16 00:00:00'),
-(2, 2, 'MBSA WAREHOUSE', 11, 0, '0000-00-00 00:00:00'),
-(3, 2, 'MAIN OLD WAREHOUSE', 10, 0, '0000-00-00 00:00:00'),
-(4, 2, 'MSA OLD WAREHOUSE', 11, 0, '0000-00-00 00:00:00');
+(2, 2, 'MBSA WAREHOUSE', 11, 0, '2017-03-09 11:18:06'),
+(3, 2, 'MAIN OLD WAREHOUSE', 10, 0, '2017-03-13 05:13:00'),
+(4, 2, 'MSA OLD WAREHOUSE', 11, 0, '2017-03-29 06:00:00');
 
 --
 -- Indexes for dumped tables
@@ -197,6 +240,13 @@ ALTER TABLE `group_master`
   ADD PRIMARY KEY (`group_id`),
   ADD UNIQUE KEY `group_name` (`group_name`),
   ADD UNIQUE KEY `group_id` (`group_id`);
+
+--
+-- Indexes for table `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`item_id`),
+  ADD UNIQUE KEY `part_no` (`item_no`,`item_name`);
 
 --
 -- Indexes for table `parameter_description`
@@ -235,12 +285,17 @@ ALTER TABLE `warehouse`
 -- AUTO_INCREMENT for table `group_master`
 --
 ALTER TABLE `group_master`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `parameter_description`
 --
 ALTER TABLE `parameter_description`
-  MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `parameter_item`
 --
