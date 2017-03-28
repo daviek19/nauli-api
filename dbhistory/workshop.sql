@@ -1,11 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Mar 28, 2017 at 10:05 PM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -82,9 +74,7 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`company_id`, `item_id`, `item_no`, `item_name`, `wh_id`, `description_id`, `group_id`, `subgroup_id`, `item_unit_id`, `cost`, `reorder_qty`, `min_qty`, `active`, `date_created`) VALUES
-(2, 1, 'SHS00001', 'SHS 40*40*3MM', 1, 13, 1, NULL, 2, '1500', 10, 1, 1, '2017-03-21 00:00:00'),
-(2, 2, 'SHS00002', 'SHS', 1, 13, 1, 0, 2, '2000', 10, 1, 1, '2017-03-28 00:00:00'),
-(2, 4, 'SHS00003', 'SH 10*10', 2, 7, 4, 3, 12, '2000', 10, 5, 1, '2017-03-25 00:00:00');
+(2, 5, 'SHOO1', 'SH 10 * 45', 4, 7, 4, 3, 3, '2500', 10, 1, 1, '2017-03-27 16:25:26');
 
 --
 -- Triggers `items`
@@ -329,7 +319,7 @@ ALTER TABLE `group_master`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `parameter_description`
 --

@@ -1,11 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Mar 28, 2017 at 10:06 PM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -174,6 +166,7 @@ CREATE TABLE `logs` (
 --
 
 INSERT INTO `logs` (`id`, `uri`, `method`, `params`, `api_key`, `ip_address`, `time`, `rtime`, `authorized`, `response_code`) VALUES
+<<<<<<< HEAD
 (1, 'person/user/8', 'get', 'a:4:{s:2:\"id\";s:1:\"8\";s:4:\"Host\";s:9:\"localhost\";s:6:\"Accept\";s:3:\"*/*\";s:9:\"x-api-key\";s:4:\"1234\";}', '1234', '127.0.0.1', 1482951016, 0.131126, '1', 200),
 (2, 'company/company/2', 'get', 'a:10:{s:2:\"id\";s:1:\"2\";s:4:\"Host\";s:9:\"localhost\";s:10:\"Connection\";s:10:\"keep-alive\";s:13:\"Cache-Control\";s:8:\"no-cache\";s:10:\"User-Agent\";s:133:\"Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/49.0.2623.108 Chrome/49.0.2623.108 Safari/537.36\";s:9:\"X-API-KEY\";s:4:\"1234\";s:13:\"Postman-Token\";s:36:\"ff99cd9b-4da3-eff8-84c2-c24764d637b3\";s:6:\"Accept\";s:3:\"*/*\";s:15:\"Accept-Encoding\";s:19:\"gzip, deflate, sdch\";s:15:\"Accept-Language\";s:23:\"en-US,en;q=0.8,sw;q=0.6\";}', '1234', '::1', 1482951053, 0.207222, '1', 200),
 (3, 'person/user/8', 'get', 'a:4:{s:2:\"id\";s:1:\"8\";s:4:\"Host\";s:9:\"localhost\";s:6:\"Accept\";s:3:\"*/*\";s:9:\"x-api-key\";s:4:\"1234\";}', '1234', '127.0.0.1', 1482951086, 0.141541, '1', 200),
@@ -6141,6 +6134,70 @@ INSERT INTO `logs` (`id`, `uri`, `method`, `params`, `api_key`, `ip_address`, `t
 (5935, 'workshop/processes/2', 'get', 'a:4:{s:10:\"company_id\";s:1:\"2\";s:4:\"Host\";s:9:\"localhost\";s:6:\"Accept\";s:3:\"*/*\";s:9:\"X-API-KEY\";s:4:\"1234\";}', '1234', '127.0.0.1', 1490731328, 0.194011, '1', 200),
 (5936, 'person/user/8', 'get', 'a:4:{s:2:\"id\";s:1:\"8\";s:4:\"Host\";s:9:\"localhost\";s:6:\"Accept\";s:3:\"*/*\";s:9:\"X-API-KEY\";s:4:\"1234\";}', '1234', '127.0.0.1', 1490731384, 0.0900052, '1', 200),
 (5937, 'person/person/12.xml', 'get', 'a:5:{s:2:\"id\";s:2:\"12\";s:6:\"format\";s:3:\"xml\";s:4:\"Host\";s:9:\"localhost\";s:6:\"Accept\";s:3:\"*/*\";s:9:\"X-API-KEY\";s:4:\"1234\";}', '1234', '127.0.0.1', 1490731384, 0.156009, '1', 200);
+=======
+(5813, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620810, 0.776224, '1', 200),
+(5814, 'person/person/12.xml', 'get', 'a:5:{s:2:"id";s:2:"12";s:6:"format";s:3:"xml";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620811, 0.339248, '1', 200),
+(5815, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620822, 0.417802, '1', 200),
+(5816, 'person/person/12.xml', 'get', 'a:5:{s:2:"id";s:2:"12";s:6:"format";s:3:"xml";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620823, 0.291399, '1', 200),
+(5817, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620835, 0.468108, '1', 200),
+(5818, 'workshop/items/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620836, 0.667724, '1', 0),
+(5819, 'workshop/subparameters/find_by_item_id/9', 'get', 'a:4:{s:7:"item_id";s:1:"9";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620838, 0.55726, '1', 0),
+(5820, 'workshop/warehouses/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620838, 0.515268, '1', 0),
+(5821, 'workshop/subparameters/find_by_item_id/1', 'get', 'a:4:{s:7:"item_id";s:1:"1";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620839, 0.236009, '1', 0),
+(5822, 'workshop/subparameters/find_by_item_id/7', 'get', 'a:4:{s:7:"item_id";s:1:"7";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620840, 0.288047, '1', 0),
+(5823, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620996, 0.329723, '1', 200),
+(5824, 'workshop/items/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620997, 0.52029, '1', 200),
+(5825, 'workshop/subparameters/find_by_item_id/9', 'get', 'a:4:{s:7:"item_id";s:1:"9";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620998, 0.291875, '1', 200),
+(5826, 'workshop/warehouses/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620998, 0.292768, '1', 200),
+(5827, 'workshop/subparameters/find_by_item_id/1', 'get', 'a:4:{s:7:"item_id";s:1:"1";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490620999, 0.326717, '1', 200),
+(5828, 'workshop/subparameters/find_by_item_id/7', 'get', 'a:4:{s:7:"item_id";s:1:"7";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621000, 0.336674, '1', 200),
+(5829, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621024, 0.255379, '1', 200),
+(5830, 'workshop/items/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621024, 0.301455, '1', 200),
+(5831, 'workshop/subparameters/find_by_item_id/9', 'get', 'a:4:{s:7:"item_id";s:1:"9";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621025, 0.244996, '1', 200),
+(5832, 'workshop/warehouses/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621025, 0.296467, '1', 200),
+(5833, 'workshop/subparameters/find_by_item_id/1', 'get', 'a:4:{s:7:"item_id";s:1:"1";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621026, 0.325978, '1', 200),
+(5834, 'workshop/subparameters/find_by_item_id/7', 'get', 'a:4:{s:7:"item_id";s:1:"7";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621026, 0.289077, '1', 200),
+(5835, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621067, 0.239933, '1', 200),
+(5836, 'workshop/groups/find_by_classification/6', 'get', 'a:4:{s:17:"classification_id";s:1:"6";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621067, 0.331846, '1', 200),
+(5837, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621071, 0.209286, '1', 200),
+(5838, 'workshop/subgroups/find_subgroup_by_group_id/1', 'get', 'a:4:{s:8:"group_id";s:1:"1";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621071, 0.252886, '1', 200),
+(5839, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621097, 0.289292, '1', 200),
+(5840, 'workshop/groups/find_by_classification/7', 'get', 'a:4:{s:17:"classification_id";s:1:"7";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621097, 0.218903, '1', 200),
+(5841, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621100, 0.271898, '1', 200),
+(5842, 'workshop/subgroups/find_subgroup_by_group_id/4', 'get', 'a:4:{s:8:"group_id";s:1:"4";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621101, 0.237442, '1', 200),
+(5843, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621106, 0.275155, '1', 200),
+(5844, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621125, 0.216765, '1', 200),
+(5845, 'workshop/items', 'put', 'a:17:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:3:"206";s:10:"company_id";s:1:"2";s:7:"item_no";s:5:"SHOO1";s:9:"item_name";s:10:"SH 10 * 30";s:14:"description_id";s:1:"7";s:8:"group_id";s:1:"4";s:11:"subgroup_id";s:1:"3";s:5:"wh_id";s:1:"4";s:4:"cost";s:4:"2500";s:11:"reorder_qty";s:2:"10";s:12:"item_unit_id";s:1:"3";s:7:"min_qty";s:1:"1";s:6:"active";s:1:"1";}', '1234', '::1', 1490621126, 0.472563, '1', 201),
+(5846, 'workshop/items/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";}', '1234', '::1', 1490621126, 0.221878, '1', 200),
+(5847, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621132, 0.313239, '1', 200),
+(5848, 'workshop/items/find/5', 'get', 'a:4:{s:7:"item_id";s:1:"5";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621132, 0.216299, '1', 200),
+(5849, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621133, 0.231139, '1', 200),
+(5850, 'workshop/subgroups/find_subgroup_by_group_id/4', 'get', 'a:4:{s:8:"group_id";s:1:"4";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621134, 0.265075, '1', 200),
+(5851, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621134, 0.201838, '1', 200),
+(5852, 'workshop/groups/find_by_classification/7', 'get', 'a:4:{s:17:"classification_id";s:1:"7";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621135, 0.245317, '1', 200),
+(5853, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621140, 0.263372, '1', 200),
+(5854, 'workshop/items', 'post', 'a:17:{s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";s:14:"Content-Length";s:3:"203";s:7:"item_id";s:1:"5";s:7:"item_no";s:5:"SHOO1";s:9:"item_name";s:10:"SH 10 * 45";s:14:"description_id";s:1:"7";s:8:"group_id";s:1:"4";s:11:"subgroup_id";s:1:"3";s:5:"wh_id";s:1:"4";s:4:"cost";s:4:"2500";s:11:"reorder_qty";s:2:"10";s:12:"item_unit_id";s:1:"3";s:7:"min_qty";s:1:"1";s:6:"active";s:1:"1";}', '1234', '::1', 1490621140, 0.491406, '1', 200),
+(5855, 'workshop/items/2', 'get', 'a:5:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:16:"application/json";s:9:"X-API-KEY";s:4:"1234";s:12:"Content-type";s:16:"application/json";}', '1234', '::1', 1490621141, 0.306039, '1', 200),
+(5856, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621172, 0.252939, '1', 200),
+(5857, 'workshop/warehouses/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621173, 0.202569, '1', 200),
+(5858, 'workshop/subparameters/find_by_item_id/9', 'get', 'a:4:{s:7:"item_id";s:1:"9";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621173, 0.237632, '1', 200),
+(5859, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621178, 0.303881, '1', 200),
+(5860, 'workshop/items/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621179, 0.242224, '1', 200),
+(5861, 'workshop/subparameters/find_by_item_id/9', 'get', 'a:4:{s:7:"item_id";s:1:"9";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621179, 0.233452, '1', 200),
+(5862, 'workshop/warehouses/2', 'get', 'a:4:{s:10:"company_id";s:1:"2";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621180, 0.204752, '1', 200),
+(5863, 'workshop/subparameters/find_by_item_id/1', 'get', 'a:4:{s:7:"item_id";s:1:"1";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621180, 0.192743, '1', 200),
+(5864, 'workshop/subparameters/find_by_item_id/7', 'get', 'a:4:{s:7:"item_id";s:1:"7";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621180, 0.19943, '1', 200),
+(5865, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621195, 0.244649, '1', 200),
+(5866, 'workshop/items/find/5', 'get', 'a:4:{s:7:"item_id";s:1:"5";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621196, 0.309767, '1', 200),
+(5867, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621197, 0.239773, '1', 200),
+(5868, 'workshop/groups/find_by_classification/7', 'get', 'a:4:{s:17:"classification_id";s:1:"7";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621197, 0.234559, '1', 200),
+(5869, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621198, 0.336021, '1', 200),
+(5870, 'workshop/subgroups/find_subgroup_by_group_id/4', 'get', 'a:4:{s:8:"group_id";s:1:"4";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621198, 0.267538, '1', 200),
+(5871, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621203, 0.35297, '1', 200),
+(5872, 'workshop/groups/find_by_classification/13', 'get', 'a:4:{s:17:"classification_id";s:2:"13";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621204, 0.267517, '1', 200),
+(5873, 'person/user/8', 'get', 'a:4:{s:2:"id";s:1:"8";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621207, 0.221402, '1', 200),
+(5874, 'workshop/subgroups/find_subgroup_by_group_id/6', 'get', 'a:4:{s:8:"group_id";s:1:"6";s:4:"Host";s:9:"localhost";s:6:"Accept";s:3:"*/*";s:9:"X-API-KEY";s:4:"1234";}', '1234', '::1', 1490621207, 0.329083, '1', 200);
+>>>>>>> 8ebe1a3c94f42be003a7f20426224f3ebb263b24
 
 -- --------------------------------------------------------
 
@@ -6652,7 +6709,11 @@ ALTER TABLE `keys`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
+<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5938;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5875;
+>>>>>>> 8ebe1a3c94f42be003a7f20426224f3ebb263b24
 --
 -- AUTO_INCREMENT for table `payroll_earning_deduction_codes`
 --
