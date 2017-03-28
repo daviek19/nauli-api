@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2017 at 08:59 PM
+-- Generation Time: Mar 28, 2017 at 10:05 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -174,6 +174,38 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `process`
+--
+
+CREATE TABLE `process` (
+  `process_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `sequence` int(11) NOT NULL,
+  `process_name` varchar(256) NOT NULL,
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `process`
+--
+
+INSERT INTO `process` (`process_id`, `company_id`, `sequence`, `process_name`, `date_created`) VALUES
+(1, 2, 1, 'Chassis Preparation', '2017-03-28 00:00:00'),
+(2, 2, 2, 'Complete Framework', '2017-03-28 00:00:00'),
+(4, 2, 3, 'Complete Welding', '2017-03-28 10:30:10'),
+(5, 2, 4, 'Complete Paint Preparation', '2017-03-28 23:01:16');
+
+--
+-- Triggers `process`
+--
+DELIMITER $$
+CREATE TRIGGER `process_date_time` BEFORE INSERT ON `process` FOR EACH ROW SET NEW.date_created = NOW()
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sub_groups`
 --
 
@@ -263,6 +295,13 @@ ALTER TABLE `parameter_item`
   ADD UNIQUE KEY `item_name` (`item_name`);
 
 --
+-- Indexes for table `process`
+--
+ALTER TABLE `process`
+  ADD PRIMARY KEY (`process_id`),
+  ADD UNIQUE KEY `process name` (`process_name`);
+
+--
 -- Indexes for table `sub_groups`
 --
 ALTER TABLE `sub_groups`
@@ -301,6 +340,11 @@ ALTER TABLE `parameter_description`
 --
 ALTER TABLE `parameter_item`
   MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `process`
+--
+ALTER TABLE `process`
+  MODIFY `process_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `sub_groups`
 --

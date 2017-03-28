@@ -133,6 +133,8 @@ $route['employees/types'] = 'employees/types/';
 
 $route['payroll/generate_payroll_number/(:num)'] = 'payroll/generate_payroll_number/company_id/$1'; //GET
 
+$route['workshop/processes/find/(:num)'] = 'workshop/processes/find/process_id/$1'; //GET
+$route['workshop/processes/(:num)'] = 'workshop/processes/index/company_id/$1'; //GET
 
 
 
