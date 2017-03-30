@@ -8,3 +8,8 @@ vehicle_master
 -item_unit_id  --pcs
 -cost  --450000
 -make_id -- ISUZU
+-model_no --FRR33l
+-body_type--High Drop Side
+-make_year--2018
+-selling_price--500000
+-date_created 2017/12/12
