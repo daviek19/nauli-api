@@ -1,0 +1,10 @@
+vehicle_master
+-vehicle_id --1
+-company_id
+-vehicle_code
+-vehicle_name
+-description_id --> Group_id --Vehicles
+-group_id       -->description_id --51 seater bus
+-item_unit_id  --pcs
+-cost  --450000
+-make_id -- ISUZU
