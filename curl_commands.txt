@@ -20,10 +20,14 @@ curl -X GET localhost/rest-api/index.php/workshop/warehouses/2 -H "X-API-KEY: 12
 curl -X GET localhost/rest-api/index.php/workshop/warehouses/find/1 -H "X-API-KEY: 1234"
 curl -X PUT -d company_id=2 -d wh_name=testing123 -d wh_loc=10 localhost/rest-api/index.php/workshop/warehouses -H "X-API-KEY: 1234"
 curl -X POST -d wh_name=editedWarehouse -d wh_loc=10 -d wh_id=2 localhost/rest-api/index.php/workshop/warehouses -H "X-API-KEY: 1234"
-
-
 curl -X GET localhost/rest-api/index.php/workshop/items/2 -H "X-API-KEY: 1234"
 curl -X GET localhost/rest-api/index.php/workshop/items/find/1 -H "X-API-KEY: 1234"
+
+curl -X GET localhost/rest-api/index.php/workshop/processes/2 -H "X-API-KEY: 1234"
+curl -X GET localhost/rest-api/index.php/workshop/processes/find/1 -H "X-API-KEY: 1234"
+curl -X PUT -d company_id=2 -d sequence=1 -d process_name='complete welding' localhost/rest-api/index.php/workshop/processes -H "X-API-KEY: 1234"
+curl -X POST -d process_id=4 -d process_name='Complete Welding' -d sequence=3 -d company_id=2  localhost/rest-api/index.php/workshop/processes -H "X-API-KEY: 1234"
+
 
 curl -X POST -d company_id=2
 -d item_id=SHS00xxx
