@@ -28,21 +28,24 @@ curl -X GET localhost/rest-api/index.php/workshop/processes/find/1 -H "X-API-KEY
 curl -X PUT -d company_id=2 -d sequence=1 -d process_name='complete welding' localhost/rest-api/index.php/workshop/processes -H "X-API-KEY: 1234"
 curl -X POST -d process_id=4 -d process_name='Complete Welding' -d sequence=3 -d company_id=2  localhost/rest-api/index.php/workshop/processes -H "X-API-KEY: 1234"
 
+curl -X GET localhost/rest-api/index.php/workshop/vehicles/2 -H "X-API-KEY: 1234"
+curl -X GET localhost/rest-api/index.php/workshop/vehicles/find/1 -H "X-API-KEY: 1234"
 
-curl -X POST -d company_id=2
--d item_id=SHS00xxx
--d item_no=SHS00xxx
--d item_name=SHS 50*50*3MM
--d wh_id=1
--d description_id=13
--d group_id=1
--d subgroup_id=NULL
--d item_unit_id=2
--d cost=2000
--d reorder_qty=10
--d min_qty=1
--d active=1
-localhost/rest-api/index.php/workshop/items -H "X-API-KEY: 1234"
+
+curl -X POST
+-d vehicle_id=2
+-d vehicle_code=2222
+-d vehicle_name=2222
+-d group_id=222
+-d description_id=1
+-d item_unit_id=13
+-d selling_price=1
+-d cost=250000
+-d make_id=2
+-d model_no=2000
+-d body_type=10
+-d make_year=2024
+localhost/rest-api/index.php/workshop/vehicles -H "X-API-KEY: 1234"
 
 
 

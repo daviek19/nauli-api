@@ -4,14 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-class Items extends REST_Controller
+class Vehicles extends REST_Controller
 {
 
     function __construct()
     {
 
         parent::__construct();
-        $this->load->model('workshop/items_model');
+        $this->load->model('workshop/vehicles_model');
     }
 
     public function index_get()
@@ -21,26 +21,26 @@ class Items extends REST_Controller
 
         log_message("debug", "*********** index_get start company_id {$company_id} ***********");
 
-        $result = $this->items_model->get_all_items($company_id);
+        $result = $this->vehicles_model->get_all_vehicles($company_id);
 
         $this->response([
             'response' => $result,
             'status' => TRUE,
-            'description' => 'To get all [/workshop/items/company_id/] or to get single [/workshop/items/company_id/item_id]'
+            'description' => 'To get all [/workshop/vehicles/company_id/] or to get single [/workshop/vehicles/company_id/item_id]'
         ], REST_Controller::HTTP_OK);
 
     }
 
     public function find_get()
     {
-        $item_id = (int)$this->get('item_id');
+        $vehicle_id = (int)$this->get('vehicle_id');
 
-        $result = $this->items_model->get_single_item("", $item_id);
+        $result = $this->vehicles_model->get_single_vehicle("", $vehicle_id);
 
         $this->response([
             'response' => $result,
             'status' => TRUE,
-            'description' => 'To get all [/workshop/items/company_id/] or to get single [/workshop/items/company_id/item_id]'
+            'description' => 'To get all [/workshop/vehicles/company_id/] or to get single [/workshop/vehicles/company_id/item_id]'
         ], REST_Controller::HTTP_OK);
     }
 
@@ -48,59 +48,39 @@ class Items extends REST_Controller
     {
         $data = array(
             'company_id' => $this->put('company_id'),
-            'item_no' => $this->put('item_no'),
-            'item_name' => $this->put('item_name'),
-            'wh_id' => $this->put('wh_id'),
-            'description_id' => $this->put('description_id'),
+            'vehicle_code' => $this->put('vehicle_code'),
+            'vehicle_name' => $this->put('vehicle_name'),
             'group_id' => $this->put('group_id'),
-            'subgroup_id' => $this->put('subgroup_id'),
+            'description_id' => $this->put('description_id'),
             'item_unit_id' => $this->put('item_unit_id'),
+            'selling_price' => $this->put('selling_price'),
             'cost' => $this->put('cost'),
-            'reorder_qty' => $this->put('reorder_qty'),
-            'min_qty' => $this->put('min_qty'),
-            'active' => $this->put('active')
+            'make_id' => $this->put('make_id'),
+            'model_no' => $this->put('model_no'),
+            'body_type' => $this->put('body_type'),
+            'make_year' => $this->put('make_year')
         );
 
         log_message("debug", "Getting ready to insert... " . json_encode($data));
 
-        if (empty($data['item_no'])) {
+        if (empty($data['vehicle_code'])) {
 
-            log_message("debug", "index_put Trying to insert empty item no ... ");
-
-            return $this->response([
-                'status' => FALSE,
-                'message' => 'Trying to create empty part_no',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
-        }
-
-        if (empty($data['item_name'])) {
-
-            log_message("debug", "index_put Trying to insert item_name... ");
+            log_message("debug", "index_put Trying to insert empty vehicle_code... ");
 
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty location',
+                'message' => 'Trying to create empty vehicle_code',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
+        if (empty($data['vehicle_name'])) {
 
-        if (empty($data['wh_id'])) {
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty warehouse location',
+                'message' => 'Trying to create with empty vehicle name',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-
-        if (empty($data['description_id'])) {
-            return $this->response([
-                'status' => FALSE,
-                'message' => 'Trying to create with empty item classification',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
-        }
-
         if (empty($data['group_id'])) {
             return $this->response([
                 'status' => FALSE,
@@ -108,7 +88,13 @@ class Items extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-
+        if (empty($data['description_id'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Trying to create with empty item classification',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
         if (empty($data['item_unit_id'])) {
             return $this->response([
                 'status' => FALSE,
@@ -116,7 +102,13 @@ class Items extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-
+        if (empty($data['selling_price'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Trying to create with empty selling_price',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
         if (empty($data['cost'])) {
             return $this->response([
                 'status' => FALSE,
@@ -124,34 +116,46 @@ class Items extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-
-        if (empty($data['cost'])) {
+        if (empty($data['make_id'])) {
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty reorder_qty',
+                'message' => 'Trying to create with empty make_id',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        if (empty($data['model_no'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Trying to create with empty model_no',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        if (empty($data['body_type'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Trying to create with empty body_type',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        if (empty($data['make_year'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Trying to create with empty make_year',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        if (empty($data['min_qty'])) {
-            return $this->response([
-                'status' => FALSE,
-                'message' => 'Trying to create with empty min_qty',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
-        }
-
-        if ($this->items_model->item_exists($data['item_name'], $data['company_id']) == TRUE) {
+        if ($this->vehicles_model->vehicle_exists($data['vehicle_name'], $data['company_id']) == TRUE) {
 
             return $this->response([
                 'response' => $data,
                 'status' => FALSE,
-                'message' => 'Trying to duplicate a item name',
+                'message' => 'Trying to duplicate a vehicle name',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        $response = $this->items_model->create_item($data);
+        $response = $this->vehicles_model->create_vehicle($data);
 
         if ($response == FALSE) {
 
@@ -165,43 +169,44 @@ class Items extends REST_Controller
             ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        log_message("debug", "index_put Record created!... ");
-
         return $this->response([
             'response' => $response,
             'status' => true,
-            'message' => 'Item created!',
-            'description' => 'create group put/ {company_id,warehouse_name,wh_loc_id} name cannot be null'
+            'message' => 'vehicle created!',
+            'description' => ''
         ], REST_Controller::HTTP_CREATED);
     }
 
     public function index_post()
     {
         $data = [
-            'item_id' => $this->post('item_id'), // Automatically generated by the model
-            'item_no' => $this->post('item_no'),
-            'item_name' => $this->post('item_name'),
-            'wh_id' => $this->post('wh_id'),
-            'description_id' => $this->post('description_id'),
+            'vehicle_id' => $this->post('vehicle_id'), // Automatically generated by the model
+            'vehicle_code' => $this->post('vehicle_code'),
+            'vehicle_name' => $this->post('vehicle_name'),
             'group_id' => $this->post('group_id'),
-            'subgroup_id' => $this->post('subgroup_id'),
+            'description_id' => $this->post('description_id'),
             'item_unit_id' => $this->post('item_unit_id'),
+            'selling_price' => $this->post('selling_price'),
             'cost' => $this->post('cost'),
-            'reorder_qty' => $this->post('reorder_qty'),
-            'min_qty' => $this->post('min_qty'),
-            'active' => $this->post('active')
+            'make_id' => $this->post('make_id'),
+            'model_no' => $this->post('model_no'),
+            'body_type' => $this->post('body_type'),
+            'make_year' => $this->post('make_year')
         ];
 
-        if (empty($data['item_id']) ||
-            empty($data['item_no']) ||
-            empty($data['item_name']) ||
-            empty($data['wh_id']) ||
+        if (empty($data['vehicle_id']) ||
+            empty($data['vehicle_code']) ||
+            empty($data['vehicle_name']) ||
+            empty($data['group_id']) ||
             empty($data['description_id']) ||
             empty($data['item_unit_id']) ||
+            empty($data['selling_price']) ||
             empty($data['cost']) ||
-            empty($data['reorder_qty']) ||
-            empty($data['min_qty']) ||
-            empty($data['active'])) {
+            empty($data['make_id']) ||
+            empty($data['model_no']) ||
+            empty($data['body_type']) ||
+            empty($data['make_year'])
+        ) {
 
             return $this->response([
                 'response' => $data,
@@ -211,19 +216,19 @@ class Items extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        if ($this->items_model->item_id_exists($data['item_id']) != TRUE) {
+        if ($this->vehicles_model->vehicle_id_exists($data['vehicle_id']) != TRUE) {
 
             log_message("debug", "index_POST Record does not exist... ");
 
             return $this->response([
                 'response' => $data,
                 'status' => FALSE,
-                'message' => 'This warehouse you are trying to update does not exist',
-                'description' => 'Update group post/ {wh_id,wh_name,wh_loc} name and id cannot be null'
+                'message' => 'This vehicle you are trying to update does not exist',
+                'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        $response = $this->items_model->update_item($data);
+        $response = $this->vehicles_model->update_vehicle($data);
 
         if ($response == FALSE) {
 
@@ -240,7 +245,7 @@ class Items extends REST_Controller
         return $this->response([
             'response' => $response,
             'status' => TRUE,
-            'message' => 'Item Updated!',
+            'message' => 'vehicle Updated!',
             'description' => ''
         ], REST_Controller::HTTP_OK);
 
