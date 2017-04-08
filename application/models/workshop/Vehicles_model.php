@@ -21,6 +21,7 @@ class Vehicles_model extends CI_Model
     , `vehicle_master`.`vehicle_code`
     , `vehicle_master`.`vehicle_name`
     , `vehicle_master`.`group_id`
+    , `vehicle_type`.`group_name` AS group_id_name
     , `vehicle_master`.`description_id`
     , `vehicle`.`description_name`
     , `vehicle_master`.`item_unit_id`
@@ -34,9 +35,12 @@ class Vehicles_model extends CI_Model
     , `vehicle_master`.`body_type`
     , `body`.`description_name` AS body_type_name
     , `vehicle_master`.`make_year`
+	, `year`.`description_name` AS make_year_name
     , `vehicle_master`.`date_created`
 FROM
     `workshop`.`vehicle_master`
+	INNER JOIN `workshop`.`group_master` AS `vehicle_type`
+        ON (`vehicle_master`.`group_id` = `vehicle_type`.`group_id`)
     INNER JOIN `workshop`.`parameter_description` AS `vehicle`
         ON (`vehicle_master`.`description_id` = `vehicle`.`description_id`)
     INNER JOIN `workshop`.`parameter_description` AS `units`
@@ -47,6 +51,8 @@ FROM
         ON (`vehicle_master`.`model_no` = `model`.`description_id`)
     INNER JOIN `workshop`.`parameter_description` AS `body`
         ON (`vehicle_master`.`body_type` = `body`.`description_id`)
+    INNER JOIN `workshop`.`parameter_description` AS `year`
+        ON (`vehicle_master`.`make_year` = `year`.`description_id`)
         WHERE `vehicle_master`.`company_id` IN (?,?);";
 
         if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
@@ -75,6 +81,7 @@ FROM
     , `vehicle_master`.`vehicle_code`
     , `vehicle_master`.`vehicle_name`
     , `vehicle_master`.`group_id`
+	, `vehicle_type`.`group_name` AS group_id_name
     , `vehicle_master`.`description_id`
     , `vehicle`.`description_name`
     , `vehicle_master`.`item_unit_id`
@@ -88,9 +95,12 @@ FROM
     , `vehicle_master`.`body_type`
     , `body`.`description_name` AS body_type_name
     , `vehicle_master`.`make_year`
+	, `year`.`description_name` AS make_year_name
     , `vehicle_master`.`date_created`
 FROM
     `workshop`.`vehicle_master`
+	INNER JOIN `workshop`.`group_master` AS `vehicle_type`
+        ON (`vehicle_master`.`group_id` = `vehicle_type`.`group_id`)
     INNER JOIN `workshop`.`parameter_description` AS `vehicle`
         ON (`vehicle_master`.`description_id` = `vehicle`.`description_id`)
     INNER JOIN `workshop`.`parameter_description` AS `units`
@@ -101,6 +111,8 @@ FROM
         ON (`vehicle_master`.`model_no` = `model`.`description_id`)
     INNER JOIN `workshop`.`parameter_description` AS `body`
         ON (`vehicle_master`.`body_type` = `body`.`description_id`)
+    INNER JOIN `workshop`.`parameter_description` AS `year`
+        ON (`vehicle_master`.`make_year` = `year`.`description_id`)
         WHERE `vehicle_master`.`vehicle_id` = {$vehicle_id};";
 
             if ($query = $this->workshop_db->query($select_query)) {
