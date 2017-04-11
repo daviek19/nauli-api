@@ -139,6 +139,8 @@ $route['workshop/processes/(:num)'] = 'workshop/processes/index/company_id/$1'; 
 $route['workshop/vehicles/find/(:num)'] = 'workshop/vehicles/find/vehicle_id/$1'; //GET
 $route['workshop/vehicles/(:num)'] = 'workshop/vehicles/index/company_id/$1'; //GET
 
+$route['workshop/boqs/find/(:num)'] = 'workshop/boqs/find/boq_id/$1'; //GET
+$route['workshop/boqs/(:num)'] = 'workshop/boqs/index/company_id/$1'; //GET
 
 
 
