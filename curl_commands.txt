@@ -53,6 +53,13 @@ curl -X POST -d boq_id=4 -d vehicle_id=2 -d section_id=38 -d item_id=2 -d qty=20
 curl -X GET localhost/rest-api/index.php/workshop/boqs/2 -H "X-API-KEY: 1234"
 curl -X GET localhost/rest-api/index.php/workshop/boqs/find/1 -H "X-API-KEY: 1234"
 
+curl -X GET localhost/rest-api/index.php/workshop/banks/2 -H "X-API-KEY: 1234"
+curl -X GET localhost/rest-api/index.php/workshop/banks/find/1 -H "X-API-KEY: 1234"
+curl -X PUT -d company_id=2 -d bank_name=EQUITYBANK -d branch_code=001 -d branch_name='MOI-AVE' localhost/rest-api/index.php/workshop/banks -H "X-API-KEY: 1234"
+curl -X POST -d bank_id=1 -d bank_name='EQUITY BANK' -d branch_code=001 -d branch_name='MOI-AVE' localhost/rest-api/index.php/workshop/banks -H "X-API-KEY: 1234"
+
+
+
 
 
 
