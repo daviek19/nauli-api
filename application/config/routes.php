@@ -145,6 +145,9 @@ $route['workshop/boqs/(:num)'] = 'workshop/boqs/index/company_id/$1'; //GET
 $route['workshop/banks/find/(:num)'] = 'workshop/banks/find/bank_id/$1'; //GET
 $route['workshop/banks/(:num)'] = 'workshop/banks/index/company_id/$1'; //GET
 
+$route['workshop/contractors/find/(:num)'] = 'workshop/contractors/find/contractor_id/$1'; //GET
+$route['workshop/contractors/(:num)'] = 'workshop/contractors/index/company_id/$1'; //GET
+
 
 
 

@@ -58,6 +58,15 @@ curl -X GET localhost/rest-api/index.php/workshop/banks/find/1 -H "X-API-KEY: 12
 curl -X PUT -d company_id=2 -d bank_name=EQUITYBANK -d branch_code=001 -d branch_name='MOI-AVE' localhost/rest-api/index.php/workshop/banks -H "X-API-KEY: 1234"
 curl -X POST -d bank_id=1 -d bank_name='EQUITY BANK' -d branch_code=001 -d branch_name='MOI-AVE' localhost/rest-api/index.php/workshop/banks -H "X-API-KEY: 1234"
 
+curl -X GET localhost/rest-api/index.php/workshop/contractors/2 -H "X-API-KEY: 1234"
+curl -X GET localhost/rest-api/index.php/workshop/contractors/find/1 -H "X-API-KEY: 1234"
+curl -X PUT -d company_id=2 -d location_id=53 -d contractor_name='david' -d id_no=28452155 -d pin_no='P23F56' -d mobile_no='254729003109' -d section_id=37 -d bank_id=1  localhost/rest-api/index.php/workshop/contractors -H "X-API-KEY: 1234"
+curl -X POST -d company_id=2 -d location_id=53 -d contractor_name='david' -d id_no=28452155 -d pin_no='P23F56' -d mobile_no='254729003119' -d section_id=37 -d bank_id=1 -d active=1 localhost/rest-api/index.php/workshop/contractors -H "X-API-KEY: 1234"
+
+
+
+
+
 
 
 
