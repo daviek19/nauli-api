@@ -199,7 +199,7 @@ class Customers_model extends CI_Model
         return $new_record->row();
     }
 	
-	public function contractor_id_exists($customer_id)
+	public function customer_id_exists($customer_id)
     {
         $this->workshop_db->where('customer_id', $customer_id);
 

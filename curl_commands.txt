@@ -63,26 +63,5 @@ curl -X GET localhost/rest-api/index.php/workshop/contractors/find/1 -H "X-API-K
 curl -X PUT -d company_id=2 -d location_id=53 -d contractor_name='david' -d id_no=28452155 -d pin_no='P23F56' -d mobile_no='254729003109' -d section_id=37 -d bank_id=1  localhost/rest-api/index.php/workshop/contractors -H "X-API-KEY: 1234"
 curl -X POST -d company_id=2 -d location_id=53 -d contractor_name='david' -d id_no=28452155 -d pin_no='P23F56' -d mobile_no='254729003119' -d section_id=37 -d bank_id=1 -d active=1 localhost/rest-api/index.php/workshop/contractors -H "X-API-KEY: 1234"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+curl -X GET localhost/rest-api/index.php/workshop/customers/2 -H "X-API-KEY: 1234"
+curl -X GET localhost/rest-api/index.php/workshop/customers/find/1 -H "X-API-KEY: 1234"

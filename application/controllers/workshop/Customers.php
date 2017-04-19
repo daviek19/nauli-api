@@ -12,10 +12,10 @@ class Customers extends REST_Controller
         parent::__construct();
         $this->load->model('workshop/customers_model');
     }
-	
-	public function index_get()
+
+    public function index_get()
     {
-		
+
         //Get params
         $company_id = (int)$this->get('company_id');
 
@@ -30,8 +30,8 @@ class Customers extends REST_Controller
         ], REST_Controller::HTTP_OK);
 
     }
-	
-	public function find_get()
+
+    public function find_get()
     {
         $customer_id = (int)$this->get('customer_id');
 
@@ -43,8 +43,8 @@ class Customers extends REST_Controller
             'description' => 'To get all [/workshop/customers/company_id/] or to get single [/workshop/customers/company_id/bank_id]'
         ], REST_Controller::HTTP_OK);
     }
-	
-	    public function index_put()
+
+    public function index_put()
     {
         $data = array(
             'company_id' => $this->put('company_id'),
@@ -59,10 +59,10 @@ class Customers extends REST_Controller
             'contact_no' => $this->put('contact_no'),
             'customer_type_id' => $this->put('customer_type_id'),
             'credit_limit' => $this->put('credit_limit'),
-			'email' => $this->put('email'),
+            'email' => $this->put('email'),
             'mobile_no' => $this->put('mobile_no'),
             'customer_category_id' => $this->put('customer_category_id'),
-			'user_id' => $this->put('user_id')
+            'user_id' => $this->put('user_id')
         );
 
         log_message("debug", "Getting ready to insert... " . json_encode($data));
@@ -124,31 +124,33 @@ class Customers extends REST_Controller
                 'message' => 'Trying to create with no customer type',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
-        }       
-		if (empty($data['pin_no'])) {
+        }
+        if (empty($data['mobile_no'])) {
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty Pin details',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
-        }        if (empty($data['pin_no'])) {
-            return $this->response([
-                'status' => FALSE,
-                'message' => 'Trying to create with empty Pin details',
+                'message' => 'Trying to create with empty mobile number',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-        if ($this->contractors_model->contractor_exists($data['contractor_name'], $data['company_id']) == TRUE) {
+        if (empty($data['customer_category_id'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Trying to create with empty Customer Category',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if ($this->customers_model->customer_exists($data['customer_name'], $data['company_id']) == TRUE) {
 
             return $this->response([
                 'response' => $data,
                 'status' => FALSE,
-                'message' => 'Trying to duplicate a Contractor ',
+                'message' => 'Trying to duplicate a customer ',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        $response = $this->contractors_model->create_contractor($data);
+        $response = $this->customers_model->create_customer($data);
 
         if ($response == FALSE) {
 
@@ -165,8 +167,77 @@ class Customers extends REST_Controller
         return $this->response([
             'response' => $response,
             'status' => true,
-            'message' => 'Contractor created!',
+            'message' => 'Customer created!',
             'description' => ''
         ], REST_Controller::HTTP_CREATED);
     }
+
+    public function index_post()
+    {
+        $data = [
+            'customer_id' => $this->post('customer_id'),
+            'customer_name' => $this->post('customer_name'),
+            'bill_address' => $this->post('bill_address'),
+            'region_id' => $this->post('region_id'),
+            'city_id' => $this->post('city_id'),
+            'country_id' => $this->post('country_id'),
+            'currency_id' => $this->post('currency_id'),
+            'pin_no' => $this->post('pin_no'),
+            'contact_person' => $this->post('contact_person'),
+            'contact_no' => $this->post('contact_no'),
+            'customer_type_id' => $this->post('customer_type_id'),
+            'credit_limit' => $this->post('credit_limit'),
+            'email' => $this->post('email'),
+            'mobile_no' => $this->post('mobile_no'),
+            'customer_category_id' => $this->post('customer_category_id')
+        ];
+
+        if (empty($data['customer_id']) ||
+            empty($data['customer_name']) ||
+            empty($data['region_id']) ||
+            empty($data['city_id']) ||
+            empty($data['currency_id']) ||
+            empty($data['customer_type_id']) ||
+            empty($data['customer_category_id']) ||
+            empty($data['pin_no'])
+        ) {
+
+            return $this->response([
+                'response' => $data,
+                'status' => FALSE,
+                'message' => 'Customer Name,region,city,currency, type,category and pin are required.',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if ($this->customers_model->customer_id_exists($data['customer_id']) != TRUE) {
+
+            return $this->response([
+                'response' => $data,
+                'status' => FALSE,
+                'message' => 'This Customer you are trying to update does not exist',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        $response = $this->customers_model->update_customer($data);
+
+        if ($response == FALSE) {
+
+            return $this->response([
+                'response' => $data,
+                'status' => FALSE,
+                'message' => 'Database refused. Try again!',
+                'description' => ''
+            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->response([
+            'response' => $response,
+            'status' => TRUE,
+            'message' => 'Customer Updated!',
+            'description' => ''
+        ], REST_Controller::HTTP_OK);
+    }
+
 }
