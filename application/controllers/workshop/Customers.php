@@ -58,7 +58,7 @@ class Customers extends REST_Controller
             'contact_person' => $this->put('contact_person'),
             'contact_no' => $this->put('contact_no'),
             'customer_type_id' => $this->put('customer_type_id'),
-            'credit_limit' => $this->put('credit_limit'),
+            'credit_limit' => str_replace(',', '', $this->put('credit_limit')),
             'email' => $this->put('email'),
             'mobile_no' => $this->put('mobile_no'),
             'customer_category_id' => $this->put('customer_category_id'),
@@ -186,7 +186,7 @@ class Customers extends REST_Controller
             'contact_person' => $this->post('contact_person'),
             'contact_no' => $this->post('contact_no'),
             'customer_type_id' => $this->post('customer_type_id'),
-            'credit_limit' => $this->post('credit_limit'),
+            'credit_limit' => str_replace(',', '', $this->post('credit_limit')),
             'email' => $this->post('email'),
             'mobile_no' => $this->post('mobile_no'),
             'customer_category_id' => $this->post('customer_category_id')
