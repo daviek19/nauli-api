@@ -65,3 +65,6 @@ curl -X POST -d company_id=2 -d location_id=53 -d contractor_name='david' -d id_
 
 curl -X GET localhost/rest-api/index.php/workshop/customers/2 -H "X-API-KEY: 1234"
 curl -X GET localhost/rest-api/index.php/workshop/customers/find/1 -H "X-API-KEY: 1234"
+
+curl -X GET localhost/rest-api/index.php/workshop/customer_vehicles/2 -H "X-API-KEY: 1234"
+curl -X GET localhost/rest-api/index.php/workshop/customer_vehicles/find/1 -H "X-API-KEY: 1234"

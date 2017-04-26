@@ -151,6 +151,9 @@ $route['workshop/contractors/(:num)'] = 'workshop/contractors/index/company_id/$
 $route['workshop/customers/find/(:num)'] = 'workshop/customers/find/customer_id/$1'; //GET
 $route['workshop/customers/(:num)'] = 'workshop/customers/index/company_id/$1'; //GET
 
+$route['workshop/customer_vehicles/find/(:num)'] = 'workshop/customer_vehicles/find/customer_vehicle_id/$1'; //GET
+$route['workshop/customer_vehicles/(:num)'] = 'workshop/customer_vehicles/index/company_id/$1'; //GET
+
 
 
 
