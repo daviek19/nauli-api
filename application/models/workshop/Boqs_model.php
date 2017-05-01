@@ -34,7 +34,7 @@ FROM
     LEFT JOIN `workshop`.`parameter_description` AS `section`
         ON (`boq`.`section_id` = `section`.`description_id`)
     LEFT JOIN `workshop`.`items` AS `item`
-        ON (`boq`.`item_id` = `item`.`item_id`) WHERE `boq`.`company_id` IN (?,?);";
+        ON (`boq`.`item_id` = `item`.`item_id`) WHERE `boq`.`company_id` IN (?,?) ORDER BY `boq`.`date_created` DESC;";
 
         if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
 
