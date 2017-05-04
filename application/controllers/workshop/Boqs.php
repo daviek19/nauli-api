@@ -187,4 +187,20 @@ class Boqs extends REST_Controller
 
     }
 
+    public function get_by_section_get()
+    {
+        $vehicle_id = (int)$this->get('vehicle_id');
+        $section_id = (int)$this->get('section_id');
+        $company_id = (int)$this->get('company_id');
+
+        $boq_items = $this->boqs_model->get_vehicle_section_boqs($section_id, $vehicle_id);
+        $boq_missing_items = $this->boqs_model->get_missing_items($section_id, $vehicle_id, $company_id);
+
+        $this->response([
+            'response' => $boq_items,
+            'missing_items' => $boq_missing_items,
+            'status' => TRUE,
+            'description' => ''
+        ], REST_Controller::HTTP_OK);
+    }
 }

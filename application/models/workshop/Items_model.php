@@ -106,7 +106,7 @@ WHERE  `items`.`item_id` = {$item_id};";
 
             if ($query = $this->workshop_db->query($select_query)) {
 
-                log_message("debug", "fetch item query...".$this->db->last_query());
+                log_message("debug", "fetch item query..." . $this->db->last_query());
 
                 log_message("debug", "found item..." . json_encode($query->result()));
 

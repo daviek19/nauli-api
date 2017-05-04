@@ -24,6 +24,7 @@ class Boqs_model extends CI_Model
     , `section`.`description_name`
     , `boq`.`item_id`
     , `item`.`item_name`
+	, `item`.`item_no`
     , `boq`.`qty`
     , `boq`.`user_id`
     , `boq`.`date_created`
@@ -65,6 +66,7 @@ FROM
     , `section`.`description_name`
     , `boq`.`item_id`
     , `item`.`item_name`
+	, `item`.`item_no`
     , `boq`.`qty`
     , `boq`.`user_id`
     , `boq`.`date_created`
@@ -76,6 +78,85 @@ FROM
         ON (`boq`.`section_id` = `section`.`description_id`)
     LEFT JOIN `workshop`.`items` AS `item`
         ON (`boq`.`item_id` = `item`.`item_id`) WHERE `boq`.`boq_id` = {$boq_id};";
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->workshop_db->last_query());
+
+                log_message("debug", "found boq..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting boq.');
+
+                return false;
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function get_vehicle_section_boqs($section_id, $vehicle_id)
+    {
+        if (!empty($section_id) || !empty($vehicle_id)) {
+
+            $select_query =
+                "SELECT
+    `boq`.`boq_id`
+    , `boq`.`company_id`
+    , `boq`.`vehicle_id`
+    , `boq`.`section_id`
+    , `vehicle`.`vehicle_name`
+    , `section`.`description_name`
+    , `boq`.`item_id`
+    , `item`.`item_name`
+	, `item`.`item_no`
+    , `boq`.`qty`
+    , `boq`.`user_id`
+    , `boq`.`date_created`
+FROM
+    `workshop`.`boq`
+    LEFT JOIN `workshop`.`vehicle_master` AS `vehicle`
+        ON (`boq`.`vehicle_id` = `vehicle`.`vehicle_id`)
+    LEFT JOIN `workshop`.`parameter_description` AS `section`
+        ON (`boq`.`section_id` = `section`.`description_id`)
+    LEFT JOIN `workshop`.`items` AS `item`
+        ON (`boq`.`item_id` = `item`.`item_id`) 
+        WHERE `boq`.`vehicle_id` = {$vehicle_id} AND  `boq`.`section_id` = {$section_id}";
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->workshop_db->last_query());
+
+                log_message("debug", "found boq..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting boq.');
+
+                return false;
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function get_missing_items($section_id, $vehicle_id, $company_id)
+    {
+        if (!empty($section_id) || !empty($vehicle_id) || !empty($company_id)) {
+
+            $select_query =
+                "SELECT item_id,
+       item_no,
+       item_name
+FROM   items
+WHERE  item_id NOT IN(SELECT item_id
+                      FROM   boq
+                      WHERE  vehicle_id = {$vehicle_id}
+                             AND section_id = {$section_id})
+       AND company_id = {$company_id};  ";
 
             if ($query = $this->workshop_db->query($select_query)) {
 
@@ -115,7 +196,7 @@ FROM
         }
     }
 
-    public function boq_exists($vehicle_id,$item_id,$section_id, $company_id)
+    public function boq_exists($vehicle_id, $item_id, $section_id, $company_id)
     {
         $this->workshop_db->where('vehicle_id', $vehicle_id);
 

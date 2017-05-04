@@ -141,6 +141,7 @@ $route['workshop/vehicles/(:num)'] = 'workshop/vehicles/index/company_id/$1'; //
 
 $route['workshop/boqs/find/(:num)'] = 'workshop/boqs/find/boq_id/$1'; //GET
 $route['workshop/boqs/(:num)'] = 'workshop/boqs/index/company_id/$1'; //GET
+$route['workshop/boqs/get_by_section/(:num)/(:num)/(:num)'] = 'workshop/boqs/get_by_section/vehicle_id/$1/section_id/$2/company_id/$3';//GET
 
 $route['workshop/banks/find/(:num)'] = 'workshop/banks/find/bank_id/$1'; //GET
 $route['workshop/banks/(:num)'] = 'workshop/banks/index/company_id/$1'; //GET
