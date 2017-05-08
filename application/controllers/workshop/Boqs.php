@@ -98,6 +98,14 @@ class Boqs extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
+        if ((int)$data['qty'] < 1) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Qty cannot be less than one.',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
 
         if ($this->boqs_model->boq_exists($data['vehicle_id'], $data['item_id'], $data['section_id'], $data['company_id']) == TRUE) {
 
