@@ -52,7 +52,7 @@ class Processes extends REST_Controller
         $data = array(
             'company_id' => $this->put('company_id'),
             'sequence' => $this->put('sequence'),
-            'process_name' => $this->put('process_name'),			
+            'process_name' => $this->put('process_name'),
 			'vehicle_make' => $this->put('vehicle_make'),
 			'vehicle_model' => $this->put('vehicle_model'),
 			'std_days' => $this->put('std_days'),
@@ -83,7 +83,7 @@ class Processes extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-		        
+
 		if (empty($data['vehicle_make'])) {
             return $this->response([
                 'status' => FALSE,
@@ -91,7 +91,7 @@ class Processes extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-				        
+
 		if (empty($data['vehicle_model'])) {
 
             return $this->response([
@@ -100,7 +100,7 @@ class Processes extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-		
+
 	    if (empty($data['std_days'])) {
 
             return $this->response([
@@ -109,7 +109,7 @@ class Processes extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-		
+
 	    if (empty($data['amount'])) {
 
             return $this->response([
