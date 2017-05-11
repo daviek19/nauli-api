@@ -30,6 +30,7 @@ class Jobcards_model extends CI_Model
     , `job_card`.`promised_date`
     , `job_card`.`work_no`
     , `job_card`.`boq_veh_id`
+    , `job_card`.`work_desc`
     , `vehicle_master`.`model_no`
     , `vehicle_master`.`vehicle_code`
     , `model`.`description_name` AS `vehicle_model`
@@ -86,6 +87,7 @@ FROM
     , `job_card`.`promised_date`
     , `job_card`.`work_no`
     , `job_card`.`boq_veh_id`
+    , `job_card`.`work_desc`
     , `vehicle_master`.`model_no`
     , `vehicle_master`.`vehicle_code`
     , `model`.`description_name` AS `vehicle_model`
