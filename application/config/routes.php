@@ -153,7 +153,9 @@ $route['workshop/customers/find/(:num)'] = 'workshop/customers/find/customer_id/
 $route['workshop/customers/(:num)'] = 'workshop/customers/index/company_id/$1'; //GET
 
 $route['workshop/customer_vehicles/find/(:num)'] = 'workshop/customer_vehicles/find/customer_vehicle_id/$1'; //GET
+$route['workshop/customer_vehicles/find_by_customer/(:num)/(:num)'] = 'workshop/customer_vehicles/find_by_customer/company_id/$1/customer_id/$2'; //GET
 $route['workshop/customer_vehicles/(:num)'] = 'workshop/customer_vehicles/index/company_id/$1'; //GET
+
 
 $route['workshop/jobcards/find/(:num)'] = 'workshop/jobcards/find/job_id/$1'; //GET
 $route['workshop/jobcards/(:num)'] = 'workshop/jobcards/index/company_id/$1'; //GET

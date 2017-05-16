@@ -11,26 +11,34 @@ class Customer_vehicles_model extends CI_Model
         $this->load->database();
         $this->workshop_db = $this->load->database('workshop', true);
     }
-	
-	public function get_all_customer_vehicles($company_id = '0'){
-		$select_query =
-		 "SELECT 
+
+    public function get_all_customer_vehicles($company_id = '0')
+    {
+        $select_query =
+            "SELECT
 `customer_vehicle`.`customer_vehicle_id`
 ,`customer_vehicle`.`company_id`
 ,`customer_vehicle`.`customer_id`
 ,`customer`.`customer_name`
 ,`customer_vehicle`.`vehicle_id`
 ,`vehicle`.`vehicle_name`
+,`vehicle`.`vehicle_code`
 ,`customer_vehicle`.`chassis_no`
 ,`customer_vehicle`.`engine_no`
 ,`customer_vehicle`.`delivery_date`
 ,`customer_vehicle`.`user_id`
 ,`customer_vehicle`.`date_created`
+, `make`.`description_name` AS make_name
+, `model`.`description_name` AS model_name
 FROM customer_vehicle
-LEFT JOIN customer AS customer 
+LEFT JOIN customer AS customer
  ON (`customer`.`customer_id` = `customer_vehicle`.`customer_id`)
 LEFT JOIN vehicle_master AS vehicle
  ON (`vehicle`.`vehicle_id` = `customer_vehicle`.`vehicle_id`)
+INNER JOIN `workshop`.`parameter_description` AS `make`
+ON (`vehicle`.`make_id` = `make`.`description_id`)
+ INNER JOIN `workshop`.`parameter_description` AS `model`
+        ON (`vehicle`.`model_no` = `model`.`description_id`)
  WHERE `customer_vehicle`.`company_id` IN (?,?) ORDER BY `customer_vehicle`.`date_created` DESC;";
 
         if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
@@ -46,30 +54,37 @@ LEFT JOIN vehicle_master AS vehicle
 
             return false;
         }
-	}
-	
+    }
+
     public function get_single_customer_vehicle($company_id = '0', $customer_vehicle_id)
     {
         if (!empty($customer_vehicle_id)) {
 
             $select_query =
-                "SELECT 
-				`customer_vehicle`.`customer_vehicle_id`
-				,`customer_vehicle`.`company_id`
-				,`customer_vehicle`.`customer_id`
-				,`customer`.`customer_name`
-				,`customer_vehicle`.`vehicle_id`
-				,`vehicle`.`vehicle_name`
-				,`customer_vehicle`.`chassis_no`
-				,`customer_vehicle`.`engine_no`
-				,`customer_vehicle`.`delivery_date`
-				,`customer_vehicle`.`user_id`
-				,`customer_vehicle`.`date_created`
-				FROM customer_vehicle
-				LEFT JOIN customer AS customer 
-				 ON (`customer`.`customer_id` = `customer_vehicle`.`customer_id`)
-				LEFT JOIN vehicle_master AS vehicle
-				 ON (`vehicle`.`vehicle_id` = `customer_vehicle`.`vehicle_id`)
+                "SELECT
+`customer_vehicle`.`customer_vehicle_id`
+,`customer_vehicle`.`company_id`
+,`customer_vehicle`.`customer_id`
+,`customer`.`customer_name`
+,`customer_vehicle`.`vehicle_id`
+,`vehicle`.`vehicle_name`
+,`vehicle`.`vehicle_code`
+,`customer_vehicle`.`chassis_no`
+,`customer_vehicle`.`engine_no`
+,`customer_vehicle`.`delivery_date`
+,`customer_vehicle`.`user_id`
+,`customer_vehicle`.`date_created`
+, `make`.`description_name` AS make_name
+, `model`.`description_name` AS model_name
+FROM customer_vehicle
+LEFT JOIN customer AS customer
+ ON (`customer`.`customer_id` = `customer_vehicle`.`customer_id`)
+LEFT JOIN vehicle_master AS vehicle
+ ON (`vehicle`.`vehicle_id` = `customer_vehicle`.`vehicle_id`)
+INNER JOIN `workshop`.`parameter_description` AS `make`
+ON (`vehicle`.`make_id` = `make`.`description_id`)
+ INNER JOIN `workshop`.`parameter_description` AS `model`
+        ON (`vehicle`.`model_no` = `model`.`description_id`)
 				WHERE `customer_vehicle`.`customer_vehicle_id` = {$customer_vehicle_id};";
 
             if ($query = $this->workshop_db->query($select_query)) {
@@ -90,8 +105,8 @@ LEFT JOIN vehicle_master AS vehicle
             return FALSE;
         }
     }
-	
-	public function create_customer_vehicle($data)
+
+    public function create_customer_vehicle($data)
     {
         log_message("debug", "create_customer_vehicle...data " . json_encode($data));
 
@@ -110,8 +125,8 @@ LEFT JOIN vehicle_master AS vehicle
             return FALSE;
         }
     }
-	
-   public function update_customer_vehicle($data)
+
+    public function update_customer_vehicle($data)
     {
 
         log_message("debug", "Getting ready to update_customer_vehicle... " . json_encode($data));
@@ -139,11 +154,11 @@ LEFT JOIN vehicle_master AS vehicle
 
         return $new_record->row();
     }
-	
-	public function chassis_no_exists($chassis_no, $company_id)
+
+    public function chassis_no_exists($chassis_no, $company_id)
     {
 
-        $this->workshop_db->where('chassis_no', $chassis_no);     
+        $this->workshop_db->where('chassis_no', $chassis_no);
 
         $query = $this->workshop_db->get('customer_vehicle');
 
@@ -155,8 +170,8 @@ LEFT JOIN vehicle_master AS vehicle
             return false;
         }
     }
-	
-	public function engine_no_exists($engine_no, $company_id)
+
+    public function engine_no_exists($engine_no, $company_id)
     {
         $this->workshop_db->where('engine_no', $engine_no);
 
@@ -170,8 +185,8 @@ LEFT JOIN vehicle_master AS vehicle
             return false;
         }
     }
-	
-		public function customer_vehicle_id_exists($customer_vehicle_id)
+
+    public function customer_vehicle_id_exists($customer_vehicle_id)
     {
         $this->workshop_db->where('customer_vehicle_id', $customer_vehicle_id);
 
@@ -181,6 +196,50 @@ LEFT JOIN vehicle_master AS vehicle
 
             return true;
         } else {
+
+            return false;
+        }
+    }
+
+    public function get_vehicles_by_customer($company_id = '0', $customer_id)
+    {
+        $select_query =
+            "SELECT
+`customer_vehicle`.`customer_vehicle_id`
+,`customer_vehicle`.`company_id`
+,`customer_vehicle`.`customer_id`
+,`customer`.`customer_name`
+,`customer_vehicle`.`vehicle_id`
+,`vehicle`.`vehicle_name`
+,`vehicle`.`vehicle_code`
+,`customer_vehicle`.`chassis_no`
+,`customer_vehicle`.`engine_no`
+,`customer_vehicle`.`delivery_date`
+,`customer_vehicle`.`user_id`
+,`customer_vehicle`.`date_created`
+, `make`.`description_name` AS make_name
+, `model`.`description_name` AS model_name
+FROM customer_vehicle
+LEFT JOIN customer AS customer
+ ON (`customer`.`customer_id` = `customer_vehicle`.`customer_id`)
+LEFT JOIN vehicle_master AS vehicle
+ ON (`vehicle`.`vehicle_id` = `customer_vehicle`.`vehicle_id`)
+INNER JOIN `workshop`.`parameter_description` AS `make`
+ON (`vehicle`.`make_id` = `make`.`description_id`)
+ INNER JOIN `workshop`.`parameter_description` AS `model`
+        ON (`vehicle`.`model_no` = `model`.`description_id`)
+ WHERE `customer_vehicle`.`company_id` IN (?,?) AND `customer_vehicle`.`customer_id` = {$customer_id} ORDER BY `customer_vehicle`.`date_created` DESC;";
+
+        if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
+
+            log_message("debug", $this->workshop_db->last_query());
+
+            log_message("debug", "found customer_vehicles..." . json_encode($query->result()));
+
+            return $query->result();
+        } else {
+
+            log_message("error", 'Error getting customer_vehicles.');
 
             return false;
         }

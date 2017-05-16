@@ -6,14 +6,14 @@ require APPPATH . '/libraries/REST_Controller.php';
 
 class Customer_vehicles extends REST_Controller
 {
-	
+
     function __construct()
     {
         parent::__construct();
         $this->load->model('workshop/customer_vehicles_model');
     }
-	
-	public function index_get()
+
+    public function index_get()
     {
         //Get params
         $company_id = (int)$this->get('company_id');
@@ -28,8 +28,8 @@ class Customer_vehicles extends REST_Controller
             'description' => 'To get all [/workshop/customer_vehicles/company_id/] or to get single [/workshop/customer_vehicles/company_id/item_id]'
         ], REST_Controller::HTTP_OK);
     }
-	
-	public function find_get()
+
+    public function find_get()
     {
         $customer_vehicle_id = (int)$this->get('customer_vehicle_id');
 
@@ -41,8 +41,22 @@ class Customer_vehicles extends REST_Controller
             'description' => 'To get all [/workshop/customer_vehicles/company_id/] or to get single [/workshop/customer_vehicles/company_id/bank_id]'
         ], REST_Controller::HTTP_OK);
     }
-	
-	public function index_put()
+
+    public function find_by_customer_get()
+    {
+        $company_id = (int)$this->get('company_id');
+        $customer_id = (int)$this->get('customer_id');
+
+        $result = $this->customer_vehicles_model->get_vehicles_by_customer($company_id, $customer_id);
+
+        $this->response([
+            'response' => $result,
+            'status' => TRUE,
+            'description' => 'This will give you all vehicles that belong to a specific customer'
+        ], REST_Controller::HTTP_OK);
+    }
+
+    public function index_put()
     {
         $data = array(
             'company_id' => $this->put('company_id'),
@@ -50,10 +64,10 @@ class Customer_vehicles extends REST_Controller
             'vehicle_id' => $this->put('vehicle_id'),
             'chassis_no' => $this->put('chassis_no'),
             'engine_no' => $this->put('engine_no'),
-            'delivery_date' => $this->put('delivery_date'),    
+            'delivery_date' => $this->put('delivery_date'),
             'user_id' => $this->put('user_id')
         );
-		
+
         log_message("debug", "Getting ready to insert... " . json_encode($data));
 
         if (empty($data['company_id'])) {
@@ -100,25 +114,25 @@ class Customer_vehicles extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-		 if ($this->customer_vehicles_model->chassis_no_exists($data['chassis_no'], $data['company_id']) == TRUE) {
-				
-					return $this->response([
-						'response' => $data,
-						'status' => FALSE,
-						'message' => 'This Chassis Number is already registed to another vehicle',
-						'description' => 'create group put/ {company_id,group_name} name cannot be null'
-					], REST_Controller::HTTP_BAD_REQUEST);
-				}	
+        if ($this->customer_vehicles_model->chassis_no_exists($data['chassis_no'], $data['company_id']) == TRUE) {
 
-		 if ($this->customer_vehicles_model->engine_no_exists($data['engine_no'], $data['company_id']) == TRUE) {
-				
-					return $this->response([
-						'response' => $data,
-						'status' => FALSE,
-						'message' => 'This Engine Number is already registed to another vehicle',
-						'description' => 'create group put/ {company_id,group_name} name cannot be null'
-					], REST_Controller::HTTP_BAD_REQUEST);
-				}					
+            return $this->response([
+                'response' => $data,
+                'status' => FALSE,
+                'message' => 'This Chassis Number is already registed to another vehicle',
+                'description' => 'create group put/ {company_id,group_name} name cannot be null'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if ($this->customer_vehicles_model->engine_no_exists($data['engine_no'], $data['company_id']) == TRUE) {
+
+            return $this->response([
+                'response' => $data,
+                'status' => FALSE,
+                'message' => 'This Engine Number is already registed to another vehicle',
+                'description' => 'create group put/ {company_id,group_name} name cannot be null'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
 
 
         $response = $this->customer_vehicles_model->create_customer_vehicle($data);
@@ -142,19 +156,19 @@ class Customer_vehicles extends REST_Controller
             'description' => ''
         ], REST_Controller::HTTP_CREATED);
     }
-	
-	 public function index_post()
+
+    public function index_post()
     {
         $data = [
-		   'customer_vehicle_id' => $this->post('customer_vehicle_id'),
+            'customer_vehicle_id' => $this->post('customer_vehicle_id'),
             'customer_id' => $this->post('customer_id'),
             'vehicle_id' => $this->post('vehicle_id'),
             'chassis_no' => $this->post('chassis_no'),
             'engine_no' => $this->post('engine_no'),
-            'delivery_date' => $this->post('delivery_date'), 
+            'delivery_date' => $this->post('delivery_date'),
         ];
 
-		if (empty($data['customer_vehicle_id'])) {
+        if (empty($data['customer_vehicle_id'])) {
 
             return $this->response([
                 'response' => $data,
@@ -172,7 +186,7 @@ class Customer_vehicles extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-		if (empty($data['vehicle_id'])) {
+        if (empty($data['vehicle_id'])) {
 
             return $this->response([
                 'response' => $data,
@@ -181,7 +195,7 @@ class Customer_vehicles extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-		if (empty($data['chassis_no'])) {
+        if (empty($data['chassis_no'])) {
 
             return $this->response([
                 'response' => $data,
@@ -190,7 +204,7 @@ class Customer_vehicles extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-		if (empty($data['engine_no'])) {
+        if (empty($data['engine_no'])) {
 
             return $this->response([
                 'response' => $data,
@@ -199,7 +213,7 @@ class Customer_vehicles extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-		if (empty($data['delivery_date'])) {
+        if (empty($data['delivery_date'])) {
             return $this->response([
                 'response' => $data,
                 'status' => FALSE,
@@ -207,8 +221,8 @@ class Customer_vehicles extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-      
-	  if ($this->customer_vehicles_model->customer_vehicle_id_exists($data['customer_vehicle_id']) != TRUE) {
+
+        if ($this->customer_vehicles_model->customer_vehicle_id_exists($data['customer_vehicle_id']) != TRUE) {
 
             return $this->response([
                 'response' => $data,
