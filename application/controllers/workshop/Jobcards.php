@@ -169,7 +169,7 @@ class Jobcards extends REST_Controller
         $data = [
             'job_id' => $this->post('job_id'),
             'cust_id' => $this->post('cust_id'),
-            'job_date' => $this->post('job_date'),
+            //'job_date' => $this->post('job_date'),
             'reg_no' => $this->post('reg_no'),
             'milage' => $this->post('milage'),
             'arrival_date' => $this->post('arrival_date'),
@@ -209,7 +209,7 @@ class Jobcards extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        $response = $this->jobcards_model->update_process($data);
+        $response = $this->jobcards_model->update_jobcard($data);
 
         if ($response == FALSE) {
 
