@@ -130,7 +130,7 @@ FROM
 
     public function create_jobcard($data)
     {
-        if ($this->workshop_db->insert('process', $data)) {
+        if ($this->workshop_db->insert('job_card', $data)) {
 
             log_message("debug", "create_jobcard query " . $this->workshop_db->last_query());
 
