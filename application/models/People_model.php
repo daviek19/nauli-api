@@ -1,13 +1,16 @@
 <?php
 
-class People_model extends CI_Model {
+class People_model extends CI_Model
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->database();
     }
 
-    public function get_person($id) {
+    public function get_person($id)
+    {
 
         $query = $this->db->query("SELECT * FROM `people` WHERE `id` = $id LIMIT 1");
         log_message("debug", $this->db->last_query());
@@ -15,7 +18,8 @@ class People_model extends CI_Model {
         return $query->row();
     }
 
-    public function create_person($data) {
+    public function create_person($data)
+    {
         if ($this->db->insert('people', $data)) {
             $id = $this->db->insert_id();
             $new_record = $this->db->get_where('people', array('id' => $id));
@@ -26,13 +30,15 @@ class People_model extends CI_Model {
         }
     }
 
-    public function get_user($id) {
+    public function get_user($id)
+    {
         $query = $this->db->query("SELECT * FROM `people` WHERE `user_id` = $id LIMIT 1");
         log_message("debug", $this->db->last_query());
         return $query->row();
     }
 
-    public function update_person($data, $id) {
+    public function update_person($data, $id)
+    {
         log_message("debug", "Getting ready to edit... " . json_encode($data));
 
         if (!empty($data['id'])) {

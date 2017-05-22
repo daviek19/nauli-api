@@ -169,7 +169,6 @@ class Jobcards extends REST_Controller
         $data = [
             'job_id' => $this->post('job_id'),
             'cust_id' => $this->post('cust_id'),
-            //'job_date' => $this->post('job_date'),
             'reg_no' => $this->post('reg_no'),
             'milage' => $this->post('milage'),
             'arrival_date' => $this->post('arrival_date'),
@@ -181,7 +180,6 @@ class Jobcards extends REST_Controller
             'approval_id' => $this->post('approval_id'),
             'supervisor_id' => $this->post('supervisor_id'),
             'foreman_id' => $this->post('foreman_id'),
-            'user_id' => $this->post('user_id'),
             'boq_veh_id' => $this->post('boq_veh_id')
         ];
 
