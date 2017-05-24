@@ -65,6 +65,7 @@ class Jobcards extends REST_Controller
             'foreman_id' => $this->put('foreman_id'),
             'user_id' => $this->put('user_id'),
             'boq_veh_id' => $this->put('boq_veh_id'),
+            'customer_vehicle_id' => $this->put('customer_vehicle_id')
         );
 
         log_message("debug", "Getting ready to insert jobcard... " . json_encode($data));
@@ -73,7 +74,7 @@ class Jobcards extends REST_Controller
 
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create empty job date',
+                'message' => 'Enter Job date',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -82,7 +83,7 @@ class Jobcards extends REST_Controller
 
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create empty Customer details',
+                'message' => 'Select a customer',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -90,7 +91,7 @@ class Jobcards extends REST_Controller
         if (empty($data['reg_no'])) {
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty Registration No',
+                'message' => 'Enter Registration No',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -99,7 +100,7 @@ class Jobcards extends REST_Controller
 
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create empty Arrival Date',
+                'message' => 'Enter an Arrival Date',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -108,7 +109,7 @@ class Jobcards extends REST_Controller
 
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create empty Standard days',
+                'message' => 'Standard days required',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -117,7 +118,7 @@ class Jobcards extends REST_Controller
 
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create empty Promised Date',
+                'message' => 'Enter a Promised Date',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -126,7 +127,7 @@ class Jobcards extends REST_Controller
 
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create empty Work Description',
+                'message' => 'Enter A Work Description',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -135,7 +136,16 @@ class Jobcards extends REST_Controller
 
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create empty Vehicle',
+                'message' => 'Attach Bill Of Quantities',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($data['customer_vehicle_id'])) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Select A Customer Vehicle',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -180,7 +190,9 @@ class Jobcards extends REST_Controller
             'approval_id' => $this->post('approval_id'),
             'supervisor_id' => $this->post('supervisor_id'),
             'foreman_id' => $this->post('foreman_id'),
-            'boq_veh_id' => $this->post('boq_veh_id')
+            'boq_veh_id' => $this->post('boq_veh_id'),
+            'customer_vehicle_id' => $this->post('customer_vehicle_id')
+
         ];
 
         if (empty($data['job_id'])) {
