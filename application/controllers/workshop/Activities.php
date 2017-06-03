@@ -131,6 +131,15 @@ class Activities extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
+        if (empty($data['model_id'])) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'model is required',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
         if (empty($data['activity_name'])) {
 
             return $this->response([
