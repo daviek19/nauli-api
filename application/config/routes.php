@@ -163,7 +163,8 @@ $route['workshop/jobcards/(:num)'] = 'workshop/jobcards/index/company_id/$1'; //
 $route['workshop/activities/find_by_process/(:num)/(:num)'] = 'workshop/activities/find_by_process/company_id/$1/process_id/$2';//GET
 $route['workshop/activities/find/(:num)'] = 'workshop/activities/find/activity_id/$1'; //GET
 
-
+$route['workshop/contracts/find/(:num)'] = 'workshop/contracts/find/contract_id/$1'; //GET
+$route['workshop/contracts/(:num)'] = 'workshop/contracts/index/company_id/$1'; //GET
 
 
 

@@ -47,16 +47,20 @@ class Contracts extends REST_Controller
     {
         $data = array(
             'company_id' => $this->put('company_id'),
-            'contractor_name' => $this->put('contractor_name'),
-            'id_no' => $this->put('id_no'),
-            'pin_no' => $this->put('pin_no'),
-            'mobile_no' => $this->put('mobile_no'),
-            'section_id' => $this->put('section_id'),
-            'location_id' => $this->put('location_id'),
-            'bank_id' => $this->put('bank_id'),
-            'branch_code' => $this->put('branch_code'),
-            'account_no' => $this->put('account_no'),
-            'active' => $this->put('active'),
+            'contract_date' => $this->put('contract_date'),
+            'job_id' => $this->put('job_id'),
+            'job_date' => $this->put('job_date'),
+            'chassis_no' => $this->put('chassis_no'),
+            'cust_id' => $this->put('cust_id'),
+            'contractor_id' => $this->put('contractor_id'),
+            'process_id' => $this->put('process_id'),
+            'start_date' => $this->put('start_date'),
+            'end_date' => $this->put('end_date'),
+            'days' => $this->put('days'),
+            'amount' => $this->put('amount'),
+            'model_id' => $this->put('model_id'),
+            'ch_cancel' => $this->put('ch_cancel'),
+            'vc_reason' => $this->put('vc_reason'),
             'user_id' => $this->put('user_id')
         );
 
@@ -66,65 +70,63 @@ class Contracts extends REST_Controller
 
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create empty company id',
+                'message' => 'Company Id is required',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-        if (empty($data['contractor_name'])) {
+        if (empty($data['contract_date'])) {
 
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty contractor name',
+                'message' => 'The contract date is required',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-        if (empty($data['id_no'])) {
+        if (empty($data['job_id'])) {
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty Id no',
+                'message' => 'Select a job card',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-        if (empty($data['mobile_no'])) {
+        if (empty($data['cust_id'])) {
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty Mobile No',
+                'message' => 'Select a customer',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-        if (empty($data['section_id'])) {
+        if (empty($data['contractor_id'])) {
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty section',
+                'message' => 'Select a contractor',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-        if (empty($data['location_id'])) {
+        if (empty($data['process_id'])) {
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty location',
+                'message' => 'Select the process',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-        if (empty($data['bank_id'])) {
+        if (empty($data['start_date'])) {
             return $this->response([
                 'status' => FALSE,
-                'message' => 'Trying to create with empty bank details',
+                'message' => 'Enter the contract start date',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-
-        if ($this->contractors_model->contractor_exists($data['contractor_name'], $data['company_id']) == TRUE) {
-
+        if (empty($data['end_date'])) {
             return $this->response([
-                'response' => $data,
                 'status' => FALSE,
-                'message' => 'Trying to duplicate a Contractor ',
+                'message' => 'Enter the contract End date',
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        $response = $this->contractors_model->create_contractor($data);
+
+        $response = $this->contracts_model->create_contract($data);
 
         if ($response == FALSE) {
 
@@ -141,9 +143,101 @@ class Contracts extends REST_Controller
         return $this->response([
             'response' => $response,
             'status' => true,
-            'message' => 'Contractor created!',
+            'message' => 'contract created!',
             'description' => ''
         ], REST_Controller::HTTP_CREATED);
     }
 
+     public function index_post()
+    {
+        $data = [                        
+            'contract_date' => $this->post('contract_date'),
+            'job_id' => $this->post('job_id'),
+            'job_date' => $this->post('job_date'),
+            'chassis_no' => $this->post('chassis_no'),
+            'cust_id' => $this->post('cust_id'),
+            'contractor_id' => $this->post('contractor_id'),
+            'process_id' => $this->post('process_id'),
+            'start_date' => $this->post('start_date'),
+            'end_date' => $this->post('end_date'),
+            'days' => $this->post('days'),
+            'amount' => $this->post('amount'),
+            'model_id' => $this->post('model_id'),
+            'ch_cancel' => $this->post('ch_cancel'),
+            'vc_reason' => $this->post('vc_reason'),
+            'user_id' => $this->post('user_id')
+        ];
+
+        if (empty($data['contract_date'])) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'The contract date is required',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        if (empty($data['job_id'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Select a job card',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        if (empty($data['cust_id'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Select a customer',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        if (empty($data['contractor_id'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Select a contractor',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        if (empty($data['process_id'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Select the process',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        if (empty($data['start_date'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Enter the contract start date',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        if (empty($data['end_date'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Enter the contract End date',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        $response = $this->contracts_model->update_contract($data);
+
+        if ($response == FALSE) {
+
+            return $this->response([
+                'response' => $data,
+                'status' => FALSE,
+                'message' => 'Database refused. Try again!',
+                'description' => ''
+            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->response([
+            'response' => $response,
+            'status' => TRUE,
+            'message' => 'Contract Updated!',
+            'description' => ''
+        ], REST_Controller::HTTP_OK);
+    }
+
+   
 }
