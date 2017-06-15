@@ -26,6 +26,9 @@ class Contracts_model extends CI_Model
     , `hd_contracts`.`contractor_id`
     , `hd_contracts`.`date_created`
     , `hd_contracts`.`cust_id`
+	, `hd_contracts`.`process_id`
+	, `hd_contracts`.`vc_reason`
+	, `hd_contracts`.`ch_cancel`
     , `customer_vehicle`.`chassis_no`
     , `customer`.`customer_name`
     , `contractors`.`contractor_name`
@@ -47,7 +50,7 @@ FROM
         ON (`hd_contracts`.`process_id` = `process`.`process_id`)
     INNER JOIN `workshop`.`customer_vehicle`
         ON (`job_card`.`customer_vehicle_id` = `customer_vehicle`.`customer_vehicle_id`)
-          WHERE `hd_contracts`.`company_id` IN (?,?) ORDER BY `hd_contracts`.`date_created` DESC;";
+          WHERE `hd_contracts`.`company_id` IN (?,?) AND `hd_contracts`.`ch_cancel` != 1 ORDER BY `hd_contracts`.`date_created` DESC;";
         if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
 
             log_message("debug", $this->workshop_db->last_query());
@@ -79,6 +82,9 @@ FROM
     , `hd_contracts`.`contractor_id`
     , `hd_contracts`.`date_created`
     , `hd_contracts`.`cust_id`
+	, `hd_contracts`.`process_id`
+	, `hd_contracts`.`vc_reason`
+	, `hd_contracts`.`ch_cancel`
     , `customer_vehicle`.`chassis_no`
     , `customer`.`customer_name`
     , `contractors`.`contractor_name`
@@ -155,13 +161,13 @@ FROM
 
         $this->workshop_db->where('contract_id', $data['contract_id']);
 
-        if ($this->workshop_db->update('contracts', $data) == FALSE) {
+        if ($this->workshop_db->update('hd_contracts', $data) == FALSE) {
 
             return FALSE;
         }
         log_message("debug", "update_contracts " . $this->workshop_db->last_query());
         //All went well
-        $new_record = $this->workshop_db->get_where('contracts', array('contract_id' => $data['contract_id']));
+        $new_record = $this->workshop_db->get_where('hd_contracts', array('contract_id' => $data['contract_id']));
 
         log_message("debug", " update_contract query " . $this->workshop_db->last_query());
 

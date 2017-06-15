@@ -150,7 +150,8 @@ class Contracts extends REST_Controller
 
      public function index_post()
     {
-        $data = [                        
+        $data = [       
+            'contract_id' => $this->post('contract_id'),	
             'contract_date' => $this->post('contract_date'),
             'job_id' => $this->post('job_id'),
             'job_date' => $this->post('job_date'),
