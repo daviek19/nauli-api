@@ -129,7 +129,13 @@ FROM
 
     public function create_contract($data)
     {
-        log_message("debug", "create_contract...data " . json_encode($data));
+        
+        if($data['ch_cancel'] != '1'){
+            $data['ch_cancel'] = "0";
+        }
+
+        log_message("debug", "create_contract...data " . json_encode($data));   
+        
 
         if ($this->workshop_db->insert('hd_contracts', $data)) {
 
@@ -148,9 +154,12 @@ FROM
     }
 
     public function update_contract($data)
-    {
+    {         
+        if($data['ch_cancel'] != '1'){
+            $data['ch_cancel'] = "0";
+        }
 
-        log_message("debug", "Getting ready to update_contracts... " . json_encode($data));
+        log_message("debug", "Getting ready to update_contracts... " . json_encode($data));	    
 
         if (empty($data['contract_id'])) {
 
