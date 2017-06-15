@@ -38,6 +38,8 @@ class Jobcards_model extends CI_Model
     , `vehicle_make`.`description_name` AS `vehicle_make`
     , `user`.`first_name`
     , `user`.`last_name`
+	, `customer_vehicle`.`chassis_no`
+    , `customer_vehicle`.`engine_no`
 
 FROM
     `workshop`.`job_card`
@@ -49,8 +51,10 @@ FROM
         ON (`vehicle_master`.`make_id` = `vehicle_make`.`description_id`)
     INNER JOIN `workshop`.`parameter_description` AS `model`
         ON (`vehicle_master`.`model_no` = `model`.`description_id`)
-        INNER JOIN `rest_api`.`people` AS `user`
+    INNER JOIN `rest_api`.`people` AS `user`
         ON (`job_card`.`user_id` = `user`.`id`)
+	INNER JOIN `workshop`.`customer_vehicle` 
+        ON (`job_card`.`customer_vehicle_id` = `customer_vehicle`.`customer_vehicle_id`)
  WHERE `job_card`.`company_id` IN (?,?) ORDER BY `job_card`.`date_created` DESC;";
 
         if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
@@ -96,6 +100,8 @@ FROM
     , `vehicle_make`.`description_name` AS `vehicle_make`
     , `user`.`first_name`
     , `user`.`last_name`
+	, `customer_vehicle`.`chassis_no`
+    , `customer_vehicle`.`engine_no`
 
 FROM
     `workshop`.`job_card`
@@ -107,9 +113,11 @@ FROM
         ON (`vehicle_master`.`make_id` = `vehicle_make`.`description_id`)
     INNER JOIN `workshop`.`parameter_description` AS `model`
         ON (`vehicle_master`.`model_no` = `model`.`description_id`)
-        INNER JOIN `rest_api`.`people` AS `user`
+    INNER JOIN `rest_api`.`people` AS `user`
         ON (`job_card`.`user_id` = `user`.`id`)
-							WHERE `job_card`.`job_id` = {$jobcard_id};";
+	INNER JOIN `workshop`.`customer_vehicle` 
+        ON (`job_card`.`customer_vehicle_id` = `customer_vehicle`.`customer_vehicle_id`)
+WHERE `job_card`.`job_id` = {$jobcard_id};";
 
             if ($query = $this->workshop_db->query($select_query)) {
 
