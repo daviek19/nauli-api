@@ -125,6 +125,14 @@ class Contracts extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
+        if($this->contracts_model->contract_exists($data['job_id'], $data['process_id'],$data['company_id'])){
+          return $this->response([
+                'status' => FALSE,
+                'message' => 'The contract already exists',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);  
+        }
+
 
         $response = $this->contracts_model->create_contract($data);
 

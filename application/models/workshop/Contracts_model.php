@@ -185,4 +185,25 @@ FROM
         return $new_record->row();
     }
 
+     public function contract_exists($job_id, $process_id,$company_id)
+    {
+
+        $this->workshop_db->where('job_id', $job_id);
+
+        $this->workshop_db->where('process_id', $process_id);
+        
+        $this->workshop_db->where('company_id', $company_id);
+        
+        $query = $this->workshop_db->get('hd_contracts');
+        
+        log_message("debug", "contract_exists " . $this->workshop_db->last_query());
+
+        if ($query->num_rows() >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }

@@ -15,16 +15,18 @@ class Unit_test extends CI_Controller {
         $this->load->model('departments_model');
 		$this->load->model('workshop/groups_model');
         $this->load->model('workshop/items_model');
+        $this->load->model('workshop/contracts_model');
 
     }
 
     public function index() {
         log_message("error", 'Unit testing...');
-        $result2 = $this->items_model->get_all_items(2);
-        $result = $this->items_model->get_single_item("", 1);
+        var_dump($this->contracts_model->contract_exists($job_id=1, $process_id=14,$company_id=2));
+        //$result2 = $this->items_model->get_all_items(2);
+        //$result = $this->items_model->get_single_item("", 1);
         print "<pre>";
-        print_r($result2);
-        print_r($result);
+        //print_r($result2);
+        //print_r($result);
     }
 
 }
