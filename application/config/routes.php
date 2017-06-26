@@ -166,6 +166,9 @@ $route['workshop/activities/find/(:num)'] = 'workshop/activities/find/activity_i
 $route['workshop/contracts/find/(:num)'] = 'workshop/contracts/find/contract_id/$1'; //GET
 $route['workshop/contracts/(:num)'] = 'workshop/contracts/index/company_id/$1'; //GET
 
+$route['workshop/requisitions/(:num)'] = 'workshop/requisitions/index/company_id/$1'; //GET
+
+
 
 
 
