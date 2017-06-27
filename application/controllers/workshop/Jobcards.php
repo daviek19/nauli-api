@@ -45,6 +45,20 @@ class Jobcards extends REST_Controller
         ], REST_Controller::HTTP_OK);
     }
 
+	public function contracts_get(){
+		$job_id = (int)$this->get('job_id');
+
+        log_message("debug", "*********** find_get start group_id {$job_id} ***********");
+
+        $result = $this->jobcards_model->get_contracts($job_id);
+
+        $this->response([
+            'response' => $result,
+            'status' => TRUE,
+            'description' => ''
+        ], REST_Controller::HTTP_OK);
+	}
+	
     public function index_put()
     {
 

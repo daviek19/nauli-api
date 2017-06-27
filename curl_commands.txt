@@ -31,6 +31,10 @@ curl -X POST -d process_id=4 -d process_name='Complete Welding' -d sequence=3 -d
 curl -X GET localhost/rest-api/index.php/workshop/vehicles/2 -H "X-API-KEY: 1234"
 curl -X GET localhost/rest-api/index.php/workshop/vehicles/find/1 -H "X-API-KEY: 1234"
 
+curl -X GET localhost/rest-api/index.php/workshop/jobcards/contracts/2 -H "X-API-KEY: 1234"
+
+
+
 
 curl -X POST
 -d vehicle_id=2

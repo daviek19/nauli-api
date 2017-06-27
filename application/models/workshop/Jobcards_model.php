@@ -196,4 +196,38 @@ WHERE `job_card`.`job_id` = {$jobcard_id};";
             return false;
         }
     }
+	
+	public function get_contracts($job_id){
+		$select_query =
+            "SELECT
+				`hd_contracts`.`contract_id`
+				, `hd_contracts`.`job_id`
+				, `process`.`process_name`
+				, `process`.`process_id`
+				, `contractors`.`contractor_name`
+				, `contractors`.`contractor_id`
+
+			FROM
+				`workshop`.`hd_contracts`
+				INNER JOIN `workshop`.`contractors` 
+					ON (`hd_contracts`.`contractor_id` = `contractors`.`contractor_id`)
+				INNER JOIN `workshop`.`process` 
+					ON (`hd_contracts`.`process_id` = `process`.`process_id`)
+			 WHERE `hd_contracts`.`job_id` = {$job_id} ;";
+				
+	
+        if ($query = $this->workshop_db->query($select_query)) {
+
+            log_message("debug", $this->db->last_query());
+
+            log_message("debug", "found contracts..." . json_encode($query->result()));
+
+            return $query->result();
+        } else {
+
+            log_message("error", 'Error getting contracts.');
+
+            return false;
+        }
+	}
 }
