@@ -33,6 +33,9 @@ curl -X GET localhost/rest-api/index.php/workshop/vehicles/find/1 -H "X-API-KEY:
 
 curl -X GET localhost/rest-api/index.php/workshop/jobcards/contracts/2 -H "X-API-KEY: 1234"
 
+curl -X GET localhost/rest-api/index.php/workshop/requisitions/find/1 -H "X-API-KEY: 1234"
+
+
 
 
 
