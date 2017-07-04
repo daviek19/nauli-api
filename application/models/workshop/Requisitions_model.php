@@ -1,16 +1,19 @@
 <?php
 
-class Requisitions_model extends CI_Model {
+class Requisitions_model extends CI_Model
+{
 
     private $workshop_db;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->database();
         $this->workshop_db = $this->load->database('workshop', true);
     }
 
-    public function get_all_requisations($company_id = '0') {
+    public function get_all_requisations($company_id = '0')
+    {
 
         $select_query = "SELECT
     `requisition`.`company_id`
@@ -62,7 +65,8 @@ WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` 
         }
     }
 
-    public function create_requisation($data) {
+    public function create_requisation($data)
+    {
 
         log_message("debug", "create_requisation...data " . json_encode($data));
 
@@ -82,7 +86,8 @@ WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` 
         }
     }
 
-    public function get_single_requisations($company_id = '0', $requisition_id) {
+    public function get_single_requisations($company_id = '0', $requisition_id)
+    {
         if (!empty($requisition_id)) {
 
             $select_query = "SELECT
@@ -106,6 +111,7 @@ WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` 
     , `customer_vehicle`.`chassis_no`
     , `customer_vehicle`.`engine_no`
     , `job_card`.`job_id`
+       ,`customer_vehicle`.`vehicle_id`
 FROM
     `workshop`.`requisition`
     INNER JOIN `workshop`.`job_card`
@@ -140,7 +146,8 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
         }
     }
 
-    public function update_requisition($data) {
+    public function update_requisition($data)
+    {
         if (empty($data['req_id'])) {
 
             log_message("debug", " req_id was empty. Exit");
@@ -166,15 +173,89 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
         return $new_record->row();
     }
 
-    public function boq_drop_down($vehicle_id, $section_id, $requisition_id) {
-        //handle for vehicle_id as was added in the online db.
-        //
-        //select * boq where vehicle_id & section_id        
-        //and where materials not in dt_requisition for {$requisition_id} 
+    public function boq_drop_down($vehicle_id, $section_id, $requisition_id)
+    {
+        if (!empty($requisition_id) && !empty($section_id) && !empty($vehicle_id)) {
+
+            $select_query =
+                "SELECT
+                `boq`.`item_id`
+                , `boq`.`qty`
+                , `boq`.`section_id`
+                , `boq`.`vehicle_id`
+                , `items`.`item_name`
+                , `items`.`item_id`
+            FROM
+                `workshop`.`boq`
+                INNER JOIN `workshop`.`items`
+                    ON (`boq`.`item_id` = `items`.`item_id`)
+                INNER JOIN `workshop`.`parameter_description`
+                    ON (`items`.`description_id` = `parameter_description`.`description_id`)
+             WHERE `boq`.`vehicle_id` = {$vehicle_id} AND `boq`.`section_id` = {$section_id}
+             AND `items`.`item_id` NOT IN(SELECT `dt_requisition`.`part_no`
+                     FROM `workshop`.`dt_requisition`
+                     WHERE `dt_requisition`.`req_id` = {$requisition_id});";
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->workshop_db->last_query());
+
+                log_message("debug", "found boq_drop_down materials..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting boq_drop_down materials.');
+
+                return false;
+            }
+        } else {
+            //The vehicle_id was empty
+            return FALSE;
+        }
     }
 
-    public function get_requisition_materails($requisition_id) {
-        
+    public function get_requisition_materials($requisition_id)
+    {
+        if (!empty($requisition_id)) {
+
+            $select_query =
+                "SELECT
+            `dt_requisition`.`company_id`
+            , `dt_requisition`.`req_id`
+            , `dt_requisition`.`req_date`
+            , `dt_requisition`.`part_no`
+            , `dt_requisition`.`qty_required`
+            , `dt_requisition`.`qty_issued`
+            , `items`.`item_no`
+            , `items`.`item_name`
+            , `parameter_description`.`description_name`
+        FROM
+            `workshop`.`dt_requisition`
+            INNER JOIN `workshop`.`items`
+                ON (`dt_requisition`.`part_no` = `items`.`item_id`)
+            INNER JOIN `workshop`.`parameter_description`
+                ON (`items`.`description_id` = `parameter_description`.`description_id`)
+        WHERE `dt_requisition`.`req_id` = {$requisition_id};";
+
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->workshop_db->last_query());
+
+                log_message("debug", "found requisition materials..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting requisition materials.');
+
+                return false;
+            }
+        } else {
+            //The vehicle_id was empty
+            return FALSE;
+        }
     }
 
 }

@@ -168,7 +168,12 @@ $route['workshop/contracts/find/(:num)'] = 'workshop/contracts/find/contract_id/
 $route['workshop/contracts/(:num)'] = 'workshop/contracts/index/company_id/$1'; //GET
 
 $route['workshop/requisitions/find/(:num)'] = 'workshop/requisitions/find/requisition_id/$1'; //GET
+$route['workshop/requisitions/materials/(:num)'] = 'workshop/requisitions/materials/requisition_id/$1'; //GET
 $route['workshop/requisitions/(:num)'] = 'workshop/requisitions/index/company_id/$1'; //GET
+$route['workshop/requisitions/missing_materials/(:num)/(:num)/(:num)'] = 'workshop/requisitions/missing_materials/boq_vehicle_id/$1/section_id/$2/requisition_id/$3'; //GET
+
+
+
 
 
 
