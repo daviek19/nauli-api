@@ -1,22 +1,18 @@
 <?php
 
-class Processes_model extends CI_Model
-{
+class Processes_model extends CI_Model {
 
     private $workshop_db;
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->load->database();
         $this->workshop_db = $this->load->database('workshop', true);
     }
 
-    public function get_all_processes($company_id = '0')
-    {
+    public function get_all_processes($company_id = '0') {
 
-        $select_query = 			
-					"SELECT
+        $select_query = "SELECT
 						`process`.`process_id`
 						, `process`.`company_id`
 						, `process`.`sequence`
@@ -52,15 +48,14 @@ class Processes_model extends CI_Model
         }
     }
 
-    public function get_single_process($company_id = '0', $process_id)
-    {
+    public function get_single_process($company_id = '0', $process_id) {
 
         if (!empty($process_id)) {
 
             $select_query = "SELECT * FROM `process`
                         WHERE `process_id` = {$process_id};";
-						
-					 "SELECT
+
+            "SELECT
 						`process`.`process_id`
 						, `process`.`company_id`
 						, `process`.`sequence`
@@ -100,9 +95,8 @@ class Processes_model extends CI_Model
         }
     }
 
-    public function create_processes($data)
-    {
-		$data['critical_path'] == null ? "0" : "1";
+    public function create_processes($data) {
+        $data['critical_path'] == null ? "0" : "1";
 
         if ($this->workshop_db->insert('process', $data)) {
 
@@ -120,20 +114,19 @@ class Processes_model extends CI_Model
         }
     }
 
-    public function process_name_exists($process_name, $vehicle_make,$vehicle_model,$company_id)
-    {
+    public function process_name_exists($process_name, $vehicle_make, $vehicle_model, $company_id) {
 
         $this->workshop_db->where('process_name', $process_name);
 
         $this->workshop_db->where('company_id', $company_id);
-		
-		$this->workshop_db->where('vehicle_make', $vehicle_make);
-		
-		$this->workshop_db->where('vehicle_model', $vehicle_model);
+
+        $this->workshop_db->where('vehicle_make', $vehicle_make);
+
+        $this->workshop_db->where('vehicle_model', $vehicle_model);
 
         $query = $this->workshop_db->get('process');
-		
-		log_message("debug", "process_name_exists " . $this->workshop_db->last_query());
+
+        log_message("debug", "process_name_exists " . $this->workshop_db->last_query());
 
         if ($query->num_rows() >= 1) {
             return true;
@@ -142,16 +135,15 @@ class Processes_model extends CI_Model
         }
     }
 
-    public function process_sequence_exists($sequence, $vehicle_make,$vehicle_model,$company_id)
-    {
+    public function process_sequence_exists($sequence, $vehicle_make, $vehicle_model, $company_id) {
 
         $this->workshop_db->where('sequence', $sequence);
 
         $this->workshop_db->where('company_id', $company_id);
-		
-		$this->workshop_db->where('vehicle_make', $vehicle_make);
-		
-		$this->workshop_db->where('vehicle_model', $vehicle_model);
+
+        $this->workshop_db->where('vehicle_make', $vehicle_make);
+
+        $this->workshop_db->where('vehicle_model', $vehicle_model);
 
         $query = $this->workshop_db->get('process');
 
@@ -164,8 +156,7 @@ class Processes_model extends CI_Model
         }
     }
 
-    public function update_process($data)
-    {
+    public function update_process($data) {
 
         if (empty($data['process_id'])) {
 
@@ -173,7 +164,7 @@ class Processes_model extends CI_Model
 
             return FALSE;
         }
-		$data['critical_path'] == null ? "0" : "1";
+        $data['critical_path'] == null ? "0" : "1";
 
         $this->workshop_db->where('process_id', $data['process_id']);
 
@@ -192,8 +183,7 @@ class Processes_model extends CI_Model
         return $new_record->row();
     }
 
-    public function process_id_exists($process_id)
-    {
+    public function process_id_exists($process_id) {
         $this->workshop_db->where('process_id', $process_id);
 
         $query = $this->workshop_db->get('process');

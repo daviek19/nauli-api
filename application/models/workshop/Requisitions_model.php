@@ -1,21 +1,18 @@
 <?php
 
-class Requisitions_model extends CI_Model
-{
+class Requisitions_model extends CI_Model {
+
     private $workshop_db;
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->load->database();
         $this->workshop_db = $this->load->database('workshop', true);
     }
 
-    public function get_all_requisations($company_id = '0')
-    {
+    public function get_all_requisations($company_id = '0') {
 
-        $select_query =
-            "SELECT
+        $select_query = "SELECT
     `requisition`.`company_id`
     ,`requisition`.`req_id`
     ,`requisition`.`req_date`
@@ -48,7 +45,7 @@ FROM
         ON (`job_card`.`customer_vehicle_id` = `customer_vehicle`.`customer_vehicle_id`)
     INNER JOIN `workshop`.`customer`
         ON (`customer_vehicle`.`customer_id` = `customer`.`customer_id`)
-							WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` DESC;";
+WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` DESC;";
 
         if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
 
@@ -65,11 +62,10 @@ FROM
         }
     }
 
-	public function create_requisation($data)
-    {
-      
-        log_message("debug", "create_requisation...data " . json_encode($data));   
-        
+    public function create_requisation($data) {
+
+        log_message("debug", "create_requisation...data " . json_encode($data));
+
         if ($this->workshop_db->insert('requisition', $data)) {
 
             log_message("debug", "requisition query " . $this->workshop_db->last_query());
@@ -86,12 +82,10 @@ FROM
         }
     }
 
-  public function get_single_requisations($company_id = '0',$requisition_id)
-    {
-		 if (!empty($requisition_id)) {
-			 
-        $select_query =
-            "SELECT
+    public function get_single_requisations($company_id = '0', $requisition_id) {
+        if (!empty($requisition_id)) {
+
+            $select_query = "SELECT
     `requisition`.`company_id`
     ,`requisition`.`req_id`
     ,`requisition`.`req_date`
@@ -125,9 +119,9 @@ FROM
     INNER JOIN `workshop`.`customer`
         ON (`customer_vehicle`.`customer_id` = `customer`.`customer_id`)
 WHERE `requisition`.`req_id` = {$requisition_id};";
-		
 
-         if ($query = $this->workshop_db->query($select_query)) {
+
+            if ($query = $this->workshop_db->query($select_query)) {
 
                 log_message("debug", $this->workshop_db->last_query());
 
@@ -144,7 +138,43 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
             //The vehicle_id was empty
             return FALSE;
         }
-	
+    }
+
+    public function update_requisition($data) {
+        if (empty($data['req_id'])) {
+
+            log_message("debug", " req_id was empty. Exit");
+
+            return FALSE;
+        }
+
+        $this->workshop_db->where('req_id', $data['req_id']);
+
+        if ($this->workshop_db->update('requisition', $data) == FALSE) {
+
+            return FALSE;
+        }
+
+        log_message("debug", "update_requisition " . $this->workshop_db->last_query());
+        //All went well
+        $new_record = $this->workshop_db->get_where('requisition', array('req_id' => $data['req_id']));
+
+        log_message("debug", " update_requisition query " . $this->workshop_db->last_query());
+
+        log_message("debug", " Requisition Updated " . json_encode($new_record->row()));
+
+        return $new_record->row();
+    }
+
+    public function boq_drop_down($vehicle_id, $section_id, $requisition_id) {
+        //handle for vehicle_id as was added in the online db.
+        //
+        //select * boq where vehicle_id & section_id        
+        //and where materials not in dt_requisition for {$requisition_id} 
+    }
+
+    public function get_requisition_materails($requisition_id) {
+        
     }
 
 }
