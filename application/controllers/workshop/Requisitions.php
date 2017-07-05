@@ -125,12 +125,12 @@ class Requisitions extends REST_Controller
 
         $result = $this->requisitions_model->get_single_requisations("", $requisition_id);
         $materials = $this->requisitions_model->get_requisition_materials($result[0]->req_id);
-        $missing_materials = $this->requisitions_model->boq_drop_down($result[0]->vehicle_id, $result[0]->section_id,$result[0]->req_id);
+        $missing_materials = $this->requisitions_model->boq_drop_down($result[0]->vehicle_id, $result[0]->section_id, $result[0]->req_id);
 
         $this->response([
             'response' => $result,
             'materials' => $materials,
-            'missing_materials'=>$missing_materials,
+            'missing_materials' => $missing_materials,
             'status' => TRUE,
             'description' => 'To get all [/workshop/vehicles/company_id/] or to get single [/workshop/vehicles/company_id/item_id]'
         ], REST_Controller::HTTP_OK);
@@ -258,6 +258,80 @@ class Requisitions extends REST_Controller
             'response' => $result,
             'status' => TRUE,
             'description' => 'boq_vehicle_id/section_id/requisition_id'
+        ], REST_Controller::HTTP_OK);
+    }
+
+    public function add_material_put()
+    {
+        $data = [
+            'qty_issued' => $this->put('qty_issued'),
+            'qty_required' => $this->put('qty_required'),
+            'part_no' => $this->put('part_no'),
+            'req_id' => $this->put('req_id'),
+            'company_id' => $this->put('company_id')
+        ];
+        if (empty($data['req_id'])) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'a valid requisition id is required',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($data['qty_required'])) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'qty required is required',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($data['part_no'])) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'The part number is required',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($data['qty_issued'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'The qty issued is required',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($data['company_id'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'The company id is required',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        $response = $this->requisitions_model->add_material($data);
+
+        if ($response == FALSE) {
+
+            return $this->response([
+                'response' => $data,
+                'status' => FALSE,
+                'message' => 'Database refused. Try again!',
+                'description' => ''
+            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        log_message("debug", "added material ...");
+
+        return $this->response([
+            'response' => $response,
+            'status' => TRUE,
+            'message' => 'Requisition material added!',
+            'description' => ''
         ], REST_Controller::HTTP_OK);
     }
 }

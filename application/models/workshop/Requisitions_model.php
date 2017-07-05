@@ -185,6 +185,7 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
                 , `boq`.`vehicle_id`
                 , `items`.`item_name`
                 , `items`.`item_id`
+                , `parameter_description`.`description_name`
             FROM
                 `workshop`.`boq`
                 INNER JOIN `workshop`.`items`
@@ -258,4 +259,22 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
         }
     }
 
+    public function add_material($data){
+        log_message("debug", "add_material...data " . json_encode($data));
+
+        if ($this->workshop_db->insert('dt_requisition', $data)) {
+
+            log_message("debug", "add_material query " . $this->workshop_db->last_query());
+
+            $id = $this->workshop_db->insert_id();
+
+            $new_record = $this->workshop_db->get_where('dt_requisition', array('id' => $id));
+
+            log_message("debug", " requisition created " . json_encode($new_record->row()));
+
+            return $new_record->row();
+        } else {
+            return FALSE;
+        }
+    }
 }
