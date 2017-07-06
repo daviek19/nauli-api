@@ -218,6 +218,7 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
             , `dt_requisition`.`part_no`
             , `dt_requisition`.`qty_required`
             , `dt_requisition`.`qty_issued`
+             , `dt_requisition`.`id`
             , `items`.`item_no`
             , `items`.`item_name`
             , `parameter_description`.`description_name`
