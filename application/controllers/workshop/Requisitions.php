@@ -4,20 +4,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-class Requisitions extends REST_Controller
-{
+class Requisitions extends REST_Controller {
 
-    function __construct()
-    {
+    function __construct() {
 
         parent::__construct();
         $this->load->model('workshop/requisitions_model');
     }
 
-    public function index_get()
-    {
+    public function index_get() {
         //Get params
-        $company_id = (int)$this->get('company_id');
+        $company_id = (int) $this->get('company_id');
 
         log_message("debug", "*********** index_get start company_id {$company_id} ***********");
 
@@ -27,11 +24,10 @@ class Requisitions extends REST_Controller
             'response' => $result,
             'status' => TRUE,
             'description' => ''
-        ], REST_Controller::HTTP_OK);
+                ], REST_Controller::HTTP_OK);
     }
 
-    public function index_put()
-    {
+    public function index_put() {
         $data = array(
             'company_id' => $this->put('company_id'),
             'req_date' => $this->put('req_date'),
@@ -50,51 +46,51 @@ class Requisitions extends REST_Controller
         if (empty($data['req_date'])) {
 
             return $this->response([
-                'status' => FALSE,
-                'message' => 'the requisition date is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'the requisition date is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['job_no'])) {
 
             return $this->response([
-                'status' => FALSE,
-                'message' => 'The job number is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'The job number is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['job_date'])) {
             return $this->response([
-                'status' => FALSE,
-                'message' => 'The job data is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'The job data is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['requested_by'])) {
             return $this->response([
-                'status' => FALSE,
-                'message' => 'Requested by field by is required.',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'Requested by field by is required.',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['section_id'])) {
             return $this->response([
-                'status' => FALSE,
-                'message' => 'Select a valid section',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'Select a valid section',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['chassis_no'])) {
             return $this->response([
-                'status' => FALSE,
-                'message' => 'chassis no is required.',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'chassis no is required.',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         $response = $this->requisitions_model->create_requisation($data);
@@ -104,24 +100,23 @@ class Requisitions extends REST_Controller
             log_message("debug", "index_put Database refused. Try again!... ");
 
             return $this->response([
-                'response' => $data,
-                'status' => FALSE,
-                'message' => 'Database refused. Try again!',
-                'description' => 'create group put/ {company_id,warehouse_name,wh_loc_id} name cannot be null'
-            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                        'response' => $data,
+                        'status' => FALSE,
+                        'message' => 'Database refused. Try again!',
+                        'description' => 'create group put/ {company_id,warehouse_name,wh_loc_id} name cannot be null'
+                            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $this->response([
-            'response' => $response,
-            'status' => true,
-            'message' => 'requisition created!',
-            'description' => ''
-        ], REST_Controller::HTTP_CREATED);
+                    'response' => $response,
+                    'status' => true,
+                    'message' => 'requisition created!',
+                    'description' => ''
+                        ], REST_Controller::HTTP_CREATED);
     }
 
-    public function find_get()
-    {
-        $requisition_id = (int)$this->get('requisition_id');
+    public function find_get() {
+        $requisition_id = (int) $this->get('requisition_id');
 
         $result = $this->requisitions_model->get_single_requisations("", $requisition_id);
         $materials = $this->requisitions_model->get_requisition_materials($result[0]->req_id);
@@ -133,11 +128,10 @@ class Requisitions extends REST_Controller
             'missing_materials' => $missing_materials,
             'status' => TRUE,
             'description' => 'To get all [/workshop/vehicles/company_id/] or to get single [/workshop/vehicles/company_id/item_id]'
-        ], REST_Controller::HTTP_OK);
+                ], REST_Controller::HTTP_OK);
     }
 
-    public function index_post()
-    {
+    public function index_post() {
         $data = [
             'req_id' => $this->post('req_id'),
             'req_date' => $this->post('req_date'),
@@ -152,60 +146,60 @@ class Requisitions extends REST_Controller
         if (empty($data['req_id'])) {
 
             return $this->response([
-                'status' => FALSE,
-                'message' => 'Select a valid requisition',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'Select a valid requisition',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['req_date'])) {
 
             return $this->response([
-                'status' => FALSE,
-                'message' => 'the requisition date is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'the requisition date is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['job_no'])) {
 
             return $this->response([
-                'status' => FALSE,
-                'message' => 'The job number is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'The job number is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['job_date'])) {
             return $this->response([
-                'status' => FALSE,
-                'message' => 'The job data is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'The job data is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['requested_by'])) {
             return $this->response([
-                'status' => FALSE,
-                'message' => 'Requested by field by is required.',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'Requested by field by is required.',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['section_id'])) {
             return $this->response([
-                'status' => FALSE,
-                'message' => 'Select a valid section',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'Select a valid section',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['chassis_no'])) {
             return $this->response([
-                'status' => FALSE,
-                'message' => 'chassis no is required.',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'chassis no is required.',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
 
@@ -214,27 +208,26 @@ class Requisitions extends REST_Controller
         if ($response == FALSE) {
 
             return $this->response([
-                'response' => $data,
-                'status' => FALSE,
-                'message' => 'Database refused. Try again!',
-                'description' => ''
-            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                        'response' => $data,
+                        'status' => FALSE,
+                        'message' => 'Database refused. Try again!',
+                        'description' => ''
+                            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         log_message("debug", "Requisition Updated...");
 
         return $this->response([
-            'response' => $response,
-            'status' => TRUE,
-            'message' => 'Requisition Updated!',
-            'description' => ''
-        ], REST_Controller::HTTP_OK);
+                    'response' => $response,
+                    'status' => TRUE,
+                    'message' => 'Requisition Updated!',
+                    'description' => ''
+                        ], REST_Controller::HTTP_OK);
     }
 
-    public function materials_get()
-    {
+    public function materials_get() {
         //Get params
-        $requisition_id = (int)$this->get('requisition_id');
+        $requisition_id = (int) $this->get('requisition_id');
 
         $result = $this->requisitions_model->get_requisition_materials($requisition_id);
 
@@ -242,15 +235,14 @@ class Requisitions extends REST_Controller
             'response' => $result,
             'status' => TRUE,
             'description' => ''
-        ], REST_Controller::HTTP_OK);
+                ], REST_Controller::HTTP_OK);
     }
 
-    public function missing_materials_get()
-    {
+    public function missing_materials_get() {
         //Get params
-        $requisition_id = (int)$this->get('requisition_id');
-        $section_id = (int)$this->get('section_id');
-        $boq_vehicle_id = (int)$this->get('boq_vehicle_id');
+        $requisition_id = (int) $this->get('requisition_id');
+        $section_id = (int) $this->get('section_id');
+        $boq_vehicle_id = (int) $this->get('boq_vehicle_id');
 
         $result = $this->requisitions_model->boq_drop_down($boq_vehicle_id, $section_id, $requisition_id);
 
@@ -258,11 +250,10 @@ class Requisitions extends REST_Controller
             'response' => $result,
             'status' => TRUE,
             'description' => 'boq_vehicle_id/section_id/requisition_id'
-        ], REST_Controller::HTTP_OK);
+                ], REST_Controller::HTTP_OK);
     }
 
-    public function add_material_put()
-    {
+    public function add_material_put() {
         $data = [
             'qty_issued' => $this->put('qty_issued'),
             'qty_required' => $this->put('qty_required'),
@@ -273,44 +264,44 @@ class Requisitions extends REST_Controller
         if (empty($data['req_id'])) {
 
             return $this->response([
-                'status' => FALSE,
-                'message' => 'a valid requisition id is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'a valid requisition id is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['qty_required'])) {
 
             return $this->response([
-                'status' => FALSE,
-                'message' => 'qty required is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'qty required is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['part_no'])) {
 
             return $this->response([
-                'status' => FALSE,
-                'message' => 'The part number is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'The part number is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['qty_issued'])) {
             return $this->response([
-                'status' => FALSE,
-                'message' => 'The qty issued is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'The qty issued is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         if (empty($data['company_id'])) {
             return $this->response([
-                'status' => FALSE,
-                'message' => 'The company id is required',
-                'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                        'status' => FALSE,
+                        'message' => 'The company id is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         $response = $this->requisitions_model->add_material($data);
@@ -318,20 +309,67 @@ class Requisitions extends REST_Controller
         if ($response == FALSE) {
 
             return $this->response([
-                'response' => $data,
-                'status' => FALSE,
-                'message' => 'Database refused. Try again!',
-                'description' => ''
-            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                        'response' => $data,
+                        'status' => FALSE,
+                        'message' => 'Database refused. Try again!',
+                        'description' => ''
+                            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         log_message("debug", "added material ...");
 
         return $this->response([
-            'response' => $response,
-            'status' => TRUE,
-            'message' => 'Requisition material added!',
-            'description' => ''
-        ], REST_Controller::HTTP_OK);
+                    'response' => $response,
+                    'status' => TRUE,
+                    'message' => 'Requisition material added!',
+                    'description' => ''
+                        ], REST_Controller::HTTP_OK);
     }
+
+    public function edit_material_post() {
+        $data = [
+            'qty_issued' => $this->post('qty_issued'),
+            'id' => $this->post('id'),
+        ];
+
+        if (empty($data['qty_issued'])) {
+
+            return $this->response([
+                        'status' => FALSE,
+                        'message' => 'Qty issued is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($data['id'])) {
+
+            return $this->response([
+                        'status' => FALSE,
+                        'message' => 'material id to edit is required',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        $response = $this->requisitions_model->update_material($data);
+
+        if ($response == FALSE) {
+
+            return $this->response([
+                        'response' => $data,
+                        'status' => FALSE,
+                        'message' => 'Database refused. Try again!',
+                        'description' => ''
+                            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        log_message("debug", "Requisition matrail Updated...");
+
+        return $this->response([
+                    'response' => $response,
+                    'status' => TRUE,
+                    'message' => 'Requisition matrail Updated!',
+                    'description' => ''
+                        ], REST_Controller::HTTP_OK);
+    }
+
 }
