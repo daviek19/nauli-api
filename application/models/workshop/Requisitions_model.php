@@ -1,18 +1,22 @@
 <?php
 
-class Requisitions_model extends CI_Model {
+class Requisitions_model extends CI_Model
+{
 
     private $workshop_db;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->database();
         $this->workshop_db = $this->load->database('workshop', true);
     }
 
-    public function get_all_requisations($company_id = '0') {
+    public function get_all_requisations($company_id = '0')
+    {
 
-        $select_query = "SELECT
+        $select_query =
+            "SELECT
     `requisition`.`company_id`
     ,`requisition`.`req_id`
     ,`requisition`.`req_date`
@@ -23,9 +27,8 @@ class Requisitions_model extends CI_Model {
     ,`requisition`.`chassis_no`
     ,`requisition`.`status`
     ,`requisition`.`cancel`
-     ,`requisition`.`date_created`
-    , `process`.`process_id`
-    , `process`.`process_name`
+    ,`requisition`.`date_created`
+    , `section`.`description_name` AS section_name
     , `contractors`.`contractor_id`
     , `contractors`.`contractor_name`
     , `customer`.`customer_id`
@@ -41,19 +44,21 @@ FROM
         ON (`requisition`.`job_no` = `job_card`.`job_id`)
     INNER JOIN `workshop`.`contractors`
         ON (`requisition`.`requested_by` = `contractors`.`contractor_id`)
-    INNER JOIN `workshop`.`process`
-        ON (`requisition`.`section_id` = `process`.`process_id`)
+
+    INNER JOIN `workshop`.`parameter_description` AS section
+        ON (`requisition`.`section_id` = `section`.`description_id`)
+
     INNER JOIN `workshop`.`customer_vehicle`
         ON (`job_card`.`customer_vehicle_id` = `customer_vehicle`.`customer_vehicle_id`)
     INNER JOIN `workshop`.`customer`
         ON (`customer_vehicle`.`customer_id` = `customer`.`customer_id`)
-        
+
     INNER JOIN `workshop`.`vehicle_master`
         ON (`job_card`.`boq_veh_id` = `vehicle_master`.`vehicle_id`)
     INNER JOIN `workshop`.`parameter_description` AS `vehicle_make`
         ON (`vehicle_master`.`make_id` = `vehicle_make`.`description_id`)
     INNER JOIN `workshop`.`parameter_description` AS `model`
-        ON (`vehicle_master`.`model_no` = `model`.`description_id`)        
+        ON (`vehicle_master`.`model_no` = `model`.`description_id`)
 WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` DESC;";
 
         if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
@@ -71,7 +76,8 @@ WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` 
         }
     }
 
-    public function create_requisation($data) {
+    public function create_requisation($data)
+    {
 
         log_message("debug", "create_requisation...data " . json_encode($data));
 
@@ -91,7 +97,8 @@ WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` 
         }
     }
 
-    public function get_single_requisations($company_id = '0', $requisition_id) {
+    public function get_single_requisations($company_id = '0', $requisition_id)
+    {
         if (!empty($requisition_id)) {
 
             $select_query = "SELECT
@@ -105,9 +112,8 @@ WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` 
     ,`requisition`.`chassis_no`
     ,`requisition`.`status`
     ,`requisition`.`cancel`
-     ,`requisition`.`date_created`
-    , `process`.`process_id`
-    , `process`.`process_name`
+    ,`requisition`.`date_created`
+    , `section`.`description_name` AS section_name
     , `contractors`.`contractor_id`
     , `contractors`.`contractor_name`
     , `customer`.`customer_id`
@@ -124,8 +130,10 @@ FROM
         ON (`requisition`.`job_no` = `job_card`.`job_id`)
     INNER JOIN `workshop`.`contractors`
         ON (`requisition`.`requested_by` = `contractors`.`contractor_id`)
-    INNER JOIN `workshop`.`process`
-        ON (`requisition`.`section_id` = `process`.`process_id`)
+
+   INNER JOIN `workshop`.`parameter_description` AS section
+        ON (`requisition`.`section_id` = `section`.`description_id`)
+
     INNER JOIN `workshop`.`customer_vehicle`
         ON (`job_card`.`customer_vehicle_id` = `customer_vehicle`.`customer_vehicle_id`)
     INNER JOIN `workshop`.`customer`
@@ -159,7 +167,8 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
         }
     }
 
-    public function update_requisition($data) {
+    public function update_requisition($data)
+    {
         if (empty($data['req_id'])) {
 
             log_message("debug", " req_id was empty. Exit");
@@ -185,7 +194,8 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
         return $new_record->row();
     }
 
-    public function boq_drop_down($vehicle_id, $section_id, $requisition_id) {
+    public function boq_drop_down($vehicle_id, $section_id, $requisition_id)
+    {
         if (!empty($requisition_id) && !empty($section_id) && !empty($vehicle_id)) {
 
             $select_query = "SELECT
@@ -226,7 +236,8 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
         }
     }
 
-    public function get_requisition_materials($requisition_id) {
+    public function get_requisition_materials($requisition_id)
+    {
         if (!empty($requisition_id)) {
 
             $select_query = "SELECT
@@ -268,7 +279,8 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
         }
     }
 
-    public function add_material($data) {
+    public function add_material($data)
+    {
         log_message("debug", "add_material...data " . json_encode($data));
 
         if ($this->workshop_db->insert('dt_requisition', $data)) {
@@ -287,7 +299,8 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
         }
     }
 
-    public function update_material($data) {
+    public function update_material($data)
+    {
         if (empty($data['id'])) {
 
             log_message("debug", " id was empty. Exit");
@@ -313,7 +326,8 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
         return $new_record->row();
     }
 
-     public function requisition_exists($job_id, $section_id) {
+    public function requisition_exists($job_id, $section_id)
+    {
 
         $this->workshop_db->where('job_no', $job_id);
 
