@@ -93,6 +93,15 @@ class Requisitions extends REST_Controller {
                             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
+        if ($this->requisitions_model->requisition_exists($data['job_no'], $data['section_id'])) {
+            return $this->response([
+                        'status' => FALSE,
+                        'message' => 'This Section has already been requsted. Edit to change materails',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+
         $response = $this->requisitions_model->create_requisation($data);
 
         if ($response == FALSE) {

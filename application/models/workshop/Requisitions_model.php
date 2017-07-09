@@ -24,8 +24,8 @@ class Requisitions_model extends CI_Model {
     ,`requisition`.`status`
     ,`requisition`.`cancel`
      ,`requisition`.`date_created`
-    , `parameter_description`.`description_id`
-    , `parameter_description`.`description_name`
+    , `process`.`process_id`
+    , `process`.`process_name`
     , `contractors`.`contractor_id`
     , `contractors`.`contractor_name`
     , `customer`.`customer_id`
@@ -33,18 +33,27 @@ class Requisitions_model extends CI_Model {
     , `customer_vehicle`.`chassis_no`
     , `customer_vehicle`.`engine_no`
     , `job_card`.`job_id`
+    , `model`.`description_name` AS `vehicle_model`
+    , `vehicle_make`.`description_name` AS `vehicle_make`
 FROM
     `workshop`.`requisition`
     INNER JOIN `workshop`.`job_card`
         ON (`requisition`.`job_no` = `job_card`.`job_id`)
     INNER JOIN `workshop`.`contractors`
         ON (`requisition`.`requested_by` = `contractors`.`contractor_id`)
-    INNER JOIN `workshop`.`parameter_description`
-        ON (`requisition`.`section_id` = `parameter_description`.`description_id`)
+    INNER JOIN `workshop`.`process`
+        ON (`requisition`.`section_id` = `process`.`process_id`)
     INNER JOIN `workshop`.`customer_vehicle`
         ON (`job_card`.`customer_vehicle_id` = `customer_vehicle`.`customer_vehicle_id`)
     INNER JOIN `workshop`.`customer`
         ON (`customer_vehicle`.`customer_id` = `customer`.`customer_id`)
+        
+    INNER JOIN `workshop`.`vehicle_master`
+        ON (`job_card`.`boq_veh_id` = `vehicle_master`.`vehicle_id`)
+    INNER JOIN `workshop`.`parameter_description` AS `vehicle_make`
+        ON (`vehicle_master`.`make_id` = `vehicle_make`.`description_id`)
+    INNER JOIN `workshop`.`parameter_description` AS `model`
+        ON (`vehicle_master`.`model_no` = `model`.`description_id`)        
 WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` DESC;";
 
         if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
@@ -97,8 +106,8 @@ WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` 
     ,`requisition`.`status`
     ,`requisition`.`cancel`
      ,`requisition`.`date_created`
-    , `parameter_description`.`description_id`
-    , `parameter_description`.`description_name`
+    , `process`.`process_id`
+    , `process`.`process_name`
     , `contractors`.`contractor_id`
     , `contractors`.`contractor_name`
     , `customer`.`customer_id`
@@ -106,19 +115,28 @@ WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` 
     , `customer_vehicle`.`chassis_no`
     , `customer_vehicle`.`engine_no`
     , `job_card`.`job_id`
-       ,`customer_vehicle`.`vehicle_id`
+    , `model`.`description_name` AS `vehicle_model`
+    , `vehicle_make`.`description_name` AS `vehicle_make`
+     ,`customer_vehicle`.`vehicle_id`
 FROM
     `workshop`.`requisition`
     INNER JOIN `workshop`.`job_card`
         ON (`requisition`.`job_no` = `job_card`.`job_id`)
     INNER JOIN `workshop`.`contractors`
         ON (`requisition`.`requested_by` = `contractors`.`contractor_id`)
-    INNER JOIN `workshop`.`parameter_description`
-        ON (`requisition`.`section_id` = `parameter_description`.`description_id`)
+    INNER JOIN `workshop`.`process`
+        ON (`requisition`.`section_id` = `process`.`process_id`)
     INNER JOIN `workshop`.`customer_vehicle`
         ON (`job_card`.`customer_vehicle_id` = `customer_vehicle`.`customer_vehicle_id`)
     INNER JOIN `workshop`.`customer`
         ON (`customer_vehicle`.`customer_id` = `customer`.`customer_id`)
+        
+    INNER JOIN `workshop`.`vehicle_master`
+        ON (`job_card`.`boq_veh_id` = `vehicle_master`.`vehicle_id`)
+    INNER JOIN `workshop`.`parameter_description` AS `vehicle_make`
+        ON (`vehicle_master`.`make_id` = `vehicle_make`.`description_id`)
+    INNER JOIN `workshop`.`parameter_description` AS `model`
+        ON (`vehicle_master`.`model_no` = `model`.`description_id`)
 WHERE `requisition`.`req_id` = {$requisition_id};";
 
 
@@ -295,4 +313,20 @@ WHERE `requisition`.`req_id` = {$requisition_id};";
         return $new_record->row();
     }
 
+     public function requisition_exists($job_id, $section_id) {
+
+        $this->workshop_db->where('job_no', $job_id);
+
+        $this->workshop_db->where('section_id', $section_id);
+
+        $query = $this->workshop_db->get('requisition');
+
+        log_message("debug", "requisition exists " . $this->workshop_db->last_query());
+
+        if ($query->num_rows() >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
