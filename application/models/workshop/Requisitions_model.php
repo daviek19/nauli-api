@@ -38,6 +38,7 @@ class Requisitions_model extends CI_Model
     , `job_card`.`job_id`
     , `model`.`description_name` AS `vehicle_model`
     , `vehicle_make`.`description_name` AS `vehicle_make`
+    ,`vehicle_master`.`vehicle_code`
 FROM
     `workshop`.`requisition`
     INNER JOIN `workshop`.`job_card`
