@@ -125,7 +125,7 @@ WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` 
     , `job_card`.`job_id`
     , `model`.`description_name` AS `vehicle_model`
     , `vehicle_make`.`description_name` AS `vehicle_make`
-     ,`customer_vehicle`.`vehicle_id`
+     ,`job_card`.`boq_veh_id` AS vehicle_id
 FROM
     `workshop`.`requisition`
     INNER JOIN `workshop`.`job_card`
