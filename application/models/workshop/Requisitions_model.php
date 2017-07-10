@@ -109,6 +109,7 @@ WHERE `requisition`.`company_id` IN (?,?) ORDER BY `requisition`.`date_created` 
     ,`requisition`.`job_date`
     ,`requisition`.`requested_by`
     ,`requisition`.`section_id`
+    ,`requisition`.`process_id`
     ,`requisition`.`chassis_no`
     ,`requisition`.`status`
     ,`requisition`.`cancel`

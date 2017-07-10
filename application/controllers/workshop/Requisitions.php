@@ -35,6 +35,7 @@ class Requisitions extends REST_Controller {
             'job_date' => $this->put('job_date'),
             'requested_by' => $this->put('requested_by'),
             'section_id' => $this->put('section_id'),
+            'process_id' => $this->put('process_id'),
             'chassis_no' => $this->put('chassis_no'),
             'status' => $this->put('status'),
             'cancel' => $this->put('cancel'),
@@ -81,6 +82,14 @@ class Requisitions extends REST_Controller {
             return $this->response([
                         'status' => FALSE,
                         'message' => 'Select a valid section',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        
+         if (empty($data['process_id'])) {
+            return $this->response([
+                        'status' => FALSE,
+                        'message' => 'Select a process section',
                         'description' => ''
                             ], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -149,6 +158,7 @@ class Requisitions extends REST_Controller {
             'requested_by' => $this->post('requested_by'),
             'section_id' => $this->post('section_id'),
             'chassis_no' => $this->post('chassis_no'),
+            'process_id' => $this->post('process_id'),
             'status' => $this->post('status'),
             'cancel' => $this->post('cancel'),
         ];
@@ -199,6 +209,14 @@ class Requisitions extends REST_Controller {
             return $this->response([
                         'status' => FALSE,
                         'message' => 'Select a valid section',
+                        'description' => ''
+                            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+        
+        if (empty($data['process_id'])) {
+            return $this->response([
+                        'status' => FALSE,
+                        'message' => 'Select a process section',
                         'description' => ''
                             ], REST_Controller::HTTP_BAD_REQUEST);
         }
