@@ -6,7 +6,6 @@ require APPPATH . '/libraries/REST_Controller.php';
 
 class Contracts extends REST_Controller
 {
-
     function __construct()
     {
         parent::__construct();
@@ -125,12 +124,12 @@ class Contracts extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        if($this->contracts_model->contract_exists($data['job_id'], $data['process_id'],$data['company_id'])){
-          return $this->response([
+        if ($this->contracts_model->contract_exists($data['job_id'], $data['process_id'], $data['company_id'])) {
+            return $this->response([
                 'status' => FALSE,
                 'message' => 'The contract already exists',
                 'description' => ''
-            ], REST_Controller::HTTP_BAD_REQUEST);  
+            ], REST_Controller::HTTP_BAD_REQUEST);
         }
 
 
@@ -156,10 +155,10 @@ class Contracts extends REST_Controller
         ], REST_Controller::HTTP_CREATED);
     }
 
-     public function index_post()
+    public function index_post()
     {
-        $data = [       
-            'contract_id' => $this->post('contract_id'),	
+        $data = [
+            'contract_id' => $this->post('contract_id'),
             'contract_date' => $this->post('contract_date'),
             'job_id' => $this->post('job_id'),
             'job_date' => $this->post('job_date'),
@@ -248,5 +247,5 @@ class Contracts extends REST_Controller
         ], REST_Controller::HTTP_OK);
     }
 
-   
+
 }
