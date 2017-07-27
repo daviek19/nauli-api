@@ -10,6 +10,7 @@ class Certificates extends REST_Controller
     {
         parent::__construct();
         $this->load->model('workshop/certificates_model');
+        $this->load->model('workshop/activities_model');
     }
 
     public function index_get()
@@ -27,5 +28,21 @@ class Certificates extends REST_Controller
             'description' => 'To get all [/workshop/Certificates/company_id/] or to get single [/workshop/Certificates/company_id/item_id]'
         ], REST_Controller::HTTP_OK);
 
+    }
+
+    public function find_get()
+    {
+        $certificate_id = (int)$this->get('certificate_id');
+
+        $result = $this->certificates_model->get_single_certificate("", $certificate_id);
+        $all_activities= $this->activities_model->get_process_activities($result[0]->company_id, $result[0]->process_id);
+        $completed_activities = $this->certificates_model->get_completed_activities_id($certificate_id);
+        $this->response([
+            'response' => $result,
+            'all_activities'=>$all_activities,
+            'completed_activities'=>$completed_activities,
+            'status' => TRUE,
+            'description' => 'To get all [/workshop/contractors/company_id/] or to get single [/workshop/contractors/company_id/bank_id]'
+        ], REST_Controller::HTTP_OK);
     }
 }

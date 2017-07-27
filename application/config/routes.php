@@ -173,6 +173,8 @@ $route['workshop/requisitions/(:num)'] = 'workshop/requisitions/index/company_id
 $route['workshop/requisitions/missing_materials/(:num)/(:num)/(:num)'] = 'workshop/requisitions/missing_materials/boq_vehicle_id/$1/section_id/$2/requisition_id/$3'; //GET
 
 $route['workshop/certificates/(:num)'] = 'workshop/certificates/index/company_id/$1'; //GET
+$route['workshop/certificates/find/(:num)'] = 'workshop/certificates/find/certificate_id/$1'; //GET
+
 
 
 
