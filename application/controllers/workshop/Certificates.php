@@ -68,7 +68,6 @@ class Certificates extends REST_Controller
 			'q_control' =>  $this->put('q_control'),
 			'p_manager' =>  $this->put('p_manager'),
 			'w_manager' =>  $this->put('w_manager'),
-			//'completed' =>  $this->put('completed[]'),
 			'user_id' => $this->put('user_id')
         );
 
@@ -84,6 +83,29 @@ class Certificates extends REST_Controller
         }
 
         $response = $this->certificates_model->create_certificate($data);
+		$complted_jobs  = $this->post('completed');
+				
+		$work_done = array();
+		if(!empty($complted_jobs)){
+		    foreach($complted_jobs as $job_id){	
+		
+				$work_done[] = array(
+					'activity_id ' => $job_id,
+					'company_id' => $this->put('company_id'),
+					'certificate_id' => $response->certificate_id,
+					'completion_date' => $this->put('completed_date'),			
+					'contract_id' => $this->put('contract_id'),			           
+					'chassis_no' => $this->put('chassis_no'),			           
+					'date_created' => $this->put('date_created'),					
+					'user_id' => $this->put('user_id'),
+					'status' => 1,
+					'model_id' =>'',
+					'process_id' =>'',					
+					);
+			};
+		}
+		
+		$dt_response = $this->certificates_model->create_work_done($response->certificate_id,$work_done);
 
         if ($response == FALSE) {
 
@@ -103,5 +125,74 @@ class Certificates extends REST_Controller
             'message' => 'Certificate created!',
             'description' => ''
         ], REST_Controller::HTTP_CREATED);
+    }
+	
+	public function index_post()
+    {
+        $data = [									
+            'completed_date' =>  $this->post('completed_date'),
+            'contract_id' =>  $this->post('contract_id'),
+            'contract_date' =>  $this->post('contract_date'),
+			'job_id' =>  $this->post('job_id'),
+            'job_date' =>  $this->post('job_date'),
+            'chassis_no' =>  $this->post('chassis_no'),
+            'contractor_id' =>  $this->post('contractor_id'),
+			'start_date' =>  $this->post('start_date'),
+            'end_date' =>  $this->post('end_date'),
+            'days' =>  $this->post('days'),
+			'amount' =>  $this->post('amount'),
+            'deductions' =>  $this->post('deductions'),
+            'reason' =>  $this->post('reason'),
+			'date_created' =>  $this->post('date_created'),
+			's_supervisor' =>  $this->post('s_supervisor'),
+			'q_control' =>  $this->post('q_control'),
+			'p_manager' =>  $this->post('p_manager'),
+			'w_manager' =>  $this->post('w_manager'),
+			'user_id' => $this->post('user_id')
+        ];       
+
+        $response = $this->certificates_model->update_certificate($data);
+		
+		$work_done = array();
+		
+		if(!empty($complted_jobs)){
+		    foreach($complted_jobs as $job_id){	
+		
+				$work_done[] = array(
+					'activity_id ' => $job_id,
+					'company_id' => $this->post('company_id'),
+					'certificate_id' => $response->certificate_id,
+					'completion_date' => $this->post('completed_date'),			
+					'contract_id' => $this->post('contract_id'),			           
+					'chassis_no' => $this->post('chassis_no'),			           
+					'date_created' => $this->post('date_created'),					
+					'user_id' => $this->post('user_id'),
+					'status' => 1,
+					'model_id' =>'',
+					'process_id' =>'',
+					
+					);
+			};
+		}
+		
+		$dt_response = $this->certificates_model->create_work_done($response->certificate_id,$work_done);
+
+
+        if ($response == FALSE) {
+
+            return $this->response([
+                'response' => $data,
+                'status' => FALSE,
+                'message' => 'Database refused. Try again!',
+                'description' => ''
+            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $this->response([
+            'response' => $response,
+            'status' => TRUE,
+            'message' => 'Certificate Updated!',
+            'description' => ''
+        ], REST_Controller::HTTP_OK);
     }
 }

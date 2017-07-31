@@ -161,4 +161,34 @@ FROM
             return FALSE;
         }
     }
+	
+	public function update_certificate($data)
+    {               
+        $this->workshop_db->where('hd_completion', $data['certificate_id']);
+
+        if ($this->workshop_db->update('hd_completion', $data) == FALSE) {
+
+            return FALSE;
+        }
+		
+        log_message("debug", "update_contracts " . $this->workshop_db->last_query());
+        //All went well
+        $new_record = $this->workshop_db->get_where('hd_completion', array('certificate_id' => $data['certificate_id']));
+
+        log_message("debug", " update_contract query " . $this->workshop_db->last_query());
+
+        log_message("debug", "Contract Updated " . json_encode($new_record->row()));
+
+        return $new_record->row();
+    }
+	
+	public function create_work_done($certificate_id,$work_done){
+		log_message("debug", "work done" . json_encode($work_done));
+
+		if(!empty($work_done)){
+			$this->workshop_db->delete('dt_completion', array('certificate_id ' => $certificate_id)); 		
+			$this->workshop_db->insert_batch('dt_completion', $work_done); 
+			log_message("debug", "create_work_done" . $this->workshop_db->last_query());
+		}		
+	}
 }
