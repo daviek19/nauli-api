@@ -141,4 +141,24 @@ FROM
             return false;
         }
     }
+	
+	public function create_certificate($data)
+    {
+        log_message("debug", "create_certificate...data " . json_encode($data));
+
+        if ($this->workshop_db->insert('hd_completion', $data)) {
+
+            log_message("debug", "certificate query " . $this->workshop_db->last_query());
+
+            $id = $this->workshop_db->insert_id();
+
+            $new_record = $this->workshop_db->get_where('hd_completion', array('certificate_id' => $id));
+
+            log_message("debug", " certificate created " . json_encode($new_record->row()));
+
+            return $new_record->row();
+        } else {
+            return FALSE;
+        }
+    }
 }
