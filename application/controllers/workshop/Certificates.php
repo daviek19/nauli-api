@@ -129,7 +129,8 @@ class Certificates extends REST_Controller
 	
 	public function index_post()
     {
-        $data = [									
+        $data = [		
+            'certificate_id' =>  $this->post('certificate_id'),	
             'completed_date' =>  $this->post('completed_date'),
             'contract_id' =>  $this->post('contract_id'),
             'contract_date' =>  $this->post('contract_date'),
@@ -150,6 +151,8 @@ class Certificates extends REST_Controller
 			'w_manager' =>  $this->post('w_manager'),
 			'user_id' => $this->post('user_id')
         ];       
+
+		        log_message("debug", "updating Certificate... " . json_encode($data));
 
         $response = $this->certificates_model->update_certificate($data);
 		
@@ -175,7 +178,7 @@ class Certificates extends REST_Controller
 			};
 		}
 		
-		$dt_response = $this->certificates_model->create_work_done($response->certificate_id,$work_done);
+		$dt_response = $this->certificates_model->create_work_done($this->post('certificate_id'),$work_done);
 
 
         if ($response == FALSE) {

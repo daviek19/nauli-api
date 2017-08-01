@@ -164,7 +164,7 @@ FROM
 	
 	public function update_certificate($data)
     {               
-        $this->workshop_db->where('hd_completion', $data['certificate_id']);
+        $this->workshop_db->where('certificate_id', $data['certificate_id']);
 
         if ($this->workshop_db->update('hd_completion', $data) == FALSE) {
 
