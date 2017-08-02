@@ -70,10 +70,22 @@ class Certificates extends REST_Controller
 			'w_manager' =>  $this->put('w_manager'),
 			'user_id' => $this->put('user_id')
         );
+		$complted_jobs  = $this->put('completed');
+
 
         log_message("debug", "Inserting Certificate... " . json_encode($data));
+		
+		if ($this->certificates_model->certificate_exists($data['contract_id'], $data['job_id']) == TRUE) {
 
-        if (empty($data['company_id'])) {
+            return $this->response([
+                'response' => $data,
+                'status' => FALSE,
+                'message' => 'Trying to duplicate certificate ',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+		
+		 if (empty($data['company_id'])) {
 
             return $this->response([
                 'status' => FALSE,
@@ -81,9 +93,34 @@ class Certificates extends REST_Controller
                 'description' => ''
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
+        if (empty($data['job_id'])) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Select a job id',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($complted_jobs)) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'No work was marked as complete',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+		
+		if (empty($data['completed_date'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Select a completion date',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
 
         $response = $this->certificates_model->create_certificate($data);
-		$complted_jobs  = $this->post('completed');
+		
 				
 		$work_done = array();
 		if(!empty($complted_jobs)){
@@ -151,10 +188,47 @@ class Certificates extends REST_Controller
 			'w_manager' =>  $this->post('w_manager'),
 			'user_id' => $this->post('user_id')
         ];       
+		
+		$complted_jobs  = $this->post('completed');
 
-		        log_message("debug", "updating Certificate... " . json_encode($data));
+		     
+		if (empty($data['certificate_id'])) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Select a valid certificate',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+		
+        if (empty($data['job_id'])) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Select a job id',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($complted_jobs)) {
+
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'No work was marked as complete',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+		
+		if (empty($data['completed_date'])) {
+            return $this->response([
+                'status' => FALSE,
+                'message' => 'Select a completion date',
+                'description' => ''
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
 
         $response = $this->certificates_model->update_certificate($data);
+		
 		
 		$work_done = array();
 		

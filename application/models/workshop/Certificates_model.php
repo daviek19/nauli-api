@@ -183,6 +183,7 @@ FROM
     }
 	
 	public function create_work_done($certificate_id,$work_done){
+		
 		log_message("debug", "work done" . json_encode($work_done));
 
 		if(!empty($work_done)){
@@ -190,5 +191,21 @@ FROM
 			$this->workshop_db->insert_batch('dt_completion', $work_done); 
 			log_message("debug", "create_work_done" . $this->workshop_db->last_query());
 		}		
+	}
+	public function certificate_exists($contract_id, $job_id){
+		
+		$this->workshop_db->where('contract_id', $contract_id);
+
+        $this->workshop_db->where('job_id', $job_id);
+
+        $query = $this->workshop_db->get('hd_completion');
+
+        if ($query->num_rows() > 0) {
+
+            return true;
+        } else {
+
+            return false;
+        }
 	}
 }
