@@ -175,6 +175,9 @@ $route['workshop/requisitions/missing_materials/(:num)/(:num)/(:num)'] = 'worksh
 $route['workshop/certificates/(:num)'] = 'workshop/certificates/index/company_id/$1'; //GET
 $route['workshop/certificates/find/(:num)'] = 'workshop/certificates/find/certificate_id/$1'; //GET
 
+$route['workshop/closejobs/(:num)'] = 'workshop/closejobs/index/company_id/$1'; //GET
+
+
 
 
 

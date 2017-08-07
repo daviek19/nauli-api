@@ -32,6 +32,7 @@ class Jobcards_model extends CI_Model
     , `job_card`.`boq_veh_id`
     , `job_card`.`work_desc`
     ,`job_card`.`customer_vehicle_id`
+	, `job_card`.`job_closed_id`
     , `vehicle_master`.`model_no`
     , `vehicle_master`.`vehicle_code`
     , `model`.`description_name` AS `vehicle_model`
@@ -55,7 +56,8 @@ FROM
         ON (`job_card`.`user_id` = `user`.`id`)
 	INNER JOIN `workshop`.`customer_vehicle` 
         ON (`job_card`.`customer_vehicle_id` = `customer_vehicle`.`customer_vehicle_id`)
- WHERE `job_card`.`company_id` IN (?,?) ORDER BY `job_card`.`date_created` DESC;";
+ WHERE `job_card`.`company_id` IN (?,?) AND `job_card`.`job_closed_id` = '0' 
+ ORDER BY `job_card`.`date_created` DESC;";
 
         if ($query = $this->workshop_db->query($select_query, array($company_id, '0'))) {
 
