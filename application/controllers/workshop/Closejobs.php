@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-class CloseJobs extends REST_Controller
+class Closejobs extends REST_Controller
 {
     function __construct()
     {
