@@ -177,6 +177,10 @@ $route['workshop/certificates/find/(:num)'] = 'workshop/certificates/find/certif
 
 $route['workshop/closejobs/(:num)'] = 'workshop/closejobs/index/company_id/$1'; //GET
 
+$route['workshop/contractors_pay/(:num)'] = 'workshop/contractors_pay/index/company_id/$1'; //GET
+$route['workshop/contractors_pay/find/(:num)'] = 'workshop/contractors_pay/find/pay_id/$1'; //GET
+
+
 
 
 
