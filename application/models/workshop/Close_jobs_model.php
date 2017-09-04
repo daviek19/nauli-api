@@ -74,4 +74,44 @@ class Close_jobs_model extends CI_Model
 		$this->workshop_db->where('job_id', $data['job_id']);
         $this->workshop_db->update('job_card', $data); 
 	}
+	
+	  public function closed_jobs_by_date($company_id = '0', $from_date,$to_date)
+    {
+		
+        if (empty($from_date)) {
+
+            log_message("debug", " The from date field is required");
+
+            return FALSE;
+        }		
+		
+		if (empty($to_date)) {
+
+            log_message("debug", " The to date field is required");
+
+            return FALSE;
+        }	
+		
+		$select_query =
+					"SELECT COUNT(*) as closed_jobs 
+					FROM `close_job`
+					WHERE `date_created` 
+					BETWEEN 
+					'$from_date' AND '$to_date' AND company_id = '$company_id';";
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->workshop_db->last_query());
+
+                log_message("debug", "found closed job count..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting closed job count.');
+
+                return false;
+            }
+       
+    }
 }

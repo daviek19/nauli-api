@@ -247,5 +247,19 @@ class Contracts extends REST_Controller
         ], REST_Controller::HTTP_OK);
     }
 
+	public function paid_get()
+    {
+        $company_id = (int)$this->get('company_id');
+        $from_date = (string)$this->get('from_date');
+        $to_date = (string)$this->get('to_date');
+		
+        $result = $this->contracts_model->contracts_paid($company_id,$from_date,$to_date);
+
+        $this->response([
+            'response' => $result,
+            'status' => TRUE,
+            'description' => 'To get all paid contracts count for a period [/workshop/contracts/paid/company_id/from_date/to_date].Use the date format yy-mm-dd'
+        ], REST_Controller::HTTP_OK);
+    }
 
 }

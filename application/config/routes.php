@@ -151,6 +151,8 @@ $route['workshop/contractors/(:num)'] = 'workshop/contractors/index/company_id/$
 
 $route['workshop/customers/find/(:num)'] = 'workshop/customers/find/customer_id/$1'; //GET
 $route['workshop/customers/(:num)'] = 'workshop/customers/index/company_id/$1'; //GET
+$route['workshop/customers/registered/(:num)/(:any)/(:any)'] = 'workshop/customers/registered/company_id/$1/from_date/$2/to_date/$3'; //GET
+
 
 $route['workshop/customer_vehicles/find/(:num)'] = 'workshop/customer_vehicles/find/customer_vehicle_id/$1'; //GET
 $route['workshop/customer_vehicles/find_by_customer/(:num)/(:num)'] = 'workshop/customer_vehicles/find_by_customer/company_id/$1/customer_id/$2'; //GET
@@ -160,12 +162,17 @@ $route['workshop/customer_vehicles/(:num)'] = 'workshop/customer_vehicles/index/
 $route['workshop/jobcards/find/(:num)'] = 'workshop/jobcards/find/job_id/$1'; //GET
 $route['workshop/jobcards/contracts/(:num)'] = 'workshop/jobcards/contracts/job_id/$1'; //GET
 $route['workshop/jobcards/(:num)'] = 'workshop/jobcards/index/company_id/$1'; //GET
+$route['workshop/jobcards/open/(:num)/(:any)/(:any)'] = 'workshop/jobcards/open/company_id/$1/from_date/$2/to_date/$3'; //GET
+$route['workshop/jobcards/all_count/(:num)/(:any)/(:any)'] = 'workshop/jobcards/all_count/company_id/$1/from_date/$2/to_date/$3'; //GET
+
 
 $route['workshop/activities/find_by_process/(:num)/(:num)'] = 'workshop/activities/find_by_process/company_id/$1/process_id/$2';//GET
 $route['workshop/activities/find/(:num)'] = 'workshop/activities/find/activity_id/$1'; //GET
 
 $route['workshop/contracts/find/(:num)'] = 'workshop/contracts/find/contract_id/$1'; //GET
 $route['workshop/contracts/(:num)'] = 'workshop/contracts/index/company_id/$1'; //GET
+$route['workshop/contracts/paid/(:num)/(:any)/(:any)'] = 'workshop/contracts/paid/company_id/$1/from_date/$2/to_date/$3'; //GET
+
 
 $route['workshop/requisitions/find/(:num)'] = 'workshop/requisitions/find/requisition_id/$1'; //GET
 $route['workshop/requisitions/materials/(:num)'] = 'workshop/requisitions/materials/requisition_id/$1'; //GET
@@ -176,6 +183,8 @@ $route['workshop/certificates/(:num)'] = 'workshop/certificates/index/company_id
 $route['workshop/certificates/find/(:num)'] = 'workshop/certificates/find/certificate_id/$1'; //GET
 
 $route['workshop/closejobs/(:num)'] = 'workshop/closejobs/index/company_id/$1'; //GET
+$route['workshop/closejobs/closed/(:num)/(:any)/(:any)'] = 'workshop/closejobs/closed/company_id/$1/from_date/$2/to_date/$3'; //GET
+
 
 $route['workshop/contractors_pay/(:num)'] = 'workshop/contractors_pay/index/company_id/$1'; //GET
 $route['workshop/contractors_pay/find/(:num)'] = 'workshop/contractors_pay/find/pay_id/$1'; //GET

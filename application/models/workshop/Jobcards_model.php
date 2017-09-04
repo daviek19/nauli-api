@@ -232,4 +232,92 @@ WHERE `job_card`.`job_id` = {$jobcard_id};";
             return false;
         }
 	}
+	
+	public function jobcard_flag_closed($job_id,$close_id){	
+		$data = array(
+				'job_id' => $job_id,
+				'job_closed_id' => $close_id,						
+			);	
+				
+		$this->workshop_db->where('job_id', $data['job_id']);
+        $this->workshop_db->update('job_card', $data); 
+	}
+	
+	public function open_jobs_by_date($company_id = '0', $from_date,$to_date)
+    {
+		
+        if (empty($from_date)) {
+
+            log_message("debug", " The from date field is required");
+
+            return FALSE;
+        }		
+		
+		if (empty($to_date)) {
+
+            log_message("debug", " The to date field is required");
+
+            return FALSE;
+        }	
+		
+		$select_query =
+					"SELECT COUNT(*) AS open_jobs
+					FROM `job_card`
+					WHERE `date_created` 
+					BETWEEN 
+					'$from_date' AND '$to_date' AND job_closed_id = '0' AND company_id = '$company_id';";
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->workshop_db->last_query());
+
+                log_message("debug", "found open job count..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting open job count.');
+
+                return false;
+            }       
+    }
+	
+	public function all_jobs_by_date($company_id = '0', $from_date,$to_date)
+    {
+		
+        if (empty($from_date)) {
+
+            log_message("debug", " The from date field is required");
+
+            return FALSE;
+        }		
+		
+		if (empty($to_date)) {
+
+            log_message("debug", " The to date field is required");
+
+            return FALSE;
+        }	
+		
+		$select_query =
+					"SELECT COUNT(*) AS all_jobs
+					FROM `job_card`
+					WHERE `date_created` 
+					BETWEEN 
+					'$from_date' AND '$to_date' AND company_id = '$company_id';";
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->workshop_db->last_query());
+
+                log_message("debug", "found open job count..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting open job count.');
+
+                return false;
+            }       
+    }
 }

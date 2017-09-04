@@ -255,4 +255,34 @@ class Jobcards extends REST_Controller
         ], REST_Controller::HTTP_OK);
 
     }
+	
+	public function open_get()
+    {
+        $company_id = (int)$this->get('company_id');
+        $from_date = (string)$this->get('from_date');
+        $to_date = (string)$this->get('to_date');
+		
+        $result = $this->jobcards_model->open_jobs_by_date($company_id,$from_date,$to_date);
+
+        $this->response([
+            'response' => $result,
+            'status' => TRUE,
+            'description' => 'To get all open jobs by date count for a period [/workshop/customers/registered/company_id/from_date/to_date].Use the date format yy-mm-dd'
+        ], REST_Controller::HTTP_OK);
+    }
+	
+    public function all_count_get()
+    {
+        $company_id = (int)$this->get('company_id');
+        $from_date = (string)$this->get('from_date');
+        $to_date = (string)$this->get('to_date');
+		
+        $result = $this->jobcards_model->all_jobs_by_date($company_id,$from_date,$to_date);
+
+        $this->response([
+            'response' => $result,
+            'status' => TRUE,
+            'description' => 'To get all open jobs by date count for a period [/workshop/customers/registered/company_id/from_date/to_date].Use the date format yy-mm-dd'
+        ], REST_Controller::HTTP_OK);
+    }
 }

@@ -239,5 +239,19 @@ class Customers extends REST_Controller
             'description' => ''
         ], REST_Controller::HTTP_OK);
     }
+	
+	public function registered_get()
+    {
+        $company_id = (int)$this->get('company_id');
+        $from_date = (string)$this->get('from_date');
+        $to_date = (string)$this->get('to_date');
+		
+        $result = $this->customers_model->get_customers_rigistered_by_date($company_id,$from_date,$to_date);
 
+        $this->response([
+            'response' => $result,
+            'status' => TRUE,
+            'description' => 'To get all customer count for a period [/workshop/customers/registered/company_id/from_date/to_date].Use the date format yy-mm-dd'
+        ], REST_Controller::HTTP_OK);
+    }
 }

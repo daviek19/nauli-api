@@ -205,5 +205,40 @@ FROM
         }
     }
 
+	public function contracts_paid($company_id = '0',$from_date, $to_date){
+		if (empty($from_date)) {
 
+            log_message("debug", " The from date field is required");
+
+            return FALSE;
+        }		
+		
+		if (empty($to_date)) {
+
+            log_message("debug", " The to date field is required");
+
+            return FALSE;
+        }	
+		
+		$select_query =
+					"SELECT COUNT(*) AS contracts,SUM(gross_amt) AS amount_paid
+					FROM `contractor_pay`
+					WHERE `pay_date` 
+					BETWEEN 
+					'$from_date' AND '$to_date' AND company_id = '$company_id';";
+
+            if ($query = $this->workshop_db->query($select_query)) {
+
+                log_message("debug", $this->workshop_db->last_query());
+
+                log_message("debug", "found contracts count..." . json_encode($query->result()));
+
+                return $query->result();
+            } else {
+
+                log_message("error", 'Error getting contracts count.');
+
+                return false;
+            }
+	}
 }
