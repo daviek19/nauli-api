@@ -16,12 +16,12 @@ class Unit_test extends CI_Controller {
 	$this->load->model('workshop/groups_model');
         $this->load->model('workshop/items_model');
         $this->load->model('workshop/contracts_model');
-        $this->load->model('workshop/parameters_model');
+        $this->load->model('workshop/functions_model');
 
     }
 
     public function index() {
-      var_dump($this->parameters_model->get_serial_no());
+      var_dump($this->functions_model->get_serial_no('parameter_item','item_id','PRM'));
     }
 
 }

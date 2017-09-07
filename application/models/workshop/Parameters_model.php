@@ -1,16 +1,20 @@
 <?php
 
-class Parameters_model extends CI_Model {
+class Parameters_model extends CI_Model
+{
 
     private $workshop_db;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->database();
         $this->workshop_db = $this->load->database('workshop', true);
+        $this->load->model('workshop/functions_model');
     }
 
-    public function get_all_parameters($company_id = '0') {
+    public function get_all_parameters($company_id = '0')
+    {
 
         $select_query = "SELECT * FROM `parameter_item`
 					WHERE `company_id` IN (?,?) ORDER BY `date_created` DESC;";
@@ -30,7 +34,8 @@ class Parameters_model extends CI_Model {
         }
     }
 
-    public function get_single_parameter($company_id = '0', $item_id) {
+    public function get_single_parameter($company_id = '0', $item_id)
+    {
         log_message("debug", "*********** fetching get_single_parameter ***********");
 
         if (!empty($item_id)) {
@@ -57,8 +62,11 @@ class Parameters_model extends CI_Model {
         }
     }
 
-    public function create_parameter($data) {
+    public function create_parameter($data)
+    {
         log_message("debug", "create_parameter...data " . json_encode($data));
+
+        $data['serial_no'] = $this->functions_model->get_serial_no('parameter_item', 'item_id', 'PRM');
 
         if ($this->workshop_db->insert('parameter_item', $data)) {
 
@@ -76,7 +84,8 @@ class Parameters_model extends CI_Model {
         }
     }
 
-    public function parameter_exists($item_name, $company_id) {
+    public function parameter_exists($item_name, $company_id)
+    {
 
         $this->workshop_db->where('item_name', $item_name);
 
@@ -93,7 +102,8 @@ class Parameters_model extends CI_Model {
         }
     }
 
-    public function update_parameter($data) {
+    public function update_parameter($data)
+    {
 
         log_message("debug", "Getting ready to update_parameter... " . json_encode($data));
 
@@ -121,7 +131,8 @@ class Parameters_model extends CI_Model {
         return $new_record->row();
     }
 
-    public function parameter_id_exists($item_id) {
+    public function parameter_id_exists($item_id)
+    {
         $this->workshop_db->where('item_id', $item_id);
 
         $query = $this->workshop_db->get('parameter_item');
@@ -135,6 +146,5 @@ class Parameters_model extends CI_Model {
         }
     }
 
-   
 
 }

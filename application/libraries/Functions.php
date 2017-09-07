@@ -11,12 +11,9 @@
  *
  * @author David
  */
-class Functions {
+class Functions
+{
 
-    public function get_serial_no($table_name, $auto_field, $prefix, $padding = 4) {
-        $select_query = "CALL GenerateSerialNumber('{$table_name}','{$auto_field}','{$prefix}','{$padding}');";
-        $query = $this->workshop_db->query($select_query);
-        return $query->row()->serial_no;
-    }
+
 
 }
