@@ -13,16 +13,15 @@ class Unit_test extends CI_Controller {
         $this->load->model('company_model');
         $this->load->model('payroll_model');
         $this->load->model('departments_model');
-		$this->load->model('workshop/groups_model');
+	$this->load->model('workshop/groups_model');
         $this->load->model('workshop/items_model');
         $this->load->model('workshop/contracts_model');
+        $this->load->model('workshop/parameters_model');
 
     }
 
     public function index() {
-       $x =$this->Person->people_get();
-	   
-	   var_dump($x);
+      var_dump($this->parameters_model->get_serial_no());
     }
 
 }
