@@ -104,7 +104,6 @@ class Parameters_model extends CI_Model
 
     public function update_parameter($data)
     {
-
         log_message("debug", "Getting ready to update_parameter... " . json_encode($data));
 
         if (empty($data['item_id'])) {
@@ -146,5 +145,8 @@ class Parameters_model extends CI_Model
         }
     }
 
-
+    public function delete_parameter($data)
+    {
+        return $this->functions_model->delete_row('parameter_item', 'item_id', $data['item_id']);
+    }
 }

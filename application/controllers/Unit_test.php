@@ -21,7 +21,8 @@ class Unit_test extends CI_Controller {
     }
 
     public function index() {
-      var_dump($this->functions_model->get_serial_no('parameter_item','item_id','PRM'));
+        $arr = array('Hello','World!','Beautiful','Day!');
+        var_dump(implode(" ",$arr))."<br>";
     }
 
 }

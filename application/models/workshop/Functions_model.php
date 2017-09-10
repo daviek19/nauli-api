@@ -24,4 +24,20 @@ class Functions_model extends CI_Model
         $query = $this->workshop_db->query($select_query);
         return $query->row()->serial_no;
     }
+
+    public function delete_row($table_name = '', $column_name = '', $data = array())
+    {
+        $identifier = implode(",", $data);
+
+        log_message("debug", " the identity " . $identifier);
+
+
+        $delete_query = "DELETE FROM `$table_name` WHERE `$column_name` IN($identifier)";
+
+        $bool_result = $this->workshop_db->query($delete_query);
+
+        log_message("debug", " update_parameter query " . $this->workshop_db->last_query());
+
+        return $bool_result;
+    }
 } 
